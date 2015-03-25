@@ -73,6 +73,7 @@ module Middleman
         end ## ready
       end
  
+=begin
       def manipulate_resource_list(resources)
         used_resources = []
 #        binding.pry
@@ -85,6 +86,7 @@ module Middleman
         end
         used_resources
       end
+=end
    end ## class Extension
   end ## module Archives
 end
