@@ -1,6 +1,6 @@
 require "middleman-aks/version"
 
-::Middleman::Extensions.register(:archives) do
+::Middleman::Extensions.register(:aks) do
   require 'middleman-aks/extension'
   ::Middleman::Aks::Extension
 end
