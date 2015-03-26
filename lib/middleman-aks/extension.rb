@@ -1,6 +1,8 @@
 require 'middleman-aks/controller'
+require 'middleman-aks/article'
 require 'middleman-aks/archives'
 require 'middleman-aks/index_creator'
+
 
 module Middleman
   module Aks
@@ -28,19 +30,21 @@ module Middleman
       def initialize(app, options_hash={}, &block)
         super
         app.set :aks_settings, options
+
       end
       
       def after_configuration
         app.controller = Middleman::Aks::Controller.new(app, self)        
-        @app.logger.debug "- extension: after_configuration"
-        @app.sitemap.register_resource_list_manipulator(:controller, app.controller)
+        app.logger.debug "- extension: after_configuration"
 
         @archives = Middleman::Aks::Archives.new(@app, self)
         @index_creator = Middleman::Aks::IndexCreator.new(@app, self, index_template: options[:index_template])
-        
+
+
+#        @article = Middleman::Aks::Article.new(@app, self)
+        @app.sitemap.register_resource_list_manipulator(:article, app.controller)
         @app.sitemap.register_resource_list_manipulator(:archives, @archives)
         @app.sitemap.register_resource_list_manipulator(:index_creator, @index_creator)
-
 
       end
     end

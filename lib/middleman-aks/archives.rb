@@ -53,9 +53,11 @@ module Middleman
 
       end
       def manipulate_resource_list(resources)
+        @app.logger.debug "- archives.manipulate"
         newres = []
-
+#        binding.pry
         @app.controller.articles.group_by {|a| a.date.year }.each do |year, y_articles|
+#        resources.group_by {|a| a.date.year }.each do |year, y_articles|
           newres << create_archives_resource(:year, year, nil, y_articles)
           y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
             newres << create_archives_resource(:month, year, month, m_articles)
@@ -67,7 +69,7 @@ module Middleman
       private
       def create_archives_resource(type, year, month, articles)
         path = @app.url_for_archives(type, year, month).sub(/^\//, '')
-        Sitemap::Resource.new(@app.sitemap, path).tap do |p|
+         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
           template = self.class.proxy_template(type)
           p.proxy_to(template)
           p.add_metadata locals: {

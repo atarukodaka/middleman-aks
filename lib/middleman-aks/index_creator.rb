@@ -9,7 +9,7 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
-       
+        @app.logger.debug "- index_creator.manipulate"       
         # create index file on a certain directory if not exists
         #
         paths = {}

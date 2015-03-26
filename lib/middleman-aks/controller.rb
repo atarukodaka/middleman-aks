@@ -9,18 +9,17 @@ module Middleman
 
         @_articles = []
 
-
       end
       def articles
         @_articles.sort_by(&:date).reverse
       end
-      
+
       def after_configuration
 #        binding.pry
       end
 
       def manipulate_resource_list(resources)
-        @app.logger.debug "- controller.manipulate"
+        @app.logger.debug "- article.manipulate"
         @_articles = []
         used_resources = []
 
@@ -31,7 +30,7 @@ module Middleman
           elsif resource.data.published == false
             next
           elsif resource.ext == ".html" ## yet: proxy? ??
-            resource.extend Middleman::Aks::Article
+            resource.extend Middleman::Aks::Article::InstanceMethodsToResource
             @_articles << resource
           end
           used_resources << resource
