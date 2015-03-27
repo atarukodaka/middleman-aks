@@ -18,6 +18,7 @@ module Middleman
       end
 
       def build_scaffold
+        binding.pry
         template "config.tt", File.join(location, "config.rb")
 
         source = File.join(location, "source")
@@ -30,3 +31,6 @@ module Middleman
     end
   end
 end
+
+binding.pry
+Middleman::Templates.register(:aks, Middleman::Aks::Template)
