@@ -39,9 +39,9 @@ module Middleman
         end
       end
 
-      def initialize(app, ext, options = {})
+      def initialize(app, controller, options = {})
         @app = app
-        @ext = ext
+        @controller = controller
 
         @app.helpers do
           include Middleman::Aks::Archives::Helpers
@@ -56,13 +56,14 @@ module Middleman
         @app.logger.debug "- archives.manipulate"
         newres = []
 #        binding.pry
+        year_template_exists = ! @app.sitemap.find_resource_by_path(self.class.proxy_template(:year)).nil?
+        month_template_exists = ! @app.sitemap.find_resource_by_path(self.class.proxy_template(:month)).nil?
+                                                                  
         @app.controller.articles.group_by {|a| a.date.year }.each do |year, y_articles|
 #        resources.group_by {|a| a.date.year }.each do |year, y_articles|
-          if File.exists?(self.class.proxy_template(:year))
-            newres << create_archives_resource(:year, year, nil, y_articles)
-          end
-          y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
-            if File.exists?(self.class.proxy_template(:month))
+          newres << create_archives_resource(:year, year, nil, y_articles) if year_template_exists
+          if month_template_exists
+            y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
               newres << create_archives_resource(:month, year, month, m_articles)
             end
           end

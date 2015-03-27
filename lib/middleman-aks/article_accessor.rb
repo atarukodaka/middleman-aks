@@ -1,6 +1,6 @@
 module Middleman
   module Aks
-    class Article
+    class ArticleAccessor
       module InstanceMethodsToResource
         def title
           data.title || metadata[:page]["title"] || ((dir, fname = File.split(path); fname == app.index_file) ? File.split(path).first.split("/")[-1] : fname.sub(/\.html$/, "")) || "[untitled...]"
