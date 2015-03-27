@@ -1,5 +1,5 @@
+require 'pry-byebug'
 require 'middleman-aks/controller'
-require 'middleman-aks/article_accessor'
 require 'middleman-aks/article_container'
 require 'middleman-aks/archives'
 require 'middleman-aks/index_creator'
@@ -24,15 +24,14 @@ module Middleman
       end ## helpers
 
       option :index_template, "/index_template.html"
-      option :archives_template_year
-      option :archives_template_month
-      option :archives_path_year
-      option :archives_path_month
+      option :archives_template_year, "/archives_template_year.html"
+      option :archives_template_month, "/archives_template_month.html"
+      option :archives_path_year, "/archives/%{year}/index.html"
+      option :archives_path_month, "/archives/%{year}/%{month}.html"
 
       def initialize(app, options_hash={}, &block)
         super
         app.set :aks_settings, options
-
       end
       
 =begin
@@ -42,6 +41,7 @@ module Middleman
 =end
       def after_configuration
         app.logger.debug "- extension: after_configuration"
+#        binding.pry
         #@app.controller = self
         app.controller = Middleman::Aks::Controller.new(app, self)        
         app.controller.run

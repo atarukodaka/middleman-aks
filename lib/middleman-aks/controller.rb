@@ -5,18 +5,19 @@ module Middleman
       def initialize(app, ext)
         @app = app
         @ext = ext
+        @processors = {}
       end
 
       def articles
+        @app.logger.warn "run() needs to be called before using 'articles()'" if @processors.empty?
         @processors[:article_container].articles
       end
       
       def run
-        options = @app.config
         @processors = {
           article_container: Middleman::Aks::ArticleContainer.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
-          index_creator: Middleman::Aks::IndexCreator.new(@app, self, index_template: options[:index_template])
+          index_creator: Middleman::Aks::IndexCreator.new(@app, self)
         }
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor)

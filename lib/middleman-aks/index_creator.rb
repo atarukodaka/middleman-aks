@@ -6,15 +6,15 @@ module Middleman
       def initialize(app, ext, options = {})
         super
 
-        @index_template = options[:index_template] || "/index_template.html"
-        @app.ignore @index_template
+        @template = app.config.aks_settings.index_template
+        @app.ignore @template
       end
 
       def manipulate_resource_list(resources)
         @app.logger.debug "- index_creator.manipulate"       
         # create index file on a certain directory if not exists
         #
-        return resources if @app.sitemap.find_resource_by_path(@index_template).nil?
+        return resources if @app.sitemap.find_resource_by_path(@template).nil?
         paths = {}
 
         resources.select {|p| p.ext == ".html" && ! p.proxy? && p.path != "/index.html" }.each do |resource|
@@ -24,7 +24,6 @@ module Middleman
           end
         end
         paths.delete(".")
-        #        binding.pry
         
         newres = []
         paths.keys.each do |path|
@@ -37,7 +36,7 @@ module Middleman
               index_name: path.split("/")[-1],
             }
             newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
-              p.proxy_to(@index_template)
+              p.proxy_to(@template)
               p.add_metadata locals: locals
             end 
           end
