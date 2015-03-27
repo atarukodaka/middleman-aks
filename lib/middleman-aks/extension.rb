@@ -21,9 +21,9 @@ module Middleman
 
       end ## helpers
 
-      option :index_template, "/index_template.html"
-      option :archives_template_year, "/archives_template_year.html"
-      option :archives_template_month, "/archives_template_month.html"
+      option :index_template, "/templates/index_template.html"
+      option :archives_template_year, "/templates/archives_template_year.html"
+      option :archives_template_month, "/templates/archives_template_month.html"
       option :archives_path_year, "/archives/%{year}/index.html"
       option :archives_path_month, "/archives/%{year}/%{month}.html"
 

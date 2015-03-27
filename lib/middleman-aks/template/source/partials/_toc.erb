@@ -1,0 +1,20 @@
+<% page ||= current_page %>
+    <!-- toc -->
+    <% toc_class = (page.data.show_toc) ? "collapse in" : "collapse" %>
+
+    <aside class="toc">
+      <button type="button" class="btn btn-default collapsed btn-sm" data-toggle="collapse" data-target="#toc_content">ToC</button>
+      
+      <div id="toc_content" class="<%= toc_class %>">
+	<% if toc = render_toc(current_article) %>
+	  <%= toc %>
+	<% else %>
+        <div>
+	  redcarpet :with_toc_data needs to be available. add into config.rb as below
+<pre class="highlight syntax ruby"><code>set :markdown_engine, <strong>:redcarpet</strong>
+set :markdown, :fenced_code_blocks => true, :autolink => true, :smartypants => true, :tables => true, <strong>:with_toc_data => true</strong>
+</code></pre>
+	</div>
+	<% end %>
+      </div>
+    </aside>

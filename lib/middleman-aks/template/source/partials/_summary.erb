@@ -1,0 +1,18 @@
+
+<% articles ||= blog.articles %>
+
+
+<% articles.each do |article| %>
+<article class="article_summary">
+  <header>
+    <h1><%= link_to_page(article) %></h1>
+    <section class="page_info">
+      <%= page_info(article) %>
+    </section>
+  </header>
+  <section class="page_content">
+    <%= article.summary_text(250, "", "... read more") %>
+  </section>
+</article>
+<% end %>
+

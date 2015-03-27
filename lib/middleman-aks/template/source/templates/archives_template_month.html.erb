@@ -1,0 +1,13 @@
+---
+layout: page
+---
+
+<% articles ||= [] %>
+
+<% content_for(:title) { "Archives for #{ Date.new(year, month, 1).strftime("%b %Y") }" } %>
+
+<ul>
+<% articles.each do |article| %>
+<li><%= link_to(article.title, article) %>
+<% end%>
+</ul>

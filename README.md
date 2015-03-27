@@ -44,14 +44,13 @@ $ middleman init PROJECT --template aks
 - monthly archives: add number of articles
 
 
-### okey lets do
+### okey, lets just do
 - setup template files
 - add more features/fixtures to test
-  - when i run middlean init
+  - when i run middleman init
 - children_pages for index-summary
 - sitemap.html.erb
 - partials/summary
-- pager, paginate
 - article info
 
 ### need to think abt it
@@ -60,6 +59,7 @@ $ middleman init PROJECT --template aks
 
 ### lower priority
 
+- pager, paginate
 - partial or helper for share_sns
 - tags
 

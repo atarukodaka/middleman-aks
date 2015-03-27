@@ -3,14 +3,14 @@ require 'middleman-core/templates'
 module Middleman
   module Aks
     class Template < Middleman::Templates::Base
-     class_option "css_dir",
-        default: "stylesheets",
+     class_option 'css_dir',
+        default: 'stylesheets',
         desc: 'The path to the css files'
-      class_option "js_dir",
-        default: "javascripts",
+      class_option 'js_dir',
+        default: 'javascripts',
         desc: 'The path to the javascript files'
-      class_option "images_dir",
-        default: "images",
+      class_option 'images_dir',
+        default: 'images',
         desc: 'The path to the image files'
 
       def self.source_root
@@ -19,10 +19,10 @@ module Middleman
 
       def build_scaffold
         binding.pry
-        template "config.tt", File.join(location, "config.rb")
+        template 'config.tt', File.join(location, 'config.rb')
 
-        source = File.join(location, "source")
-        directory "source", source
+        source = File.join(location, 'source')
+        directory 'source', source
 
         [:css_dir, :js_dir, :images_dir].each do |dir|
           empty_directory File.join(source, options[dir])
@@ -32,5 +32,4 @@ module Middleman
   end
 end
 
-binding.pry
 Middleman::Templates.register(:aks, Middleman::Aks::Template)

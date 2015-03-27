@@ -1,0 +1,18 @@
+<% wrap_layout :layout do %>
+
+<section class="page">
+  <header>
+    <%= breadcrumbs(current_page) %>
+    <h1><%= h(current_page.data.title || yield_content(:title)) %></h1>
+  </header>
+
+  <section class="content">
+    <%= yield %>
+  </section>
+
+  <footer>
+  </footer>
+</section>
+
+<% end %>
+
