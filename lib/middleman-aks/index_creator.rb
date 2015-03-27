@@ -1,9 +1,11 @@
+require 'middleman-aks/processor'
+
 module Middleman
   module Aks
-    class IndexCreator
+    class IndexCreator < Processor
       def initialize(app, ext, options = {})
-        @app = app
-        @ext = ext
+        super
+
         @index_template = options[:index_template] || "/index_template.html"
         @app.ignore @index_template
       end
@@ -12,7 +14,7 @@ module Middleman
         @app.logger.debug "- index_creator.manipulate"       
         # create index file on a certain directory if not exists
         #
-        return resources if File.exists?(@index_template)
+        return resources if @app.sitemap.find_resource_by_path(@index_template).nil?
         paths = {}
 
         resources.select {|p| p.ext == ".html" && ! p.proxy? && p.path != "/index.html" }.each do |resource|

@@ -1,9 +1,23 @@
 require 'middleman-aks/processor'
-require 'middleman-aks/article_accessor'
 
 module Middleman
   module Aks
     class ArticleContainer < Processor
+      module InstanceMethodsToResource
+        def title
+          data.title || metadata[:page]["title"] || ((dir, fname = File.split(path); fname == app.index_file) ? File.split(path).first.split("/")[-1] : fname.sub(/\.html$/, "")) || "[untitled...]"
+        end
+        def ctime
+          File.exists?(source_file) ? File.ctime(source_file) : Time.now
+        end
+        def mtime
+          File.exists?(source_file) ? File.mtime(source_file) : Time.now
+        end
+        def date
+          (data.date) ? (data.date.is_a? Date) ? data.date :  Date.parse(data.date) : ctime.to_date
+        end
+      end
+      ################
       def initialize(app, ext, option = {})
         super
         @articles = []
@@ -16,7 +30,6 @@ module Middleman
         @articles = []
         used_resources = []
 
-
 #        binding.pry
         resources.each do |resource|
           if resource.ignored?
@@ -25,7 +38,7 @@ module Middleman
           elsif resource.data.published == false
             next
           elsif resource.ext == ".html" ## yet: proxy? ??
-            resource.extend Middleman::Aks::ArticleAccessor::InstanceMethodsToResource
+            resource.extend InstanceMethodsToResource
             @articles << resource
           end
           used_resources << resource

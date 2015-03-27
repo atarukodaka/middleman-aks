@@ -35,26 +35,16 @@ module Middleman
 
       end
       
+=begin
       def articles
         @article_container.articles
       end
+=end
       def after_configuration
-        @app.controller = self
-#        app.controller = Middleman::Aks::Controller.new(app, self)        
         app.logger.debug "- extension: after_configuration"
-
-#        binding.pry
-        @article_container = Middleman::Aks::ArticleContainer.new(@app, self)
-        @archives = Middleman::Aks::Archives.new(@app, self)
-        @index_creator = Middleman::Aks::IndexCreator.new(@app, self, index_template: options[:index_template])
-
-
-#        @article = Middleman::Aks::Article.new(@app, self)
-#        @app.sitemap.register_resource_list_manipulator(:article, app.controller)
-        @app.sitemap.register_resource_list_manipulator(:article, @article_container)
-        @app.sitemap.register_resource_list_manipulator(:archives, @archives)
-        @app.sitemap.register_resource_list_manipulator(:index_creator, @index_creator)
-
+        #@app.controller = self
+        app.controller = Middleman::Aks::Controller.new(app, self)        
+        app.controller.run
       end
     end
   end

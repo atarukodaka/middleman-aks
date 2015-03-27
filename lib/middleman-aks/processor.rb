@@ -1,15 +1,18 @@
 module Middleman
   module Aks
     class Processor
-      def initialize(_app, ext, options = {})
-        @app = _app
-        @ext = ext
+      # base class to process the feature, mainly manipulate resource list
+      #
+      def initialize(app, controller, options = {})
+        @app = app
+        @controller = controller
         @options = options
       end
 
+      # to be implemented in derived class
       def manipulate_resource_list(resources)
         resources
       end
-    end
+    end ## class Processor
   end
 end

@@ -1,6 +1,8 @@
+require 'middleman-aks/processor'
+
 module Middleman
   module Aks
-    class Archives
+    class Archives < Processor
       @proxy_templates = {
         year: "/archives_template_year.html",
         month: "/archives_template_month.html"
@@ -44,7 +46,7 @@ module Middleman
         @controller = controller
 
         @app.helpers do
-          include Middleman::Aks::Archives::Helpers
+          include Helpers
         end
         app.logger.debug :foo
 
