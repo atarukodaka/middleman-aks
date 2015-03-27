@@ -1,6 +1,6 @@
 # Middleman::Aks
 
-TODO: Write a gem description
+middleman-aks is a template of Middleman with some extensions to manage Markdown Files efficiently.
 
 ## Installation
 
@@ -12,15 +12,23 @@ gem 'middleman-aks'
 
 And then execute:
 
-    $ bundle
+```sh
+$ bundle
+or
+$ bundle install --path vendor/bundle
+```
 
 Or install it yourself as:
 
-    $ gem install middleman-aks
+```
+$ gem install middleman-aks
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ middleman init PROJECT --template aks
+```
 
 ## Contributing
 
