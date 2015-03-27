@@ -58,9 +58,13 @@ module Middleman
 #        binding.pry
         @app.controller.articles.group_by {|a| a.date.year }.each do |year, y_articles|
 #        resources.group_by {|a| a.date.year }.each do |year, y_articles|
-          newres << create_archives_resource(:year, year, nil, y_articles)
+          if File.exists?(self.class.proxy_template(:year))
+            newres << create_archives_resource(:year, year, nil, y_articles)
+          end
           y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
-            newres << create_archives_resource(:month, year, month, m_articles)
+            if File.exists?(self.class.proxy_template(:month))
+              newres << create_archives_resource(:month, year, month, m_articles)
+            end
           end
         end
         resources + newres

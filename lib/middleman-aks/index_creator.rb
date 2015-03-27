@@ -12,6 +12,7 @@ module Middleman
         @app.logger.debug "- index_creator.manipulate"       
         # create index file on a certain directory if not exists
         #
+        return resources if File.exists?(@index_template)
         paths = {}
 
         resources.select {|p| p.ext == ".html" && ! p.proxy? && p.path != "/index.html" }.each do |resource|
