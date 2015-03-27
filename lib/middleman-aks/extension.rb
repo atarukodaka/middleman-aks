@@ -1,9 +1,6 @@
 require 'pry-byebug'
 require 'middleman-aks/controller'
-require 'middleman-aks/article_container'
-require 'middleman-aks/archives'
-require 'middleman-aks/index_creator'
-
+require 'middleman-aks/breadcrumbs'
 
 module Middleman
   module Aks
@@ -20,7 +17,8 @@ module Middleman
         end
         
         alias_method :aks, :controller
-        
+        include Middleman::Aks::Breadcrumbs::Helpers
+
       end ## helpers
 
       option :index_template, "/index_template.html"

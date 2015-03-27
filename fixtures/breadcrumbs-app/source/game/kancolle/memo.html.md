@@ -1,9 +1,8 @@
 ---
 title: kanolle memo
 date: 2015-03-27
+layout: page
 
 ---
 
 kancolle memo
-
-<%= binding.pry %>
