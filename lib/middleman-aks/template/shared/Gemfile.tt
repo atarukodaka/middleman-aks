@@ -6,8 +6,10 @@ gem "middleman", "~>3.3.7"
 
 gem "redcarpet"
 gem 'middleman-aks'
+gem "middleman-syntax"
+gem 'rouge'  ## for Rouge::Themes
+
 #gem 'middleman-rouge'
-#gem "middleman-syntax"
 #gem "slim"
 #gem "builder"
 gem 'therubyracer'
