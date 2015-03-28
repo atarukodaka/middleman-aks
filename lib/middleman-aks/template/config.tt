@@ -18,9 +18,10 @@ set :markdown, :fenced_code_blocks => true, :autolink => true, :smartypants => t
 
 ################
 # syntax
-activate :rouge_syntax, line_numbers: true    # , :lineanchor => 'line'
+activate :rouge_syntax  #, line_numbers: true, :lineanchor => 'line'
 
 #activate :directory_indexes
 
 activate :aks do |e|
+#  
 end

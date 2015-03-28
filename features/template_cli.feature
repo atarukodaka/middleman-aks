@@ -8,7 +8,7 @@ Feature: template CLI
       | Gemfile              |
       | source/index.html.md |
 
-  Scenario: create and build a new project
+  Scenario: create a new project and build 
     Given I run `middleman init MY_PROJECT --template aks`
     And I cd to "MY_PROJECT"
     When I run `middleman build`
