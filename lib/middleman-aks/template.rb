@@ -32,4 +32,5 @@ module Middleman
   end
 end
 
+binding.pry
 Middleman::Templates.register(:aks, Middleman::Aks::Template)
