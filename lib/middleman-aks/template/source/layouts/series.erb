@@ -1,9 +1,0 @@
-<% wrap_layout :article do %>
-  <%= yield %>
-  <%  current_article.path =~ Regexp.new("/([0-9]+)\-[^/]+\.html$") %>
-  <%  series_num = $1.to_i %>
-
-  <% content_for(:title, "[" + current_article.data.series + "]<br>#" + series_num.to_s + ":" + current_article.data.title) %>
-  <hr>
-  <%= list_group("series", current_page.data.series, {list_type: "ol"}){|page| "第" + h(page.series_number) + "回：" + h(page.data.title)} %>
-<% end %>

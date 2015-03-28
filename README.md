@@ -41,19 +41,16 @@ $ middleman init PROJECT --template aks
 ## TODO
 
 ### easy to get it done
-- monthly archives: add number of articles
+- setup template files
 
 ### okey, lets just do
-- setup template files
 - add more features/fixtures to test
-  - when i run middleman init
 - children_pages for index-summary
 - sitemap.html.erb
 - partials/summary
 - article info
 
 ### need to think abt it
-
 - hierarchy for each article
 
 ### lower priority

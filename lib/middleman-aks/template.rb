@@ -19,13 +19,15 @@ module Middleman
 
       def build_scaffold
         template 'shared/config.tt', File.join(location, 'config.rb')
+        $stderr.puts "config.rb: " + File.join(location, 'config.rb')
 
         source = File.join(location, 'source')
         directory 'source', source
         
         data = File.join(location, 'data')
         directory 'data', data
-
+        $stderr.puts "data: " + data
+        
         [:css_dir, :js_dir, :images_dir].each do |dir|
           empty_directory File.join(source, options[dir])
         end

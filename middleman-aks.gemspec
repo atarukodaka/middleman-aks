@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Middleman::Aks::VERSION
   spec.authors       = ["Ataru Kodaka"]
   spec.email         = ["ataru.kodaka@gmail.com"]
-  spec.summary       = %q{A template of Middleman to manage Markdown files efficientrly.}
+  spec.summary       = %q{A template of Middleman to manage Markdown files efficientrly}
   spec.description   = %q{A template of Middleman to manage Markdown files efficientrly.}
   spec.homepage      = "https://github.com/atarukodaka/middleman-aks"
   spec.license       = "MIT"
