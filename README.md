@@ -43,7 +43,6 @@ $ middleman init PROJECT --template aks
 ### easy to get it done
 - monthly archives: add number of articles
 
-
 ### okey, lets just do
 - setup template files
 - add more features/fixtures to test

@@ -8,10 +8,11 @@ Feature: template CLI
       | Gemfile              |
       | source/index.html.md |
 
-  Scenario: create a new project and build 
+  Scenario: build with new project
     Given I run `middleman init MY_PROJECT --template aks`
+    And the exit status should be 0
     And I cd to "MY_PROJECT"
-    When I run `middleman build`
+    When I run `middleman build --verbose`
     Then the exit status should be 0
     And the following files should exist:
     | build/index.html |

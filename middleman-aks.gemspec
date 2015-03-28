@@ -8,22 +8,25 @@ Gem::Specification.new do |spec|
   spec.version       = Middleman::Aks::VERSION
   spec.authors       = ["Ataru Kodaka"]
   spec.email         = ["ataru.kodaka@gmail.com"]
-  spec.summary       = %q{Write a short summary. Required.}
-  spec.description   = %q{Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{A template of Middleman to manage Markdown files efficientrly.}
+  spec.description   = %q{A template of Middleman to manage Markdown files efficientrly.}
+  spec.homepage      = "https://github.com/atarukodaka/middleman-aks"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
-#  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "middleman", "~> 3.3"
+  spec.add_runtime_dependency "middleman-livereload", "~> 3.4"
+  spec.add_runtime_dependency "redcarpet", "~> 3.2"
+
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "cucumber", "~> 1.3"
   spec.add_development_dependency "aruba", "~> 0.6"
-  spec.add_development_dependency "therubyracer"
-  spec.add_development_dependency "pry-byebug"
-  spec.add_development_dependency "rb-readline"
+#  spec.add_development_dependency "therubyracer"
+#  spec.add_development_dependency "pry-byebug"
+#  spec.add_development_dependency "rb-readline"
 end

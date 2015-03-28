@@ -15,8 +15,7 @@
     <ul>
       <% aks.articles.group_by {|a| sprintf("%04d%02d", a.date.year, a.date.month) }.each do |year, pages| %>
       <% page = pages.first %>
-      <% num_pages = pages.size %>
-      <li><%= link_to_archives(page.date.strftime("%b %Y"), :month, page.date.year, page.date.month) %></li>
+      <li><%= link_to_archives(page.date.strftime("%b %Y"), :month, page.date.year, page.date.month) %> (<%= pages.size %>)</li>
       <% end %>
     </ul>
   </aside>
