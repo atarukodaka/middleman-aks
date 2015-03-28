@@ -10,7 +10,7 @@ gem 'middleman-aks'
 #gem "middleman-syntax"
 #gem "slim"
 #gem "builder"
-
+gem 'therubyracer'
 
 ################
 # Live-reloading plugin

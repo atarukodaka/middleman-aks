@@ -1,4 +1,4 @@
-require 'pry-byebug'
+#require 'pry-byebug'
 require 'middleman-aks/controller'
 require 'middleman-aks/breadcrumbs'
 
