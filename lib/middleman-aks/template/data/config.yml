@@ -1,0 +1,26 @@
+site_info:
+  title: site title
+  author: author name
+  description:
+  url: http://your.site.com
+  twitter: your_twitter_account
+  github: your_github_account
+  email: your@email.com
+
+#deploy:
+#  asset_host: /site
+
+amazon:
+  aws_access_key_id: xxxx
+  #aws_secret_key: xxxx
+  associate_tag: xxxx-22
+  country: jp
+  locale: ja
+  use_cache: true
+  cache_dir: .caches/amazon
+
+google_analytics:
+  tracking_id: "UA-xxxxxx-1"
+
+disqus:
+  shortname: 'xxxx'

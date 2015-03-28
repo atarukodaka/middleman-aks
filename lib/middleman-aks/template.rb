@@ -22,6 +22,9 @@ module Middleman
 
         source = File.join(location, 'source')
         directory 'source', source
+        
+        data = File.join(location, 'data')
+        directory 'data', data
 
         [:css_dir, :js_dir, :images_dir].each do |dir|
           empty_directory File.join(source, options[dir])
