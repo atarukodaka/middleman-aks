@@ -1,7 +1,7 @@
 require 'middleman-aks/article_container'
+require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
-require 'middleman-aks/site_summary'
 
 require 'tree'
 
@@ -20,17 +20,17 @@ module Middleman
       end
       def show_tree
 #        binding.pry
-#        t = @processors[:article_container].show_node
 #        @app.logger.debug "show tree:"
-        @processors[:article_container].show_node
+#        t = @processors[:article_container].show_node
+        @processors[:site_tree].render
       end
       
       def run
         @processors = {
           article_container: Middleman::Aks::ArticleContainer.new(@app, self),
+          site_tree: Middleman::Aks::SiteTree.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
-          index_creator: Middleman::Aks::IndexCreator.new(@app, self),
-          sitemap: Middleman::Aks::SiteSummary.new(@app, self)
+          index_creator: Middleman::Aks::IndexCreator.new(@app, self)
         }
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor)
