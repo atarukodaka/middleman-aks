@@ -4,6 +4,7 @@ require 'rubytree'
 module Middleman
   module Aks
     class SiteTree < Processor
+      attr_reader :root
       def initialize(app, controller, options = {})
         super
         @root = Tree::TreeNode.new('')
@@ -27,25 +28,23 @@ module Middleman
       end        
       def render(node = nil)
         node ||= @root
-
 #        binding.pry
-        ["<ul>",
-         node.children.map do |node|
-           ["<li>",
-            node.name,
-            (node.has_children?) ? render(node) : nil].join.html_safe
-         end,
-         "</ul>"].join
 =begin
-        content_tag(:ul) do 
-          node.children.each do | node |
-            content_tag(:li) do
-              [node.name,
-               (node.has_children?) ? show(node) : nil].join.html_safe
-            end
-          end
+        if node.has_children?
+          [@app.content_tag(:h2, node.name),
+           node.children.map {|n| render(n)}].join.html_safe
+        else
+          @app.content_tag(:h3, node.name)
         end
 =end
+        @app.content_tag(:ul) do 
+          node.children.map do | node |
+            @app.content_tag(:li) do # , node.name) #  do
+              [(node.content.nil?) ? node.name : @app.link_to(node.name, node.content),
+               (node.has_children?) ? render(node).to_s : nil].join.html_safe
+            end
+          end.join.html_safe
+        end
       end
       def manipulate_resource_list(resources)      
         resources.each do |resource|
