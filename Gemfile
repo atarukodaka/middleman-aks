@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in middleman-archives.gemspec
 gemspec
 
-
-#gem 'rubocop'
+gem "middleman", "~> 3.3"
+gem "middleman-livereload"
+gem "middleman-syntax"
+gem "redcarpet"
+gem "rouge"
