@@ -8,6 +8,7 @@ module Middleman
         @app = app
         @controller = controller
         @options = options
+
       end
 
       # to be implemented in derived class
