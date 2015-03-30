@@ -8,8 +8,13 @@ require 'tree'
 
 module Middleman
   module Aks
+    #
+    # == Controller Class Description
+    #
     class Controller
       attr_reader :site_tree
+      #
+      #
       def initialize(app, ext)
         @app = app
         @ext = ext
@@ -17,6 +22,10 @@ module Middleman
         @site_tree = nil
       end
 
+      # === Core Attributes
+      # Return articles
+      #
+      # @return [Array]
       def articles
         @app.logger.warn "run() needs to be called before using 'articles()'" if @processors.empty?
         @processors[:article_container].articles
@@ -25,14 +34,13 @@ module Middleman
       def sitetree
         @processors[:site_tree]
       end
-=begin
-      def show_tree
-#        binding.pry
-#        @app.logger.debug "show tree:"
-#        t = @processors[:article_container].show_node
-        @processors[:site_tree].render
-      end
-=end      
+
+      # @! 
+      #
+      # === 
+      # create instances of each processors and register manipulators
+      #
+      # @return [Void]
       def run
         #@app.send(:extend, Middleman::Aks::Breadcrumbs::Helpers)
         #@app.extend Middleman::Aks::Breadcrumbs::Helpers

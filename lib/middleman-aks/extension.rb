@@ -3,21 +3,27 @@ require 'middleman-aks/controller'
 
 module Middleman
   module Aks
+    #
+    # 
     class Extension < Middleman::Extension
-      # option :foo, :bar
-      #self.defined_helpers = []
-
+      # == Helper Functions
+      #
       helpers do
+        # return controller
+        #
         def controller
           @_controller
         end
+        
+        # set controller
+        #
         def controller=(controller)
           @_controller = controller
         end
         
         alias_method :aks, :controller
-
       end ## helpers
+
 
       option :index_template, "/templates/index_template.html"
       option :archives_template_year, "/templates/archives_template_year.html"
@@ -30,11 +36,11 @@ module Middleman
         app.set :aks_settings, options
       end
       
-=begin
-      def articles
-        @article_container.articles
-      end
-=end
+      # == Hooks
+      # called after configuraiton
+      #
+      # let the *controller* run.
+      #
       def after_configuration
         app.logger.level = 0
         app.logger.debug "- extension: after_configuration"
@@ -46,37 +52,3 @@ module Middleman
     end
   end
 end
-
-################################################################
-=begin
-require 'rubytree'
-
-module Middleman
-  module Aks
-    class SiteTree
-      def render
-      end
-      class Extension < Middleman::Extension
-        helpers do
-          def sitetree
-            
-          end
-        end
-        
-        def initialize(app, options_hash={}, &block)
-          super
-          @root = Tree::TreeNode.new('')
-        end
-        def after_configuration
-          @app.register_resource_list_manipulator(:sitetree, self)
-        end
-        def manipulate_resource_list(resources)
-          raise
-        end
-      end ## class Extension
-    end ## module SiteTree
-  end ## module Aks
-end ## module Middelamn
-
-Middleman::Aks::SiteTree::Extension.register(:sitetree)
-=end
