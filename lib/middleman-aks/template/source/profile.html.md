@@ -1,7 +1,10 @@
 ---
-title: Profile
-group: navigation
-
+title: profile
 ---
 
-write down your profile here.
+## Profile
+
+- your name
+- your email
+- your homepage
+

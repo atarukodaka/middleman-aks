@@ -15,7 +15,7 @@ Feature: site tree
     And an index_template exists    
     And a sitemap page named "source/sitemap.html.erb" exists
     And an archives year template exists
-    And the Server is running at "site-tree-app"
+    And the Server is running at "basic-app"
 
     When I go to "/sitemap.html"
     Then I should see "sitemap"

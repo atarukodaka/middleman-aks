@@ -5,8 +5,9 @@ Feature: template CLI
     And the exit status should be 0
     When I cd to "MY_PROJECT"
     Then the following files should exist:
-      | Gemfile              |
-      | source/index.html.md |
+      | Gemfile                 |
+      | source/index.html.erb   |
+      | source/sitemap.html.erb |
 
   Scenario: build with new project
     Given I run `middleman init MY_PROJECT --template aks`

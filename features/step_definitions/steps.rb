@@ -59,7 +59,7 @@ end
 
 ################
 Given /^a sitemap page named "([^\"]*)" exists$/ do |filename|
-  write_file("source/#{filename}", "<h2>sitemap</h2>\n<%= aks.sitetree.render %>")
+  write_file("#{filename}", "<h2>sitemap</h2>\n<%= aks.sitetree.render %>")
 end
 
 ################
