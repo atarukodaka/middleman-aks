@@ -14,3 +14,6 @@ gem 'pry-byebug'
 gem 'therubyracer'
 gem 'rb-readline'
 gem 'middleman-pry'
+
+
+gem 'actionview'

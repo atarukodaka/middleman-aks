@@ -49,6 +49,7 @@ $ middleman init PROJECT --template aks
   - sitemap.html.erb
   - partials/summary
   - hierarchy for each article
+  - exclude archives from the tree
 - add more features/fixtures to test
 - article info
 

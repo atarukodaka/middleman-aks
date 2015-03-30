@@ -13,6 +13,7 @@ gem 'rouge'  ## for Rouge::Themes
 #gem "slim"
 #gem "builder"
 gem 'therubyracer'
+gem 'rubytree'
 
 ################
 # Live-reloading plugin

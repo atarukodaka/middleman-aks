@@ -7,9 +7,11 @@ module Middleman
       class TreeNode < Tree::TreeNode
         def path
           dir = (parent) ? parentage.map(&:name).reverse.join("/") : "/"
-          File.join(dir, name)
+          File.join(dir, name + ((has_children?) ? "/index.html" : ""))
         end
       end
+      include ERB::Util
+
       attr_reader :root
       def initialize(app, controller, options = {})
         super
@@ -26,10 +28,13 @@ module Middleman
 
       def add_node(resource)
         file = resource.path
+        return if file =~ /\/index\.html$/ # || file == "index.html"
+
         node = @root
         ar = File.split(file).first.split("/")
+#        next if File.split(file).last == @app.index_file && ! ar.first == "."
         ar.shift if ar.first == "."
-          
+
         ar << File.split(file).last
         ar.each do | dir |
           if node[dir].nil?
@@ -44,20 +49,23 @@ module Middleman
       end        
       def render(node = nil)
         node ||= @root
-#        binding.pry
-=begin
-        if node.has_children?
-          [@app.content_tag(:h2, node.name),
-           node.children.map {|n| render(n)}].join.html_safe
-        else
-          @app.content_tag(:h3, node.name)
+        @app.content_tag(:li) do
+#          binding.pry
+#          @app.logger.debug("#{node.name}: #{@app.sitemap.find_resource_by_path(node.path).nil?}")
+          [(r = @app.sitemap.find_resource_by_path(node.path)) ? @app.link_to(h(node.name), r) : h(node.name),
+           @app.content_tag(:ul) do 
+             node.children.map do |child|
+               render(child)
+             end.join.html_safe
+           end
+          ].join.html_safe
         end
-=end
-#        binding.pry
+      end
+      def __render(node = nil)
+        node ||= @root
         @app.content_tag(:ul) do 
           node.children.map do | node |
-#            binding.pry
-            next if node.name == "index.html" && node.parent 
+            next if node.name == @app_index_file && node.parent # skip if /index.html
             @app.content_tag(:li) do # , node.name) #  do
               link = 
                 if node["index.html"]   # link to children/index.html
