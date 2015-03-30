@@ -5,9 +5,11 @@ module Middleman
   module Aks
     class SiteTree < Processor
       class TreeNode < Tree::TreeNode
+#        attr_accessor :path
         def path
-          dir = (parent) ? parentage.map(&:name).reverse.join("/") : "/"
-          File.join(dir, name + ((has_children?) ? "/index.html" : ""))
+          content
+#          dir = (parent) ? parentage.map(&:name).reverse.join("/") : "/"
+#          File.join(dir, name + ((has_children?) ? "/index.html" : ""))
         end
       end
       include ERB::Util
@@ -15,20 +17,12 @@ module Middleman
       attr_reader :root
       def initialize(app, controller, options = {})
         super
-        @root = TreeNode.new('')
+        @root = TreeNode.new('Home')
       end
-      def find_node_by_path(path)
-        paths = path.split("/")
-        node = @root
-        paths.each do |pt|
-          node = node[pt]
-        end
-        node
-      end
-
+=begin
       def add_node(resource)
         file = resource.path
-        return if file =~ /\/index\.html$/ # || file == "index.html"
+        return if file =~ /\/index\.html$/ || file == "index.html"
 
         node = @root
         ar = File.split(file).first.split("/")
@@ -47,6 +41,39 @@ module Middleman
           end
         end
       end        
+=end
+      def make_tree(resources)
+#        binding.pry
+        @root = TreeNode.new('Home', "/index.html")
+
+        resources.map(&:path).each do | file |
+          next if file =~ /\/index\.html$/ || file == "index.html"
+          node = @root  
+
+          dirs = File.split(file).first.split("/")
+          dirs.shift if dirs.first == "."
+
+      #    binding.pry
+      #    paths = [dirs, File.split(file).last].flatten
+          paths = dirs
+          paths.inject ('') do |res, path|
+            if node[path].nil?
+              new_node = TreeNode.new(path, [res, path, "index.html"].join("/"))
+              node << new_node
+              node = new_node
+            else
+              node = node[path]
+            end
+            [res, path].join("/")
+          end
+
+          new_node = TreeNode.new(File.split(file).last, file)
+          node << new_node 
+        end
+        @root
+      end
+      
+      ################
       def render(node = nil)
         node ||= @root
         @app.content_tag(:li) do
@@ -83,7 +110,9 @@ module Middleman
           end.join.html_safe
         end
       end
-      def manipulate_resource_list(resources)      
+      def manipulate_resource_list(resources)   
+        make_tree(resources.select {|res| res.ext == ".html" && ! res.ignored?})
+        return resources
         resources.each do |resource|
           @app.logger.debug "#{resource.path}: ignored? #{resource.ignored?}"
 #          binding.pry
