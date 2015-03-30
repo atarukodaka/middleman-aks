@@ -6,7 +6,8 @@ module Middleman
     class SiteTree < Processor
       class TreeNode < Tree::TreeNode
 #        attr_accessor :path
-        def path
+#        def path
+        def resource
           content
 #          dir = (parent) ? parentage.map(&:name).reverse.join("/") : "/"
 #          File.join(dir, name + ((has_children?) ? "/index.html" : ""))
@@ -58,7 +59,7 @@ module Middleman
           paths = dirs
           paths.inject ('') do |res, path|
             if node[path].nil?
-              new_node = TreeNode.new(path, [res, path, "index.html"].join("/"))
+              new_node = TreeNode.new(path, @app.sitemap.find_resource_by_path([res, path, "index.html"].join("/")))
               node << new_node
               node = new_node
             else
@@ -67,7 +68,7 @@ module Middleman
             [res, path].join("/")
           end
 
-          new_node = TreeNode.new(File.split(file).last, file)
+          new_node = TreeNode.new(File.split(file).last, @app.sitemap.find_resource_by_path(file))
           node << new_node 
         end
         @root
@@ -79,7 +80,9 @@ module Middleman
         @app.content_tag(:li) do
 #          binding.pry
 #          @app.logger.debug("#{node.name}: #{@app.sitemap.find_resource_by_path(node.path).nil?}")
-          [(r = @app.sitemap.find_resource_by_path(node.path)) ? @app.link_to(h(node.name), r) : h(node.name),
+          [
+#           (r = @app.sitemap.find_resource_by_path(node.path)) ? @app.link_to(h(node.name), r) : h(node.name),
+           (node.resource) ? @app.link_to(h(node.name), node.resource) : h(node.name),
            @app.content_tag(:ul) do 
              node.children.map do |child|
                render(child)
@@ -96,9 +99,9 @@ module Middleman
             @app.content_tag(:li) do # , node.name) #  do
               link = 
                 if node["index.html"]   # link to children/index.html
-                  @app.link_to(node.name, node["index.html"].path)
-                elsif resource = @app.sitemap.find_resource_by_path(node.path)
-                  @app.link_to(node.name, resource)
+                  @app.link_to(node.name, node["index.html"].resource)
+                elsif node.resource # resource = @app.sitemap.find_resource_by_path(node.path)
+                  @app.link_to(node.name, node.resource)
                 else
                   node.name
                 end
