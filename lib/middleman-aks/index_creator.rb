@@ -17,7 +17,8 @@ module Middleman
         return resources if @app.sitemap.find_resource_by_path(@template).nil?
         paths = {}
 
-        resources.select {|p| p.ext == ".html" && ! p.proxy? && p.path != "/index.html" }.each do |resource|
+        resources.select {|p| p.ext == ".html" && ! p.ignored? && ! p.proxy? && p.path != "/index.html" }.each do |resource|
+          @app.logger.debug "res #{resource.path} added to path as new res"
           dirs = File.split(resource.path).first.split("/")
           dirs.each_with_index do |path, i|
             paths[dirs[0..i].join("/")] = true
@@ -28,18 +29,18 @@ module Middleman
         newres = []
         paths.keys.each do |path|
           index_path = File.join(path, @app.index_file)
-          unless @app.sitemap.find_resource_by_path(index_path)
-            @app.logger.debug "- proxy to #{index_path}"
-            
-            locals = {
-              index_path: index_path,
-              index_name: path.split("/")[-1],
-            }
-            newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
-              p.proxy_to(@template)
-              p.add_metadata locals: locals
-            end 
-          end
+          next if @app.sitemap.find_resource_by_path(index_path) ## skip if an index already exists
+
+          @app.logger.debug "- proxy to #{index_path}"
+          
+          locals = {
+            index_path: index_path,
+            index_name: path.split("/")[-1],
+          }
+          newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
+            p.proxy_to(@template)
+            p.add_metadata locals: locals
+          end 
         end
         resources + newres
       end

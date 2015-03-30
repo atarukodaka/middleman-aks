@@ -44,14 +44,16 @@ $ middleman init PROJECT --template aks
 - setup template files
 
 ### okey, lets just do
+- site_tree
+  - children_pages for index-summary
+  - sitemap.html.erb
+  - partials/summary
+  - hierarchy for each article
 - add more features/fixtures to test
-- children_pages for index-summary
-- sitemap.html.erb
-- partials/summary
 - article info
 
 ### need to think abt it
-- hierarchy for each article
+
 
 ### lower priority
 

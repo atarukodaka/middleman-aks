@@ -1,6 +1,5 @@
 #require 'pry-byebug'
 require 'middleman-aks/controller'
-require 'middleman-aks/breadcrumbs'
 
 module Middleman
   module Aks
@@ -17,7 +16,6 @@ module Middleman
         end
         
         alias_method :aks, :controller
-        include Middleman::Aks::Breadcrumbs::Helpers
 
       end ## helpers
 
@@ -38,6 +36,7 @@ module Middleman
       end
 =end
       def after_configuration
+        app.logger.level = 0
         app.logger.debug "- extension: after_configuration"
 #        binding.pry
         #@app.controller = self
@@ -47,3 +46,37 @@ module Middleman
     end
   end
 end
+
+################################################################
+=begin
+require 'rubytree'
+
+module Middleman
+  module Aks
+    class SiteTree
+      def render
+      end
+      class Extension < Middleman::Extension
+        helpers do
+          def sitetree
+            
+          end
+        end
+        
+        def initialize(app, options_hash={}, &block)
+          super
+          @root = Tree::TreeNode.new('')
+        end
+        def after_configuration
+          @app.register_resource_list_manipulator(:sitetree, self)
+        end
+        def manipulate_resource_list(resources)
+          raise
+        end
+      end ## class Extension
+    end ## module SiteTree
+  end ## module Aks
+end ## module Middelamn
+
+Middleman::Aks::SiteTree::Extension.register(:sitetree)
+=end
