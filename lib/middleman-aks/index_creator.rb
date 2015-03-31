@@ -17,7 +17,7 @@ module Middleman
 #        binding.pry
         dirs.each do | dir |
           index_path = File.join(dir, @app.index_file)
-          next if @app.path_for(index_path)  # skip if index already exists
+          next if @app.page_for(index_path)  # skip if index already exists
 
 #          binding.pry
           locals = {

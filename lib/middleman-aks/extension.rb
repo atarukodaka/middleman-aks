@@ -20,14 +20,13 @@ module Middleman
         def controller=(controller)
           @_controller = controller
         end
-
+        alias_method :aks, :controller
         # utils
-        def path_for(path)
+        def page_for(path)
           sitemap.find_resource_by_path(path)
         end
-        alias_method :aks, :controller
+        alias_method :resource_for, :page_for
       end ## helpers
-
 
       option :index_template, "/templates/index_template.html"
       option :archives_template_year, "/templates/archives_template_year.html"
