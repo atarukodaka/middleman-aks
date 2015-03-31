@@ -14,7 +14,7 @@ module Middleman
             crumbs << content_tag(:li, h(node.name), :class=>'active')
           else
             node.parentage.reverse.each do |nd|
-              crumbs << content_tag(:li, link_to(h(nd.name), nd.resource))
+              crumbs << content_tag(:li, (nd.resource) ? link_to(h(nd.name), nd.resource) : h(nd.name))
             end
             crumbs << content_tag(:li, h(page.data.title || node.name), :class=>'active')
           end

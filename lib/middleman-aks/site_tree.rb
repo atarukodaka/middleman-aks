@@ -22,6 +22,8 @@ module Middleman
 
       def initialize(app, controller, options = {})
         super
+        @ignore_dirs = options[:ignore_dirs] || []
+#        @ignore = []
       end
 
       ################
@@ -35,8 +37,10 @@ module Middleman
         @root = TreeNode.new('Home', controller.root)  # set root node at first
 
         # listing up all directory and register into the tree
+#        binding.pry
         controller.directory_list(resources).each do | dir |
           next if dir == "."   # skip if its root as alread exists
+          next if ! [@ignore_dirs].flatten.select {|re| dir =~ re }.empty?
 
           node = @root
           ##### "a/b/c" => ['', 'a'] => ['/a', 'b'] => ['/a/b', 'c']
@@ -53,6 +57,8 @@ module Middleman
         # second, add nodes with existing resources respectively
         resources.each do | resource |
           next if resource == controller.root
+          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
+
           dirs = File.dirname(resource.path).split("/")
           dirs.pop if dirs.size == 1  && dirs.first == "." # take it out "." as its root
           
@@ -130,6 +136,7 @@ module Middleman
       #
       # @return [Array] an array of resources
       def manipulate_resource_list(resources)   
+#        make_tree(resources)
         make_tree(resources.select {|res| res.ext == ".html" && ! res.ignored? })
         resources
       end

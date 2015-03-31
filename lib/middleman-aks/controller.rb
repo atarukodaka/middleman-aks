@@ -75,8 +75,8 @@ module Middleman
         resources.each do | resource |
           hash[File.dirname(resource.path)] = true
         end
-        hash.keys.delete_if {|d| d == "."}   # take out "." as its root 
-                                             # dont use 'delete' as it returns deleted item
+        dirs = hash.keys.delete_if {|dir| dir == "."}
+        return dirs
       end
       # @! 
       #
@@ -95,7 +95,7 @@ module Middleman
           article_container: Middleman::Aks::ArticleContainer.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
           index_creator: Middleman::Aks::IndexCreator.new(@app, self),
-          site_tree: Middleman::Aks::SiteTree.new(@app, self)
+          site_tree: Middleman::Aks::SiteTree.new(@app, self) # , ignore_dirs: [/^archives/])
         }
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor)
