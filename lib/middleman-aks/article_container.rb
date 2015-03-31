@@ -16,6 +16,15 @@ module Middleman
         def date
           (data.date) ? (data.date.is_a? Date) ? data.date :  Date.parse(data.date) : ctime.to_date
         end
+
+        # split dirname of paths
+        #
+        # @return Array path: "/foo/bar/baz.html" => ['foo', 'bar']
+        def dirs
+          array = File.dirname(self.path).split("/")
+          array.pop if self.directory_index?
+          array
+        end
       end
       ################
       def initialize(app, ext, option = {})

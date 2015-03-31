@@ -20,7 +20,11 @@ module Middleman
         def controller=(controller)
           @_controller = controller
         end
-        
+
+        # utils
+        def path_for(path)
+          sitemap.find_resource_by_path(path)
+        end
         alias_method :aks, :controller
       end ## helpers
 

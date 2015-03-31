@@ -3,7 +3,7 @@ module Middleman
     class Processor
       # base class to process the feature, mainly manipulate resource list
       #
-      attr_reader :app
+      attr_reader :app, :controller
       def initialize(app, controller, options = {})
         @app = app
         @controller = controller

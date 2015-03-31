@@ -1,5 +1,5 @@
 require 'middleman-aks/article_container'
-#require 'middleman-aks/site_tree'
+require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
 require 'middleman-aks/breadcrumbs'
@@ -32,13 +32,24 @@ module Middleman
       def root
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
-      def path_for(path)
-        @app.sitemap.find_resource_by_path(path)
-      end
-      def paths
+      # for debug
+      def _paths
         @app.sitemap.resources.map(&:path)
       end
-      def render_children(page=nil)
+      def _article_paths
+        articles.map(&:paht)
+      end
+      def parentage(page)
+        array = []
+        prev_parent = page.parent
+        while prev_parent
+          array << prev_parent
+          prev_parent = prev_parent.parent
+        end
+        array
+      end
+
+      def render_tree(page=nil)
         page ||= root
         @app.content_tag(:li) do
           [
@@ -51,9 +62,9 @@ module Middleman
           ].join.html_safe
         end
       end
-#      def sitetree
-#        @processors[:site_tree]
-#      end
+      def site_tree
+        @processors[:site_tree]
+      end
 
       # @! 
       #
@@ -71,8 +82,8 @@ module Middleman
         @processors = {
           article_container: Middleman::Aks::ArticleContainer.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
-          index_creator: Middleman::Aks::IndexCreator.new(@app, self)
-#          site_tree: Middleman::Aks::SiteTree.new(@app, self)
+          index_creator: Middleman::Aks::IndexCreator.new(@app, self),
+          site_tree: Middleman::Aks::SiteTree.new(@app, self)
         }
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor)
