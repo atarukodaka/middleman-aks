@@ -65,7 +65,19 @@ module Middleman
       def site_tree
         @processors[:site_tree]
       end
+      ################
+      # return list of directories for resources (sitemap.resource if not specified)
+      #
+      def directory_list(resources=nil)
+        resources ||= @app.sitemap.resources
 
+        hash = {}
+        resources.each do | resource |
+          hash[File.dirname(resource.path)] = true
+        end
+        hash.keys.delete_if {|d| d == "."}   # take out "." as its root 
+                                             # dont use 'delete' as it returns deleted item
+      end
       # @! 
       #
       # === 

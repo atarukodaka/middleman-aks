@@ -11,13 +11,33 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
+        dirs = controller.directory_list(resources.select {|p| p.ext == ".html" && ! p.ignored?})
+
+        newres = []
+#        binding.pry
+        dirs.each do | dir |
+          index_path = File.join(dir, @app.index_file)
+          next if @app.path_for(index_path)  # skip if index already exists
+
+          locals = {
+            index_path: index_path,
+            index_name: dir
+          }
+          newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
+            p.proxy_to(@template)
+            p.add_metadata locals: locals
+          end 
+        end
+        resources + newres
+      end
+      def __manipulate_resource_list(resources)
         @app.logger.debug "- index_creator.manipulate"       
         # create index file on a certain directory if not exists
         #
         return resources if @app.sitemap.find_resource_by_path(@template).nil?
         paths = {}
 
-        resources.select {|p| p.ext == ".html" && ! p.ignored? && ! p.proxy? && p.path != "/index.html" }.each do |resource|
+        resources.select {|p| p.ext == ".html" && ! p.ignored? && p.path != "/index.html" }.each do |resource|
           @app.logger.debug "res #{resource.path} added to path as new res"
           dirs = File.split(resource.path).first.split("/")
           dirs.each_with_index do |path, i|
