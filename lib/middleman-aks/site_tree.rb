@@ -109,6 +109,21 @@ module Middleman
         ].join("\n")
       end
       ################
+      # 
+      def node_for(resource)
+        return @root if resource == controller.root
+        
+        paths = resource.path.split("/")
+        paths.pop if File.basename(resource.path) == @app.index_file
+
+        node = @root
+        paths.each do | path |
+          node = node[path]
+        end
+        return node
+      end
+
+      ################
       # Manipulate resource list
       #
       # @param [Middleman::Sitemap::Resource]

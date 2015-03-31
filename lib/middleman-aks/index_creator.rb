@@ -19,9 +19,10 @@ module Middleman
           index_path = File.join(dir, @app.index_file)
           next if @app.path_for(index_path)  # skip if index already exists
 
+#          binding.pry
           locals = {
             index_path: index_path,
-            index_name: dir
+            index_name: dir.split("/").last
           }
           newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
             p.proxy_to(@template)
