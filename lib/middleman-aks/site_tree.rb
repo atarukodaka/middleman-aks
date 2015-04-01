@@ -22,8 +22,7 @@ module Middleman
 
       def initialize(app, controller, options = {})
         super
-        @ignore_dirs = options[:ignore_dirs] || []
-#        @ignore = []
+#        @ignore_dirs = options[:ignore_dirs] || []
       end
 
       ################
@@ -36,7 +35,22 @@ module Middleman
       def _make_tree(resources)
         @root = TreeNode.new('Home', controller.root)  # set root node at first
         resources.each do | resoure |
+          next if resource == controller.root # skip root as its already set before this loop
+          dirs = resource.path.split("/")
+          dirs.pop   # take out basename
+          dirs.pop if File.basename(resource.path) == @app.index_file  # directory index
           
+          next if node_for(resource.path)  # skip if already registered
+
+          # check paranges nodes exists on the tree
+          node = @root
+          dirs.each do | part |
+            if node[part].nil?
+              new_ndoe = TreeNode.new(part)
+              node << new_node
+            end
+            node = node[part]
+          end
         end
       end
 
@@ -48,9 +62,10 @@ module Middleman
 #        binding.pry
         controller.directory_list(resources).each do | dir |
           next if dir == "."   # skip if its root as alread exists
-          next if ! [@ignore_dirs].flatten.select {|re| dir =~ re }.empty?
+#          next if ! [@ignore_dirs].flatten.select {|re| dir =~ re }.empty?
 
           node = @root
+#          binding.pry
           ##### "a/b/c" => ['', 'a'] => ['/a', 'b'] => ['/a/b', 'c']
           #dir.split("/").inject('.') do | result, part |  
           dir.split('/').each do | part |
@@ -65,7 +80,7 @@ module Middleman
         # second, add nodes with existing resources respectively
         resources.each do | resource |
           next if resource == controller.root
-          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
+#          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
 
           dirs = File.dirname(resource.path).split("/")
           dirs.pop if dirs.size == 1  && dirs.first == "." # take it out "." as its root
@@ -80,6 +95,7 @@ module Middleman
           else
             # "a/b/c.html" => ['a', 'b']
 
+#            binding.pry
             node = @root   # parent node
             dirs.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
             name = File.basename(resource.path)
@@ -95,18 +111,19 @@ module Middleman
       # Render the tree.
       #
       # @return [String] rendered string
-      def render(node = nil)
+      def render(node = nil, exclude_dirs = [])
         node ||= @root
+#        binding.pry
+        return if ! [exclude_dirs].flatten.select {|re| node.resource.path =~ re }.empty?
+
         @app.content_tag(:li) do
-          
           [
            (node.resource) ? @app.link_to(h(node.name), node.resource) : h(node.name),
            @app.content_tag(:ul) do 
-             page.children.sort {|a, b| a.children.try(:size) <=> b.children.try(:size)}.map do |child|
-#             node.children.sort {|a, b|
+             node.children.sort {|a, b|
                a.children.try(:size) <=> b.children.try(:size)
              }.map do |child|
-               render(child)
+               render(child, exclude_dirs)
              end.join.html_safe
            end
           ].join.html_safe
@@ -137,7 +154,15 @@ module Middleman
         end
         return node
       end
-
+      def basename(resource)
+        return "Home" if resource == root
+        bname = File.basename(resource.path)
+        if bname == @app.index_file
+          File.dirname(resource.path).split("/").last
+        else
+          bname
+        end
+      end
       ################
       # Manipulate resource list
       #

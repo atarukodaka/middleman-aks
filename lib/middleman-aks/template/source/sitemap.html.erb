@@ -4,10 +4,7 @@ group: navigation
 
 ---
 
-<% site_tree = Middleman::Aks::SiteTree.new(self, self.controller, ignore_dirs: [/archives/]) %>
-<% root = site_tree.make_tree(sitemap.resources.select {|p| p.ext == ".html" && ! p.ignored? && p.path !~ /^archives/ }) %>
-
 <ul>
-<%= aks.site_tree.render(root) %>
+<%= aks.site_tree.render(root, /^archives/) %>
 </ul>
 

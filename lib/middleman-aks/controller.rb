@@ -37,7 +37,7 @@ module Middleman
         @app.sitemap.resources.map(&:path)
       end
       def _article_paths
-        articles.map(&:paht)
+        articles.map(&:path)
       end
       def parentage(page)
         array = []
@@ -60,13 +60,18 @@ module Middleman
 
         hash = {}
         resources.each do | resource |
-          hash[File.dirname(resource.path)] = true
+          dirs = resource.path.split("/")
+          dirs.pop
+          dirs.inject('') do | result, dir |
+            hash[r = "#{result}/#{dir}"] = true
+            r
+          end
         end
-        dirs = hash.keys.delete_if {|dir| dir == "."}
-        return dirs
+        #dirs = hash.keys.delete_if {|dir| dir == "."}
+        #return dirs
+
+        return hash.keys.select {|p| p != "" }.map {|p| p.sub(/^\//, '')}
       end
-      # @! 
-      #
       # === 
       # create instances of each processors and register manipulators
       #
