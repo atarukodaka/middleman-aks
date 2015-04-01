@@ -49,19 +49,6 @@ module Middleman
         array
       end
 
-      def render_tree(page=nil)
-        page ||= root
-        @app.content_tag(:li) do
-          [
-           @app.link_to(h(page.data.title || File.split(page.path).first.split("/").last), page),
-           @app.content_tag(:ul) do 
-             page.children.sort {|a, b| a.children.try(:size) <=> b.children.try(:size)}.map do |child|
-               render_children(child)
-             end.join.html_safe
-           end
-          ].join.html_safe
-        end
-      end
       def site_tree
         @processors[:site_tree]
       end

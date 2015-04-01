@@ -32,6 +32,14 @@ module Middleman
       # @params Array of Sitemap::Resource
       #
       # @return Middleman::SiteTree::TreeNode root node
+
+      def _make_tree(resources)
+        @root = TreeNode.new('Home', controller.root)  # set root node at first
+        resources.each do | resoure |
+          
+        end
+      end
+
       def make_tree(resources)
         # first, make a tree with directory points only
         @root = TreeNode.new('Home', controller.root)  # set root node at first
@@ -94,7 +102,8 @@ module Middleman
           [
            (node.resource) ? @app.link_to(h(node.name), node.resource) : h(node.name),
            @app.content_tag(:ul) do 
-             node.children.sort {|a, b|
+             page.children.sort {|a, b| a.children.try(:size) <=> b.children.try(:size)}.map do |child|
+#             node.children.sort {|a, b|
                a.children.try(:size) <=> b.children.try(:size)
              }.map do |child|
                render(child)
