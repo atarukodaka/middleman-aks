@@ -114,7 +114,7 @@ module Middleman
       def render(node = nil, exclude_dirs = [])
         node ||= @root
 #        binding.pry
-        return if ! [exclude_dirs].flatten.select {|re| node.resource.path =~ re }.empty?
+        return if ! [exclude_dirs].flatten.select {|re| node && node.resource.path =~ re }.empty?
 
         @app.content_tag(:li) do
           [
