@@ -5,7 +5,15 @@ module Middleman
     module InstanceMethodsToResource
       # attributes
       def title
-        data.title || metadata[:page]["title"] || ((dir, fname = File.split(path); fname == app.index_file) ? File.split(path).first.split("/")[-1] : fname.sub(/\.html$/, "")) || "[untitled...]"
+        # return metadata if specified
+        return t = data.title || metadata[:page]["title"] if t
+
+        # /index.html => "Home"
+        # /foo/index.html => "foo"  (as its directory index)
+        # /foo/bar.html => "bar"
+        #
+        return "Home" if self == app.controller.root
+        return (directory_index?) ? File.dirname(path).split("/").last : File.basename(path).sub(/\.html$/, '')
       end
       def ctime
         File.exists?(source_file) ? File.ctime(source_file) : Time.now
@@ -17,10 +25,11 @@ module Middleman
         (data.date) ? (data.date.is_a? Date) ? data.date :  Date.parse(data.date) : ctime.to_date
       end
 
-      # node
+      # relevant node on the site tree
       def node
-        
+        app.controller.site_tree.node_for(self)
       end
+=begin
       
       # split dirname of paths
       #
@@ -30,6 +39,7 @@ module Middleman
         array.pop if self.directory_index?
         array
       end
+=end
     end
   end
 end

@@ -67,10 +67,14 @@ module Middleman
             r
           end
         end
-        #dirs = hash.keys.delete_if {|dir| dir == "."}
-        #return dirs
 
+        ## take out brank dir and strip out '^/' 
         return hash.keys.select {|p| p != "" }.map {|p| p.sub(/^\//, '')}
+      end
+      ################
+      def publishable_html_resources(resources=nil)
+        resources ||= @app.sitemap.resources
+        resources.select {|res| res.ext == ".html" && ! res.ignored? && res.data.published != false}
       end
       # === 
       # create instances of each processors and register manipulators
@@ -87,7 +91,7 @@ module Middleman
           article_container: Middleman::Aks::ArticleContainer.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
           index_creator: Middleman::Aks::IndexCreator.new(@app, self),
-          site_tree: Middleman::Aks::SiteTree.new(@app, self) # , ignore_dirs: [/^archives/])
+          site_tree: Middleman::Aks::SiteTree.new(@app, self)
         }
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor)

@@ -62,3 +62,14 @@ $ middleman init PROJECT --template aks
 - partial or helper for share_sns
 - tags
 
+
+
+### sitemap dropdown
+<ul style="display: block">
+  <li aria-expanded="true" class=""><a class="pointer" data-toggle="collapse" data-target="#target1" aria-expanded="false">[+]</a>asdf</li>
+
+    <ul id="target1" class="collapse in" aria-expanded="true" style="">
+      <li>hge</li>
+    </ul>
+
+</ul>
