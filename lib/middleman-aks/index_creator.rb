@@ -11,6 +11,8 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
+        return resources if @app.resource_for(@template).nil?  # skip if template file does not exist
+
         dirs = controller.directory_list(resources.select {|p| p.ext == ".html" && ! p.ignored?})
 
         newres = []
