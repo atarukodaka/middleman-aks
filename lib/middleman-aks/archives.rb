@@ -38,8 +38,8 @@ module Middleman
         @app.logger.debug "- archives.manipulate"
         newres = []
         #        binding.pry
-        year_template_exists = ! @app.sitemap.find_resource_by_path(@template.year).nil?
-        month_template_exists = ! @app.sitemap.find_resource_by_path(@template.month).nil?
+        year_template_exists = ! @app.resource_for(@template.year).nil?
+        month_template_exists = ! @app.resource_for(@template.month).nil?
         
         @app.logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
         @app.controller.articles.group_by {|a| a.date.year }.each do |year, y_articles|

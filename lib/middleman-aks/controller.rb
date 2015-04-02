@@ -38,6 +38,7 @@ module Middleman
         @app.sitemap.resources.map(&:path)
       end
 
+=begin
       def parentage(page)
         array = []
         prev_parent = page.parent
@@ -47,7 +48,7 @@ module Middleman
         end
         array
       end
-
+=end
       def site_tree
         @processors[:site_tree]
       end
