@@ -3,6 +3,7 @@
 module Middleman
   module Aks
     module InstanceMethodsToResource
+      # attributes
       def title
         data.title || metadata[:page]["title"] || ((dir, fname = File.split(path); fname == app.index_file) ? File.split(path).first.split("/")[-1] : fname.sub(/\.html$/, "")) || "[untitled...]"
       end
@@ -14,6 +15,11 @@ module Middleman
       end
       def date
         (data.date) ? (data.date.is_a? Date) ? data.date :  Date.parse(data.date) : ctime.to_date
+      end
+
+      # node
+      def node
+        
       end
       
       # split dirname of paths

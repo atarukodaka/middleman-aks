@@ -108,7 +108,8 @@ module Middleman
             dirs.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
             name = File.basename(resource.path)
 #            new_node = TreeNode.new(name, resource)
-            new_node = TreeNode.new(resource.data.title || name, resource)
+#            new_node = TreeNode.new(resource.data.title || name, resource)
+            new_node = TreeNode.new(name)
             node << new_node
           end
         end
