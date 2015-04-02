@@ -126,18 +126,25 @@ module Middleman
       # Render the tree.
       #
       # @return [String] rendered string
-      def render(node = nil, exclude_dirs = [])
+      def render(node = nil, options = {})
         node ||= @root
-        return if ! [exclude_dirs].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
+        depth = options[:depth] || 0
+        num = options[:num] || 0
+#        @_count = (@_count.to_i + 1) % 1000
+        collapse = 'collapse' + ((depth <=1 ) ? ' in' : '')
 
-        @app.content_tag(:li) do #, 'data-toggle'=>'collapse', 'data-target') do
+        return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
+
+        target_id = "menu_#{depth}_#{num}"
+        @app.content_tag(:li) do
           [
-           (node.resource) ? @app.link_to(h(node.name), node.resource) : h(node.name),
-           @app.content_tag(:ul) do 
+           (node.has_children?) ? @app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer') : '',
+           (node.resource) ? @app.link_to(h(node.resource.title), node.resource) : h(node.name),
+           @app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
              node.children.sort {|a, b|
                a.children.try(:size) <=> b.children.try(:size)
              }.map do |child|
-               render(child, exclude_dirs)
+               render(child, exclude_dirs: options[:exclude_dirs], depth: depth+1, num: num).tap { num = num + 1 }
              end.join.html_safe
            end
           ].join.html_safe
