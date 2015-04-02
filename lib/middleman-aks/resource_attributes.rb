@@ -6,7 +6,8 @@ module Middleman
       # attributes
       def title
         # return metadata if specified
-        return t = data.title || metadata[:page]["title"] if t
+        t = data.title || metadata[:page]["title"]
+        return t if t
 
         # /index.html => "Home"
         # /foo/index.html => "foo"  (as its directory index)
