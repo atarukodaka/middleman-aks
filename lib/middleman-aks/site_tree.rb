@@ -12,6 +12,14 @@ module Middleman
     class SiteTree < Processor
       class TreeNode < Tree::TreeNode
         alias_method :resource, :content
+
+        def to_hash
+          {
+            name: name,
+            path: resource.path,
+            children: children.map(&:to_hash)
+          }
+        end
       end
       include ERB::Util
 
@@ -99,7 +107,8 @@ module Middleman
             node = @root   # parent node
             dirs.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
             name = File.basename(resource.path)
-            new_node = TreeNode.new(name, resource)
+#            new_node = TreeNode.new(name, resource)
+            new_node = TreeNode.new(resource.data.title || name, resource)
             node << new_node
           end
         end
