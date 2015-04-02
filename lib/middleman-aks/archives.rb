@@ -51,6 +51,7 @@ module Middleman
             end
           end
         end
+#        binding.pry
         resources + newres
       end
 

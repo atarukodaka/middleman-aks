@@ -3,6 +3,7 @@ require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
 require 'middleman-aks/breadcrumbs'
+require 'middleman-aks/resource_attributes'
 
 module Middleman
   module Aks
@@ -36,9 +37,7 @@ module Middleman
       def _paths
         @app.sitemap.resources.map(&:path)
       end
-      def _article_paths
-        articles.map(&:path)
-      end
+
       def parentage(page)
         array = []
         prev_parent = page.parent
