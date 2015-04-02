@@ -137,7 +137,7 @@ module Middleman
         return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
 
         target_id = "menu_#{depth}_#{num}"
-        @app.content_tag(:li, :class=>(node.try(:resource) == current_resource) ? 'active' : '') do
+        @app.content_tag(:li, :class=>(node.try(:resource) == @app.current_resource) ? 'active' : '') do
           [
            (node.has_children?) ? @app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer') : '',
            (node.resource && node.resource != current_resource) ? @app.link_to(h(node.resource.title), node.resource) : h(node.name),

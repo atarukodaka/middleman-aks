@@ -10,6 +10,9 @@
     <p><%= h(data.config.site_info.description) %></p>
   </aside>
   <!-- ================ -->
+  <aside class="site_tree">
+    <%= aks.site_tree.render(nil, exclude_dirs: [/^archives/]) %>
+  </aside>
   <aside>
     <h2>Archives</h2>
     <ul>
