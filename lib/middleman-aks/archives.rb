@@ -19,9 +19,7 @@ module Middleman
           when :year
             config.aks_settings.archives_path_year % { year: year }
           when :month
-            config.aks_settings.archives_path_month % { 
-              year: year, month: '%02d' % [month] 
-            }
+            config.aks_settings.archives_path_month % { year: year, month: '%02d' % [month] }
           end
         end
       end
@@ -38,15 +36,20 @@ module Middleman
         @app.ignore @template.month
       end
 
+      ################
+      # add proxy pages for year/month archives if temlate files exist
+      # this returns the given resources and additional proxy pages
+      #
       def manipulate_resource_list(resources)
-        @app.logger.debug '- archives.manipulate'
+        logger.debug '- archives.manipulate'
         newres = []
 
         year_template_exists = ! @app.resource_for(@template.year).nil?
         month_template_exists = ! @app.resource_for(@template.month).nil?
         
-        @app.logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
-        @app.controller.articles.group_by {|a| a.date.year }.each do |year, y_articles|
+        logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
+        
+        controller.pages.group_by {|a| a.date.year }.each do |year, y_articles|
           newres << create_archives_page(:year, year, nil, y_articles) if year_template_exists
           if month_template_exists
             y_articles.group_by {|a| a.date.month }.each do |month, m_articles|

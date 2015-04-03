@@ -1,26 +1,25 @@
-#require 'pry-byebug'
 require 'middleman-aks/controller'
 
 module Middleman
   module Aks
-    #
-    # 
     class Extension < Middleman::Extension
-      # == Helper Functions
-      #
       helpers do
-        # return controller
-        #
         def controller
           @_controller
         end
         
-        # set controller
-        #
         def controller=(controller)
           @_controller = controller
         end
         alias_method :aks, :controller
+        def aks
+          @_controller
+        end
+        
+        def aks=(controller)
+          @_controller = controller
+        end
+
         # utils
         def page_for(path)
           sitemap.find_resource_by_path(path)
@@ -45,12 +44,10 @@ module Middleman
       # let the *controller* run.
       #
       def after_configuration
-        app.logger.level = 0
+        app.logger.level = 0   ## yet: debug
         app.logger.debug "- extension: after_configuration"
-#        binding.pry
-        #@app.controller = self
-        app.controller = Middleman::Aks::Controller.new(app, self)        
-        app.controller.run
+
+        app.controller = Middleman::Aks::Controller.new(app, self).tap {|c| c.run}
       end
     end
   end

@@ -38,7 +38,7 @@ module Middleman
       ################
       # return list of directories for resources (sitemap.resource if not specified)
       #
-      def directory_list(resources=nil)
+      def directory_list(resources = nil)
         resources ||= @app.sitemap.resources
 
         hash = {}
@@ -58,7 +58,7 @@ module Middleman
       def manipulate_resource_list(resources)
         # extend page attributes into each pages
         @pages = resources.select {|r|
-          r.ext == ".html" && ! r.ignored? && r.data.published != true
+          r.ext == '.html' && ! r.ignored? && r.data.published != true
         }.map {|r|
           r.extend PageAttributes::InstanceMethodsToResource 
         }
@@ -97,11 +97,11 @@ module Middleman
         # register manipulators of each processors and helpers if any
         #
         @processors.each do |name, processor|
-          @app.sitemap.register_resource_list_manipulator(name, processor) if processor.respond_to? :manipulate_resource_list
-#          binding.pry
-          if processor.class.const_defined?("Helpers")
+          @app.sitemap.register_resource_list_manipulator(name, processor)  # if processor.respond_to? :manipulate_resource_list
+          if processor.class.const_defined?('Helpers')
             @app.helpers do
-              include Object.const_get("#{processor.class}::Helpers")
+              #include Object.const_get("#{processor.class}::Helpers")
+              include "#{processor.class}::Helpers".constantize
             end
           end
         end

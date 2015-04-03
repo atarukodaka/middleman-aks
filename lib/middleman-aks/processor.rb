@@ -8,9 +8,10 @@ module Middleman
         @app = app
         @controller = controller
         @options = options
-
       end
-
+      def logger
+        @app.logger
+      end
       # to be implemented in derived class
       def manipulate_resource_list(resources)
         resources
