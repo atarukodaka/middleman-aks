@@ -4,12 +4,8 @@ module Middleman
   module Aks
     class Breadcrumbs < Processor
       module Helpers
-        # @params page Middleman::Sitemap::Resouce
-        #
-        # @return String HTML for breadcrumps of the page
-
         def breadcrumbs(page)
-          node = controller.site_tree.node_for(page)
+          node = aks.site_tree.node_for(page)
           crumbs = []
           
           logger.warn "node is nil for page: #{page.path}" if node.nil?
