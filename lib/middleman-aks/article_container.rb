@@ -17,7 +17,7 @@ module Middleman
         @articles = resources.select {|r| 
           r.ext == ".html" && ! r.ignored? && r.data.published != false
         }
-        resources
+        resources.reject {|r| r.data.published != false}
       end
     end ## class ArticleContainer
   end

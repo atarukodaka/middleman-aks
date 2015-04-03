@@ -10,7 +10,10 @@ module Middleman
           node = controller.site_tree.node_for(page)
           crumbs = []
           
-          logger.warn "node is nil for page: #{h(page.path)}"
+#          binding.pry
+          # fisk8handbook, components,rulesles
+          logger.warn "node is nil for page: #{page.path}" if node.nil?
+          return "node is nil" if node.nil?
           if node.parent.nil?  # root
             crumbs << content_tag(:li, h(node.name), :class=>'active')
           else
