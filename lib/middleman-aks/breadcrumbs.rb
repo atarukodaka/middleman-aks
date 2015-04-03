@@ -1,6 +1,8 @@
+require 'middleman-aks/processor'
+
 module Middleman
   module Aks
-    module Breadcrumbs
+    class Breadcrumbs < Processor
       module Helpers
         # @params page Middleman::Sitemap::Resouce
         #

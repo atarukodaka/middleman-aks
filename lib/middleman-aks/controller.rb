@@ -7,13 +7,10 @@ require 'middleman-aks/resource_attributes'
 
 module Middleman
   module Aks
-    #
     # == Controller Class Description
     #
     class Controller
       include ERB::Util
-#      attr_reader :site_tree
-      #
       #
       def initialize(app, ext)
         @app = app
@@ -23,10 +20,6 @@ module Middleman
         @pages = []
       end
 
-      # === Core Attributes
-      # Return articles
-      #
-      # @return [Array]
 =begin
       def articles
         @app.logger.warn "run() needs to be called before using 'articles()'" if @processors.empty?
@@ -37,13 +30,9 @@ module Middleman
         @pages.sort_by(&:date).reverse
       end
       alias_method :articles, :pages
+
       def root
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
-      end
-
-      # for debug
-      def paths
-        @pages.map(&:path)
       end
 
       def site_tree
@@ -69,13 +58,6 @@ module Middleman
         return hash.keys.select {|p| p != "" }.map {|p| p.sub(/^\//, '')}
       end
       ################
-=begin
-      def publishable_html_resources(resources=nil)
-        resources ||= @app.sitemap.resources
-        resources.select {|res| res.ext == ".html" && ! res.ignored? && res.data.published != false}
-      end
-=end
-      ################
       def manipulate_resource_list(resources)
         @pages = resources.select {|r|
           r.ext == ".html" && ! r.ignored? && r.data.published != true
@@ -86,27 +68,34 @@ module Middleman
         resources.reject {|r| r.data.published == true}
       end
 
-      # === 
+      ################
       # create instances of each processors and register manipulators
       #
       # @return [Void]
       def run
-        #@app.send(:extend, Middleman::Aks::Breadcrumbs::Helpers)
-        #@app.extend Middleman::Aks::Breadcrumbs::Helpers
-        @app.helpers do
-          include Middleman::Aks::Breadcrumbs::Helpers
-        end
-
         @processors = {
           pages: self,
 #          article_container: Middleman::Aks::ArticleContainer.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
           index_creator: Middleman::Aks::IndexCreator.new(@app, self),
+          breadcrumbs: Middleman::Aks::Breadcrumbs.new(@app, self),
           site_tree: Middleman::Aks::SiteTree.new(@app, self)
         }
+
+        # for each processors, do i) registor manipulator, ii) call execute,
+        # iii) let app include its Helpers
+        #
         @processors.each do |name, processor|
-          @app.sitemap.register_resource_list_manipulator(name, processor)
+          @app.sitemap.register_resource_list_manipulator(name, processor) if processor.respond_to? :manipulate_resource_list
+          processor.execute if processor.respond_to? :execute
+#          binding.pry
+          if processor.class.const_defined?("Helpers")
+            @app.helpers do
+              include Object.const_get("#{processor.class}::Helpers")
+            end
+          end
         end
+
       end
     end  ## class Controller
   end

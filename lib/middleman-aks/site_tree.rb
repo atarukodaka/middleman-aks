@@ -213,14 +213,11 @@ module Middleman
       # @param [Middleman::Sitemap::Resource]
       #
       # @return [Array] an array of resources
-      def manipulate_resource_list(resources)   
-#        make_tree(resources)
-#        make_tree(controller.publishable_html_resources(resources))
+#      def manipulate_resource_list(resources)   
+      def execute
         make_tree(controller.pages)
-#        binding.pry
 
 #        make_sitemap_yml()
-        resources
       end
     end ## class SiteTree
   end ## module Aks
