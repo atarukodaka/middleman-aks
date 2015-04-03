@@ -41,18 +41,25 @@ module Middleman
       def directory_list(resources = nil)
         resources ||= @app.sitemap.resources
 
-        hash = {}
+#        hash = {}
+        ar = []
         resources.each do | resource |
           dirs = resource.path.split('/')
           dirs.pop
+=begin
           dirs.inject('') do | result, dir |
             hash[r = "#{result}/#{dir}"] = true
             r
           end
+=end
+          dirs.inject([]) do | result, dir |
+            ar.tap {|a| a << [result.last, dir].join('/')}
+          end
         end
 
         ## take out brank dir and strip out '^/' 
-        return hash.keys.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
+#        return hash.keys.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
+        return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
       end
       ################
       def manipulate_resource_list(resources)
@@ -105,7 +112,6 @@ module Middleman
             end
           end
         end
-
       end
     end  ## class Controller
   end
