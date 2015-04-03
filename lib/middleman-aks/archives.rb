@@ -60,6 +60,7 @@ module Middleman
       private
       def create_archives_page(type, year, month, articles)
         path = @app.url_for_archives(type, year, month).sub(/^\//, '')
+=begin
         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
           template = @template[type]
 #          template = self.class.proxy_template(type)
@@ -72,6 +73,13 @@ module Middleman
           }
           p.extend Middleman::Aks::InstanceMethodsToResource
         end
+=end
+        locals = {
+          year: year,
+          month: month,
+          articles: articles
+        }
+        controller.create_proxy_page(path, @template[type], locals)
       end
     end ## class Archives
   end

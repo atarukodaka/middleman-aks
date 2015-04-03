@@ -67,7 +67,18 @@ module Middleman
 #        binding.pry
         resources.reject {|r| r.data.published == true}
       end
-
+      def create_page(path, locals={})
+        Sitemap::Resource.new(@app.sitemap, path).tap do |p|
+          p.add_metadata locals: locals
+          p.extend InstanceMethodsToResource
+        end
+      end
+      def create_proxy_page(path, template, locals={})
+        create_page(path, locals).tap do |p|
+          p.proxy_to(template)
+        end
+      end
+      
       ################
       # create instances of each processors and register manipulators
       #

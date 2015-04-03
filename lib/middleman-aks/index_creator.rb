@@ -27,11 +27,14 @@ module Middleman
             index_path: index_path,
             index_name: dir.split("/").last
           }
+=begin
           newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
             p.proxy_to(@template)
             p.add_metadata locals: locals
             p.extend Middleman::Aks::InstanceMethodsToResource
           end 
+=end
+          newres << controller.create_proxy_page(index_path, @template, locals)
         end
         resources + newres
       end
