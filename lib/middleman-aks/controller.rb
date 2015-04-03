@@ -73,21 +73,28 @@ module Middleman
       #
       # @return [Void]
       def run
-        @processors = {
+        processor_classes = [Archives, IndexCreator, Breadcrumbs, SiteTree]
+#        binding.pry
+        @processors = {pages: self}
+        processor_classes.each {|klass| 
+          @processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
+        }
+
+=begin
+        @_processors = {
           pages: self,
 #          article_container: Middleman::Aks::ArticleContainer.new(@app, self),
-          archives: Middleman::Aks::Archives.new(@app, self),
+          archives: Archives.new(@app, self),
+#          archives: Middleman::Aks::Archives.new(@app, self),
           index_creator: Middleman::Aks::IndexCreator.new(@app, self),
           breadcrumbs: Middleman::Aks::Breadcrumbs.new(@app, self),
           site_tree: Middleman::Aks::SiteTree.new(@app, self)
         }
+=end
 
-        # for each processors, do i) registor manipulator, ii) call execute,
-        # iii) let app include its Helpers
-        #
+        # register manipulators of each processors and helpers if any
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor) if processor.respond_to? :manipulate_resource_list
-          processor.execute if processor.respond_to? :execute
 #          binding.pry
           if processor.class.const_defined?("Helpers")
             @app.helpers do
