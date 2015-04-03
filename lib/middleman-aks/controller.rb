@@ -20,12 +20,8 @@ module Middleman
         @pages = []
       end
 
-=begin
-      def articles
-        @app.logger.warn "run() needs to be called before using 'articles()'" if @processors.empty?
-        @processors[:article_container].articles
-      end
-=end
+      ################
+      # attribugtes
       def pages
         @pages.sort_by(&:date).reverse
       end
@@ -34,6 +30,7 @@ module Middleman
       def root
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
+      alias_method :root_page, :root
 
       def site_tree
         @processors[:site_tree]
@@ -46,7 +43,7 @@ module Middleman
 
         hash = {}
         resources.each do | resource |
-          dirs = resource.path.split("/")
+          dirs = resource.path.split('/')
           dirs.pop
           dirs.inject('') do | result, dir |
             hash[r = "#{result}/#{dir}"] = true
@@ -55,18 +52,23 @@ module Middleman
         end
 
         ## take out brank dir and strip out '^/' 
-        return hash.keys.select {|p| p != "" }.map {|p| p.sub(/^\//, '')}
+        return hash.keys.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
       end
       ################
       def manipulate_resource_list(resources)
+        # extend page attributes into each pages
         @pages = resources.select {|r|
           r.ext == ".html" && ! r.ignored? && r.data.published != true
         }.map {|r|
           r.extend PageAttributes::InstanceMethodsToResource 
         }
-#        binding.pry
+
+        # return pages excluding unpublished one
         resources.reject {|r| r.data.published == true}
       end
+      ################
+      # create new page to the given path
+      #
       def create_page(path, locals={})
         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
           p.add_metadata locals: locals
@@ -82,28 +84,18 @@ module Middleman
       ################
       # create instances of each processors and register manipulators
       #
-      # @return [Void]
+      # this will be called from after_configuration hook on extension 
+      #
       def run
         processor_classes = [Archives, IndexCreator, Breadcrumbs, SiteTree]
-#        binding.pry
-        @processors = {pages: self}
+
+        @processors = {pages: self}     # this class itself has manipulator
         processor_classes.each {|klass| 
           @processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
         }
 
-=begin
-        @_processors = {
-          pages: self,
-#          article_container: Middleman::Aks::ArticleContainer.new(@app, self),
-          archives: Archives.new(@app, self),
-#          archives: Middleman::Aks::Archives.new(@app, self),
-          index_creator: Middleman::Aks::IndexCreator.new(@app, self),
-          breadcrumbs: Middleman::Aks::Breadcrumbs.new(@app, self),
-          site_tree: Middleman::Aks::SiteTree.new(@app, self)
-        }
-=end
-
         # register manipulators of each processors and helpers if any
+        #
         @processors.each do |name, processor|
           @app.sitemap.register_resource_list_manipulator(name, processor) if processor.respond_to? :manipulate_resource_list
 #          binding.pry
@@ -118,3 +110,4 @@ module Middleman
     end  ## class Controller
   end
 end
+################################################################

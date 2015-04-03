@@ -7,15 +7,14 @@ module Middleman
         # @params page Middleman::Sitemap::Resouce
         #
         # @return String HTML for breadcrumps of the page
+
         def breadcrumbs(page)
-#          binding.pry
           node = controller.site_tree.node_for(page)
           crumbs = []
           
-#          binding.pry
-          # fisk8handbook, components,rulesles
           logger.warn "node is nil for page: #{page.path}" if node.nil?
-          return "node is nil" if node.nil?
+          return 'node is nil' if node.nil?
+
           if node.parent.nil?  # root
             crumbs << content_tag(:li, h(node.name), :class=>'active')
           else
@@ -33,3 +32,4 @@ module Middleman
     end
   end
 end
+################################################################
