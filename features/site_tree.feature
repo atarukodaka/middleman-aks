@@ -19,6 +19,6 @@ Feature: site tree
 
     When I go to "/sitemap.html"
     Then I should see "sitemap"
-    And I should see "<ul>"
+    And I should see "<ul"
 
 

@@ -45,9 +45,6 @@ module Middleman
       # let the *controller* run.
       #
       def after_configuration
-        File.open("data/test.yml", "w") do |f|
-          f.write({foo: :bar}.to_yaml)
-        end
         app.logger.level = 0
         app.logger.debug "- extension: after_configuration"
 #        binding.pry
