@@ -45,4 +45,4 @@ module Middleman
   end
 end
 
-Middleman::Sitemap::Resource.include Middleman::Aks::InstanceMethodsToResource
+#Middleman::Sitemap::Resource.include Middleman::Aks::InstanceMethodsToResource

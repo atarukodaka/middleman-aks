@@ -17,7 +17,10 @@ module Middleman
         @articles = resources.select {|r| 
           r.ext == ".html" && ! r.ignored? && r.data.published != false
         }
-        resources.reject {|r| r.data.published == false}
+        #resources.reject {|r| r.data.published == false}
+        resources.select {|r| r.data.published != false}.map do |r|
+          r.extend Middleman::Aks::InstanceMethodsToResource
+        end
       end
     end ## class ArticleContainer
   end

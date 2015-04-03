@@ -1,4 +1,5 @@
 require 'middleman-aks/processor'
+require 'middleman-aks/resource_attributes'
 
 module Middleman
   module Aks
@@ -68,6 +69,7 @@ module Middleman
             month: month,
             articles: articles
           }
+          p.extend Middleman::Aks::InstanceMethodsToResource
         end
       end
     end ## class Archives

@@ -1,4 +1,5 @@
 require 'middleman-aks/processor'
+require 'middleman-aks/resource_attributes'
 
 module Middleman
   module Aks
@@ -29,6 +30,7 @@ module Middleman
           newres << Sitemap::Resource.new(@app.sitemap, index_path).tap do |p|
             p.proxy_to(@template)
             p.add_metadata locals: locals
+            p.extend Middleman::Aks::InstanceMethodsToResource
           end 
         end
         resources + newres
