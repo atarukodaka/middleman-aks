@@ -192,6 +192,7 @@ module Middleman
         end
       end
       ################
+=begin
       def make_sitemap_yml(node=nil)
         node ||= root
 
@@ -205,7 +206,7 @@ module Middleman
           f.write(node.to_hash.to_yaml)
         end
       end
-
+=end
       ################
       # Manipulate resource list
       #
@@ -214,10 +215,11 @@ module Middleman
       # @return [Array] an array of resources
       def manipulate_resource_list(resources)   
 #        make_tree(resources)
-        make_tree(controller.publishable_html_resources(resources))
+#        make_tree(controller.publishable_html_resources(resources))
+        make_tree(controller.pages)
 #        binding.pry
 
-        make_sitemap_yml()
+#        make_sitemap_yml()
         resources
       end
     end ## class SiteTree

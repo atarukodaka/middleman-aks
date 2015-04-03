@@ -42,13 +42,14 @@ module Middleman
         year_template_exists = ! @app.resource_for(@template.year).nil?
         month_template_exists = ! @app.resource_for(@template.month).nil?
         
+#        binding.pry
         @app.logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
         @app.controller.articles.group_by {|a| a.date.year }.each do |year, y_articles|
           #        resources.group_by {|a| a.date.year }.each do |year, y_articles|
-          newres << create_archives_resource(:year, year, nil, y_articles) if year_template_exists
+          newres << create_archives_page(:year, year, nil, y_articles) if year_template_exists
           if month_template_exists
             y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
-              newres << create_archives_resource(:month, year, month, m_articles)
+              newres << create_archives_page(:month, year, month, m_articles)
             end
           end
         end
@@ -57,7 +58,7 @@ module Middleman
       end
 
       private
-      def create_archives_resource(type, year, month, articles)
+      def create_archives_page(type, year, month, articles)
         path = @app.url_for_archives(type, year, month).sub(/^\//, '')
         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
           template = @template[type]

@@ -1,4 +1,4 @@
-require 'middleman-aks/article_container'
+#require 'middleman-aks/article_container'
 require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
@@ -20,35 +20,32 @@ module Middleman
         @ext = ext
         @processors = {}
         @site_tree = nil
+        @pages = []
       end
 
       # === Core Attributes
       # Return articles
       #
       # @return [Array]
+=begin
       def articles
         @app.logger.warn "run() needs to be called before using 'articles()'" if @processors.empty?
         @processors[:article_container].articles
       end
+=end
+      def pages
+        @pages.sort_by(&:date).reverse
+      end
+      alias_method :articles, :pages
       def root
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
+
       # for debug
-      def _paths
-        @app.sitemap.resources.map(&:path)
+      def paths
+        @pages.map(&:path)
       end
 
-=begin
-      def parentage(page)
-        array = []
-        prev_parent = page.parent
-        while prev_parent
-          array << prev_parent
-          prev_parent = prev_parent.parent
-        end
-        array
-      end
-=end
       def site_tree
         @processors[:site_tree]
       end
@@ -72,10 +69,23 @@ module Middleman
         return hash.keys.select {|p| p != "" }.map {|p| p.sub(/^\//, '')}
       end
       ################
+=begin
       def publishable_html_resources(resources=nil)
         resources ||= @app.sitemap.resources
         resources.select {|res| res.ext == ".html" && ! res.ignored? && res.data.published != false}
       end
+=end
+      ################
+      def manipulate_resource_list(resources)
+        @pages = resources.select {|r|
+          r.ext == ".html" && ! r.ignored? && r.data.published != true
+        }.map {|r|
+          r.extend Middleman::Aks::InstanceMethodsToResource 
+        }
+#        binding.pry
+        resources.reject {|r| r.data.published == true}
+      end
+
       # === 
       # create instances of each processors and register manipulators
       #
@@ -88,7 +98,8 @@ module Middleman
         end
 
         @processors = {
-          article_container: Middleman::Aks::ArticleContainer.new(@app, self),
+          pages: self,
+#          article_container: Middleman::Aks::ArticleContainer.new(@app, self),
           archives: Middleman::Aks::Archives.new(@app, self),
           index_creator: Middleman::Aks::IndexCreator.new(@app, self),
           site_tree: Middleman::Aks::SiteTree.new(@app, self)
