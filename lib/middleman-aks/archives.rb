@@ -1,5 +1,4 @@
 require 'middleman-aks/processor'
-require 'middleman-aks/resource_attributes'
 
 module Middleman
   module Aks
@@ -27,11 +26,9 @@ module Middleman
         end
         
         require 'ostruct'
-        @template = OpenStruct.new ({
-                                      year: @app.config.aks_settings.archives_template_year,
-                                      month: @app.config.aks_settings.archives_template_month
-                                    })
-        
+        @template = 
+          OpenStruct.new ({year: @app.config.aks_settings.archives_template_year,
+                            month: @app.config.aks_settings.archives_template_month})
         @app.ignore @template.year
         @app.ignore @template.month
       end

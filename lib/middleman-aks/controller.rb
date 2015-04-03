@@ -3,7 +3,7 @@ require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
 require 'middleman-aks/breadcrumbs'
-require 'middleman-aks/resource_attributes'
+require 'middleman-aks/page_attributes'
 
 module Middleman
   module Aks
@@ -62,7 +62,7 @@ module Middleman
         @pages = resources.select {|r|
           r.ext == ".html" && ! r.ignored? && r.data.published != true
         }.map {|r|
-          r.extend Middleman::Aks::InstanceMethodsToResource 
+          r.extend PageAttributes::InstanceMethodsToResource 
         }
 #        binding.pry
         resources.reject {|r| r.data.published == true}
@@ -70,7 +70,7 @@ module Middleman
       def create_page(path, locals={})
         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
           p.add_metadata locals: locals
-          p.extend InstanceMethodsToResource
+          p.extend PageAttributes::InstanceMethodsToResource 
         end
       end
       def create_proxy_page(path, template, locals={})

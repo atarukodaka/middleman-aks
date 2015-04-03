@@ -1,5 +1,4 @@
 require 'middleman-aks/processor'
-require 'middleman-aks/resource_attributes'
 
 module Middleman
   module Aks
