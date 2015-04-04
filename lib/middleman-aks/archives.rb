@@ -22,30 +22,22 @@ module Middleman
             month: '%02d' % [month.to_i]
           }
           return aks.processors[:archives].path_template[type] % params
-=begin
-          return path_template[type]
-
-          case type
-          when :year
-            path_template.year % params
-          when :month
-            path_template.month % params
-          end
-=end
         end
       end
+      ################
       attr_reader :path_template
       def initialize(app, controller, options = {})
         super
 
+        settings = app.config.aks_settings
         require 'ostruct'
         @template = 
-          OpenStruct.new ({year: app.config.aks_settings.archives_template_year,
-                            month: app.config.aks_settings.archives_template_month})
+          OpenStruct.new ({year: settings.archives_template_year,
+                            month: settings.archives_template_month})
 
         @path_template = 
-          OpenStruct.new ({year: app.config.aks_settings.archives_path_year,
-                            month: app.config.aks_settings.archives_path_month})
+          OpenStruct.new ({year: settings.archives_path_year,
+                            month: settings.archives_path_month})
 
         # ignore templates
         app.ignore @template.year
