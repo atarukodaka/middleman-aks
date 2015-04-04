@@ -7,7 +7,7 @@ module Middleman
     # e.g. /hobby/sports.html exists, create /hobby/index.html (if the file not exists)
     #
     class IndexCreator < Processor
-      def initialize(app, ext, options = {})
+      def initialize(app, controller, options = {})
         super
 
         @template = app.config.aks_settings.index_template

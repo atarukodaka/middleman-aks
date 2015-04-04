@@ -12,6 +12,8 @@ module Middleman
     class Controller
       include ERB::Util
       #
+
+      attr_reader :processors
       def initialize(app, ext)
         @app = app
         @ext = ext

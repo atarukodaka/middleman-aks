@@ -4,10 +4,10 @@ module Middleman
   module Aks
     # == Archives Class
     #
-    # create archives pages, e.g. if a page dated 2015-3-1 on frontmatter,
-    # this class creates:
-    #  /archives/2015/index.html  using year template
-    #  /archives/2015/03.html     using month template
+    # create archives pages, e.g. if a page dated 2015-3-1 on frontmatter exists,
+    # an instance of this class creates:
+    #   /archives/2015/index.html  as per year template
+    #   /archives/2015/03.html     as per month template
     #
     class Archives < Processor
       module Helpers
@@ -15,25 +15,41 @@ module Middleman
           link_to(caption, url_for_archives(type, year, month))
         end
         def url_for_archives(type, year, month = nil)
+          return nil if [:year, :month].grep(type).empty?
+
+          params = {
+            year: '%04d' % [year.to_i],
+            month: '%02d' % [month.to_i]
+          }
+          return aks.processors[:archives].path_template[type] % params
+=begin
+          return path_template[type]
+
           case type
           when :year
-            config.aks_settings.archives_path_year % { year: year }
+            path_template.year % params
           when :month
-            config.aks_settings.archives_path_month % { year: year, month: '%02d' % [month] }
+            path_template.month % params
           end
+=end
         end
       end
-
+      attr_reader :path_template
       def initialize(app, controller, options = {})
         super
 
         require 'ostruct'
         @template = 
-          OpenStruct.new ({year: @app.config.aks_settings.archives_template_year,
-                            month: @app.config.aks_settings.archives_template_month})
+          OpenStruct.new ({year: app.config.aks_settings.archives_template_year,
+                            month: app.config.aks_settings.archives_template_month})
+
+        @path_template = 
+          OpenStruct.new ({year: app.config.aks_settings.archives_path_year,
+                            month: app.config.aks_settings.archives_path_month})
+
         # ignore templates
-        @app.ignore @template.year
-        @app.ignore @template.month
+        app.ignore @template.year
+        app.ignore @template.month
       end
 
       ################
