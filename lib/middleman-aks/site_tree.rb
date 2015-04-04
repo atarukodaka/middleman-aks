@@ -132,14 +132,14 @@ module Middleman
 =end
 
 #          binding.pry
-          curr_path = File.dirname(app.current_resource.path)
-          node_path = File.dirname(node.path).sub(/^\//, '').sub(/\/$/, '').sub(/^\./, '')
+          curr_path = File.dirname(app.current_resource.path).sub(/^\./, '') + "/"
+          node_path = File.dirname(node.path).sub(/^\./, '') + "/"
           flag = (curr_path =~ Regexp.new(node_path))
 
           #collapse_in = (depth <=1 || !flag.nil?) ? 'in' : ''
           collapse_in = (!flag.nil?) ? 'in' : ''
           
-#          logger.debug "#{flag}: #{curr_path} =~ #{node_path}"
+          logger.debug "#{flag}: #{curr_path} =~ #{node_path}"
           children_rendered = app.content_tag(:ul, :class=>"collapse #{collapse_in}", :id=>target_id) do 
             node.children.sort {|a, b|
               a.children.try(:size) <=> b.children.try(:size)
