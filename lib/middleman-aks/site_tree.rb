@@ -142,7 +142,7 @@ module Middleman
         @app.content_tag(:li) do
           [
            (node.has_children?) ? @app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer') : '',
-           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : h(node.name),
+           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : h(resource.title || node.name),
            @app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
              node.children.sort {|a, b|
                a.children.try(:size) <=> b.children.try(:size)

@@ -30,7 +30,7 @@ module Middleman
       end
 =end
       attr_reader :pages
-#      alias_method :articles, :pages
+      alias_method :articles, :pages
 
       def top_page
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
@@ -70,13 +70,13 @@ module Middleman
       def manipulate_resource_list(resources)
         # extend page attributes into each pages
         @pages = resources.select {|r|
-          r.ext == '.html' && ! r.ignored? && r.data.published != true
+          r.ext == '.html' && ! r.ignored? && r.data.published != false
         }.map {|r|
           r.extend PageAttributes::InstanceMethodsToResource 
         }
 
         # return pages excluding unpublished one
-        resources.reject {|r| r.data.published == true}
+        resources.reject {|r| r.data.published == false}
       end
       ################
       # create new page to the given path

@@ -31,13 +31,11 @@ module Middleman
 
         settings = app.config.aks_settings
         require 'ostruct'
-        @template = 
-          OpenStruct.new ({year: settings.archives_template_year,
-                            month: settings.archives_template_month})
+        @template = OpenStruct.new ({year: settings.archives_template_year,
+                                      month: settings.archives_template_month})
 
-        @path_template = 
-          OpenStruct.new ({year: settings.archives_path_year,
-                            month: settings.archives_path_month})
+        @path_template = OpenStruct.new ({year: settings.archives_path_year,
+                                           month: settings.archives_path_month})
 
         # ignore templates
         app.ignore @template.year
