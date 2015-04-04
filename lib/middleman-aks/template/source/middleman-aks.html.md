@@ -14,6 +14,13 @@ date: 2015-04-02
 
 拡張機能
 
+application レベルのヘルパー
+
+- aks
+- link_to_archives
+- url_for_archives
+
+
 **extension**
 
 **controller**

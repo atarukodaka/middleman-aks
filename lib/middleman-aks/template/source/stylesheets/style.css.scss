@@ -103,15 +103,14 @@ header.eyecatch {
 .sidebar {
     margin-top: 30px;
 
-
     aside.site_tree {
 	ul {
-	    padding-left: 1.5em;
+	    padding-left: 0.75em;
 	}
 	li {
 /*	    list-style: none;*/
 	}
-	li.active {
+	.active {
 	    font-weight: bold;
 	}
     }
