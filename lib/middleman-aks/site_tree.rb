@@ -15,6 +15,12 @@ module Middleman
       class TreeNode < Tree::TreeNode
         alias_method :resource, :content
 
+        def path
+          return resource.path if resource
+          parentage[0..-1].map {|p| p.name}.join("/")
+        end
+
+
         def to_hash
           hash = {
             name: name,
@@ -95,22 +101,17 @@ module Middleman
       ################
       # Render the tree.
       #
-      # @return [String] rendered string
       def render(node = nil, options = {})
         node ||= @root
         options.reverse_merge!(depth: 0, num: 0)
-        depth = options[:depth]
-        num = options[:num]
+#        depth = options[:depth]
+#        num = options[:num]
         depth, num = [:depth, :num].map {|key| options[key]}
-
-        collapse = 'collapse' + ((depth <=1 ) ? ' in' : '')
-        
+     
         return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
 
-        # , :class=>(node.try(:resource) == @app.current_resource) ? 'active' : '') do
-        target_id = "menu_#{depth}_#{num}"
-        
         app.content_tag(:li) do
+          target_id = "menu_#{depth}_#{num}"
           pointer = 
             if node.has_children?
               app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer')
@@ -121,32 +122,36 @@ module Middleman
             else
               app.link_to(h(node.resource.title), node.resource)
             end
-          children_rendered = app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
+
+#          flag = app.current_resource.path =~ Regexp.new([node.parentage.reverse[1..-1].map {|n| n.name}, node.name].flatten.join("/"))
+#          collapse_in = "node: #{node.name}, flag: #{flag}"
+=begin
+            if depth <= 1 || app.current_resource.path =~ Regexp.new([node.parentage.reverse[1..-1].map {|n| n.name}, node.name].flatten.join("/"))
+              'in'
+            end
+=end
+
+#          binding.pry
+          curr_path = File.dirname(app.current_resource.path)
+          node_path = File.dirname(node.path).sub(/^\//, '').sub(/\/$/, '').sub(/^\./, '')
+          flag = (curr_path =~ Regexp.new(node_path))
+
+          #collapse_in = (depth <=1 || !flag.nil?) ? 'in' : ''
+          collapse_in = (!flag.nil?) ? 'in' : ''
+          
+#          logger.debug "#{flag}: #{curr_path} =~ #{node_path}"
+          children_rendered = app.content_tag(:ul, :class=>"collapse #{collapse_in}", :id=>target_id) do 
             node.children.sort {|a, b|
               a.children.try(:size) <=> b.children.try(:size)
             }.map do |child|
               opts = options.dup.tap {|o| 
                 o[:depth] = o[:depth].to_i + 1
-                o[:num] = o[:num].to_i + 1
+                o[:num] = num
               }
               render(child, opts).tap { num = num + 1 }
             end.join.html_safe
           end
           [pointer, caption, children_rendered].join.html_safe
-                      
-=begin
-          [
-           (node.has_children?) ? @app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer') : '',
-           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : @app.content_tag(:span, h(node.resource.title), :class=>'active'),
-           app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
-             node.children.sort {|a, b|
-               a.children.try(:size) <=> b.children.try(:size)
-             }.map do |child|
-               render(child, exclude_dirs: options[:exclude_dirs], depth: depth+1, num: num).tap { num = num + 1 }
-             end.join.html_safe
-           end
-          ].join.html_safe
-=end
         end
       end
       ################
