@@ -11,12 +11,14 @@
   </aside>
   <!-- ================ -->
   <aside class="site_tree">
-    <%= aks.site_tree.render(nil, exclude_dirs: [/^archives/]) %>
+    <ul>
+      <%= aks.site_tree.render(nil, exclude_dirs: [/^archives/]) %>
+    </ul>
   </aside>
   <aside>
     <h2>Archives</h2>
     <ul>
-      <% aks.articles.group_by {|a| sprintf("%04d%02d", a.date.year, a.date.month) }.each do |year, pages| %>
+      <% aks.pages.group_by {|a| sprintf("%04d%02d", a.date.year, a.date.month) }.each do |year, pages| %>
       <% page = pages.first %>
       <li><%= link_to_archives(page.date.strftime("%b %Y"), :month, page.date.year, page.date.month) %> (<%= pages.size %>)</li>
       <% end %>
@@ -28,11 +30,11 @@
     <h2>Recent</h2>
 
     <% num_recent_articles = 10 %>
-    <% aks.articles.group_by {|a| a.date}.each do |date, articles| %>
+    <% aks.pages.group_by {|a| a.date}.each do |date, pages | %>
     <h4><%= date.strftime("%d %b %Y") %></h4>
     <ul class="article_list">
-      <% articles.each do |article| %>
-      <li><%= link_to(h(article.title), article) %></li>
+      <% pages.each do |page| %>
+      <li><%= link_to(h(page.title), page) %></li>
         <% num_recent_articles -= 1 %>
       <% end %>
     </ul>
