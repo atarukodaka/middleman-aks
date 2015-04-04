@@ -106,12 +106,13 @@ module Middleman
         options.reverse_merge!(depth: 0, num: 0)
 #        depth = options[:depth]
 #        num = options[:num]
-        depth, num = [:depth, :num].map {|key| options[key]}
+        depth, num, prefix = [:depth, :num, :prefix].map {|key| options[key]}
      
         return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
 
         app.content_tag(:li) do
-          target_id = "menu_#{depth}_#{num}"
+          #target_id = "#{prefix}menu_#{depth}_#{num}"
+          target_id = [prefix, "menu", depth, num].join("_")
           pointer = 
             if node.has_children?
               app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer')
@@ -131,12 +132,14 @@ module Middleman
             end
 =end
 
-=begin          
-          curr_path = File.dirname(app.current_resource.path).sub(/^\./, '') + "/"
-          node_path = File.dirname(node.path).sub(/^\./, '') + "/"
-          flag = (curr_path =~ Regexp.new(node_path))
-=end
-          flag = false
+          flag = 
+            if options[:open_all]
+              true
+            else
+              curr_path = File.dirname(app.current_resource.path).sub(/^\./, '') + "/"
+              node_path = File.dirname(node.path).sub(/^\./, '') + "/"
+              curr_path =~ Regexp.new(node_path)
+            end
 
           #collapse_in = (depth <=1 || !flag.nil?) ? 'in' : ''
           collapse_in = (!flag.nil?) ? 'in' : ''
