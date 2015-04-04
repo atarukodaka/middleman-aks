@@ -77,7 +77,9 @@ module Middleman
           month: month,
           articles: articles
         }
-        controller.create_proxy_page(path, @template[type], locals)
+        controller.create_proxy_page(path, @template[type], locals).tap {|p|
+          controller.pages << p
+        }
       end
     end ## class Archives
   end

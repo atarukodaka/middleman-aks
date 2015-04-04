@@ -24,10 +24,13 @@ module Middleman
 
       ################
       # attribugtes
+=begin
       def pages
         @pages.sort_by(&:date).reverse
       end
-      alias_method :articles, :pages
+=end
+      attr_reader :pages
+#      alias_method :articles, :pages
 
       def root
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
