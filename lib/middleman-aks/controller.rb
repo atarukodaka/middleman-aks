@@ -24,11 +24,7 @@ module Middleman
 
       ################
       # attribugtes
-=begin
-      def pages
-        @pages.sort_by(&:date).reverse
-      end
-=end
+
       attr_reader :pages
       alias_method :articles, :pages
 

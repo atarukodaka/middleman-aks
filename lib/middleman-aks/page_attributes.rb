@@ -21,12 +21,24 @@ module Middleman
           File.exists?(source_file) ? File.ctime(source_file) : Time.now
         end
         def mtime
-          File.exists?(source_file) ? File.mtime(source_file) : Time.now
+#          File.exists?(source_file) ? File.mtime(source_file) : Time.now
+          Time.now
         end
         def date
-          (data.date) ? (data.date.is_a? Date) ? data.date :  Date.parse(data.date) : ctime.to_date
+          @date ||= 
+            if data.date
+              if data.date.is_a? Date
+                data.date 
+              else
+                Date.parse(data.date)
+              end
+            else
+              #Date.new(2000,1,1)
+              ctime.to_date
+            end
+#          (data.date) ? (data.date.is_a? Date) ? data.date :  Date.parse(data.date) : ctime.to_date
         end
-
+        
         # relevant node on the site tree
         def node
           app.aks.site_tree.node_for(self)
