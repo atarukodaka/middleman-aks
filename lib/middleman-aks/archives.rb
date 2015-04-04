@@ -12,20 +12,10 @@ module Middleman
     class Archives < Processor
       module Helpers
         def link_to_archives(caption, type, year, month = nil)
-          link_to(caption, url_for_archives(type, year, month))
-        end
-        def url_for_archives(type, year, month = nil)
-          return nil if [:year, :month].grep(type).empty?
-
-          params = {
-            year: '%04d' % [year.to_i],
-            month: '%02d' % [month.to_i]
-          }
-          return aks.processors[:archives].path_template[type] % params
+          link_to(caption, aks.processors[:archives].url_for(type, year, month))
         end
       end
       ################
-      attr_reader :path_template
       def initialize(app, controller, options = {})
         super
 
@@ -40,6 +30,16 @@ module Middleman
         # ignore templates
         app.ignore @template.year
         app.ignore @template.month
+      end
+      def url_for(type, year, month = nil)
+        return nil if [:year, :month].grep(type).empty?
+        
+        params = {
+          year: '%04d' % [year.to_i],
+          month: '%02d' % [month.to_i]
+        }
+        return @path_template[type] % params
+        #return aks.processors[:archives].path_template[type] % params
       end
 
       ################
@@ -69,7 +69,7 @@ module Middleman
       ################
       private
       def create_archives_page(type, year, month, articles)
-        path = @app.url_for_archives(type, year, month).sub(/^\//, '')
+        path = url_for(type, year, month).sub(/^\//, '')
         locals = {
           year: year,
           month: month,

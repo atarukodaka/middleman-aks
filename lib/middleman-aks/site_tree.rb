@@ -20,8 +20,6 @@ module Middleman
             name: name,
             title: resource.try(:title),
             path: resource.try(:path)
-            #,
-            # children: children.map(&:to_hash)
           }
           hash[:children] =  children.map(&:to_hash) if has_children?
           hash
@@ -33,41 +31,12 @@ module Middleman
       # 
       attr_reader :root
 
-      def initialize(app, controller, options = {})
-        super
-#        @ignore_dirs = options[:ignore_dirs] || []
-      end
-
       ################
       # make_tree
       #
       # @params Array of Sitemap::Resource
       #
       # @return Middleman::SiteTree::TreeNode root node
-=begin
-      def _make_tree(resources)
-        @root = TreeNode.new('Home', controller.root)  # set root node at first
-        resources.each do | resoure |
-          next if resource == controller.root # skip root as its already set before this loop
-          dirs = resource.path.split("/")
-          dirs.pop   # take out basename
-          dirs.pop if resource.directory_index?
-          
-          next if node_for(resource.path)  # skip if already registered
-
-          # check paranges nodes exists on the tree
-          node = @root
-          dirs.each do | part |
-            if node[part].nil?
-              new_ndoe = TreeNode.new(part)
-              node << new_node
-            end
-            node = node[part]
-          end
-        end
-      end
-=end
-
       def make_tree(resources)
         # first, make a tree with directory points only
         @root = TreeNode.new('Home', controller.top_page)  # set root node at first
@@ -131,19 +100,18 @@ module Middleman
         node ||= @root
         depth = options[:depth] || 0
         num = options[:num] || 0
-#        @_count = (@_count.to_i + 1) % 1000
         collapse = 'collapse' + ((depth <=1 ) ? ' in' : '')
-
+        
         return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
 
         # , :class=>(node.try(:resource) == @app.current_resource) ? 'active' : '') do
-
         target_id = "menu_#{depth}_#{num}"
-        @app.content_tag(:li) do
+        
+        app.content_tag(:li) do
           [
            (node.has_children?) ? @app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer') : '',
-           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : h(resource.title || node.name),
-           @app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
+           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : h(node.resource.title),
+           app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
              node.children.sort {|a, b|
                a.children.try(:size) <=> b.children.try(:size)
              }.map do |child|
@@ -192,31 +160,10 @@ module Middleman
         end
       end
       ################
-=begin
-      def make_sitemap_yml(node=nil)
-        node ||= root
-
-        ## output to sitemap.yml
-        dir = app.config.data_dir
-        Dir.mkdir(dir) if ! File.directory?(dir)
-#        dir = app.config.build_dir
-        yml_filename = File.join(dir, 'sitemap.yml')
-
-        File.open(yml_filename, "w") do |f|
-          f.write(node.to_hash.to_yaml)
-        end
-      end
-=end
-      ################
       # Manipulate resource list
       #
-      # @param [Middleman::Sitemap::Resource]
-      #
-      # @return [Array] an array of resources
-#      def manipulate_resource_list(resources)   
       def manipulate_resource_list(resources)   
         make_tree(controller.pages)
-#        make_sitemap_yml()
         resources
       end
     end ## class SiteTree
