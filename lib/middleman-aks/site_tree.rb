@@ -98,8 +98,11 @@ module Middleman
       # @return [String] rendered string
       def render(node = nil, options = {})
         node ||= @root
-        depth = options[:depth] || 0
-        num = options[:num] || 0
+        options.reverse_merge!(depth: 0, num: 0)
+        depth = options[:depth]
+        num = options[:num]
+        depth, num = [:depth, :num].map {|key| options[key]}
+
         collapse = 'collapse' + ((depth <=1 ) ? ' in' : '')
         
         return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
@@ -108,9 +111,33 @@ module Middleman
         target_id = "menu_#{depth}_#{num}"
         
         app.content_tag(:li) do
+          pointer = 
+            if node.has_children?
+              app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer')
+            end
+          caption = 
+            if node.resource && node.resource == @app.current_resource
+              app.content_tag(:span, h(node.resource.title), :class=>'active')
+            else
+              app.link_to(h(node.resource.title), node.resource)
+            end
+          children_rendered = app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
+            node.children.sort {|a, b|
+              a.children.try(:size) <=> b.children.try(:size)
+            }.map do |child|
+              opts = options.dup.tap {|o| 
+                o[:depth] = o[:depth].to_i + 1
+                o[:num] = o[:num].to_i + 1
+              }
+              render(child, opts).tap { num = num + 1 }
+            end.join.html_safe
+          end
+          [pointer, caption, children_rendered].join.html_safe
+                      
+=begin
           [
            (node.has_children?) ? @app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer') : '',
-           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : h(node.resource.title),
+           (node.resource && node.resource != @app.current_resource) ? @app.link_to(h(node.resource.title), node.resource) : @app.content_tag(:span, h(node.resource.title), :class=>'active'),
            app.content_tag(:ul, :class=>collapse, :id=>target_id) do 
              node.children.sort {|a, b|
                a.children.try(:size) <=> b.children.try(:size)
@@ -119,6 +146,7 @@ module Middleman
              end.join.html_safe
            end
           ].join.html_safe
+=end
         end
       end
       ################
@@ -151,7 +179,7 @@ module Middleman
 #        return "Home" if resource == root
 #        bname = File.basename(resource.path)
 #        if bname == @app.index_file
-        if resource == @root
+        if resource == controller.top_page
           "Home"
         elsif resource.directory_index?
           File.dirname(resource.path).split("/").last
