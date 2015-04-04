@@ -21,7 +21,8 @@ module Middleman
         def aks=(controller)
           @_controller = controller
         end
-
+        alias_method :aks_controller, :aks
+        alias_method :aks_controller=, :aks=
         # utils
         def page_for(path)
           sitemap.find_resource_by_path(path)
@@ -53,7 +54,7 @@ module Middleman
         app.logger.debug "- extension: after_configuration"
 
 #        app.controller = Middleman::Aks::Controller.new(app, self).tap {|c| c.run}
-        app.aks = Middleman::Aks::Controller.new(app, self).tap {|c| c.run}
+        app.aks = Middleman::Aks::Controller.new(app, self).tap {|c| c.after_configuration}
       end
     end
   end

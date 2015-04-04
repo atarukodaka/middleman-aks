@@ -90,16 +90,22 @@ module Middleman
       end
       
       ################
+      def register_processor(name, processor)
+        @processors[name] = processor
+      end
+
+      ################
       # create instances of each processors and register manipulators
       #
       # this will be called from after_configuration hook on extension 
       #
-      def run
+      def after_configuration
         processor_classes = [Archives, IndexCreator, Breadcrumbs, SiteTree]
 
         @processors = {pages: self}     # this class itself has manipulator
         processor_classes.each {|klass| 
-          @processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
+          #@processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
+          register_processor(klass.to_s.demodulize.underscore.to_sym, klass.new(@app, self))
         }
 
         # register manipulators of each processors and helpers if any
