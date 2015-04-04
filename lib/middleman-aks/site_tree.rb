@@ -70,7 +70,7 @@ module Middleman
 
       def make_tree(resources)
         # first, make a tree with directory points only
-        @root = TreeNode.new('Home', controller.root)  # set root node at first
+        @root = TreeNode.new('Home', controller.top_page)  # set root node at first
 
         # listing up all directory and register into the tree
 #        binding.pry
@@ -92,7 +92,7 @@ module Middleman
 
         # second, add nodes with existing resources respectively
         resources.each do | resource |
-          next if resource == controller.root
+          next if resource == controller.top_page
 #          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
 
           dirs = File.dirname(resource.path).split("/")
@@ -168,7 +168,7 @@ module Middleman
       ################
       # 
       def node_for(resource)
-        return @root if resource == controller.root
+        return @root if resource == controller.top_page
         
         paths = resource.path.split("/")
         paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
@@ -183,7 +183,7 @@ module Middleman
 #        return "Home" if resource == root
 #        bname = File.basename(resource.path)
 #        if bname == @app.index_file
-        if resource == root
+        if resource == @root
           "Home"
         elsif resource.directory_index?
           File.dirname(resource.path).split("/").last

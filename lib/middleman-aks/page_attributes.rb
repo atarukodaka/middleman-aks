@@ -14,7 +14,7 @@ module Middleman
           # /foo/index.html => "foo"  (as its directory index)
           # /foo/bar.html => "bar"
           #
-          return "Home" if self == app.aks.root_page
+          return "Home" if self == app.aks.top_page
           return (directory_index?) ? File.dirname(path).split("/").last : File.basename(path).sub(/\.html$/, '')
         end
         def ctime

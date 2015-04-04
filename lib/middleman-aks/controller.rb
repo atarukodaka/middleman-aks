@@ -32,10 +32,10 @@ module Middleman
       attr_reader :pages
 #      alias_method :articles, :pages
 
-      def root
+      def top_page
         @app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
-      alias_method :root_page, :root
+#      alias_method :root_page, :root
 
       def site_tree
         @processors[:site_tree]
