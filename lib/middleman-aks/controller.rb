@@ -60,7 +60,7 @@ module Middleman
 
         ## take out brank dir and strip out '^/' 
 #        return hash.keys.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
-        return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
+        return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
       end
       ################
       def manipulate_resource_list(resources)

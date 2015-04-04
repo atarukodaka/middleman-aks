@@ -26,7 +26,8 @@ module Middleman
         dirs.each do | dir |
           index_path = File.join(dir, @app.index_file)
           # skip if index already exists
-          next if @app.page_for(index_path)  
+          #next if @app.page_for(index_path) 
+          next if ! resources.find {|r| r.path == index_path}.nil?
 
           locals = {
             index_path: index_path,
