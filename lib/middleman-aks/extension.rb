@@ -3,6 +3,10 @@ require 'middleman-aks/controller'
 module Middleman
   module Aks
     class Extension < Middleman::Extension
+
+=begin
+=end      
+
       helpers do
 =begin
         def controller
@@ -39,9 +43,11 @@ module Middleman
       option :archives_path_year, "/archives/%{year}/index.html"
       option :archives_path_month, "/archives/%{year}/%{month}.html"
 
-      def initialize(app, options_hash={}, &block)
+      def initialize(klass, options_hash={}, &block)
         super
-        app.set :aks_settings, options
+        binding.pry
+        klass.set :aks_settings, options
+        $stderr.puts "** aks::extension.initialize"
       end
       
       # == Hooks
@@ -49,6 +55,9 @@ module Middleman
       #
       # let the *controller* run.
       #
+      def before_configuration
+        binding.pry
+      end
       def after_configuration
         app.logger.level = 0   ## yet: debug
         app.logger.debug "- extension: after_configuration"

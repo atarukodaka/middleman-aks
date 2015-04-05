@@ -1,4 +1,3 @@
-#require 'middleman-aks/article_container'
 require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
