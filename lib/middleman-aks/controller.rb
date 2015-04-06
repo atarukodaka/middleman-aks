@@ -103,7 +103,7 @@ module Middleman
 
         @processors = {pages: self}     # this class itself has manipulator
         processor_classes.each {|klass| 
-          #@processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
+#          @processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
           register_processor(klass.to_s.demodulize.underscore.to_sym, klass.new(@app, self))
         }
 

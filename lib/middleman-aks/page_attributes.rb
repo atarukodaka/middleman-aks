@@ -21,8 +21,7 @@ module Middleman
           File.exists?(source_file) ? File.ctime(source_file) : Time.now
         end
         def mtime
-#          File.exists?(source_file) ? File.mtime(source_file) : Time.now
-          Time.now
+          File.exists?(source_file) ? File.mtime(source_file) : Time.now
         end
         def date
           @date ||= 

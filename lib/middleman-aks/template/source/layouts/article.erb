@@ -5,8 +5,13 @@
     <%= breadcrumbs(current_page) %>
     <h1><%= h(current_page.title) %></h1>
     <section class="page_info">
+      <%= current_page.date.strftime("%d %b %Y") %>
+      <%= link_to("permlink", current_page) %>
       <!-- %= page_info(current_article) % -->
     </section>
+
+    <!-- %= render_toc(current_page, use_collapsing: false ) % -->
+
   </header>
 
   <section class="content numbering_headings">
