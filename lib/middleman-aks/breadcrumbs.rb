@@ -14,8 +14,7 @@ module Middleman
             }.reverse
           end
         end
-        def breadcrumbs(page, options = {})
-#          binding.pry
+        def breadcrumbs(page = nil, options = {})
           default_options = {
             parentage_only: false,
             bootstrap_style: true,
@@ -25,7 +24,7 @@ module Middleman
           options.reverse_merge! default_options
 
           if options[:bootstrap_style]
-            crumbs = _crumbs(current_page).map {|item| content_tag(:li, item)}
+            crumbs = _crumbs(page).map {|item| content_tag(:li, item)}
             crumbs << content_tag(:li, h(page.data.title), :class=>'active') if page != aks.top_page
             content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
           else

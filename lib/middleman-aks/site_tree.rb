@@ -176,6 +176,7 @@ module Middleman
       def node_for(resource)
         return @root if resource == controller.top_page
         
+
         paths = resource.path.split("/")
         paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
 
