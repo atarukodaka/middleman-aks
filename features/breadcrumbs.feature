@@ -1,4 +1,4 @@
-Feature: 
+Feature: breadcrumbs
 
   Scenario: breadcrumbs
     Given a fixture app "basic-app"
@@ -12,7 +12,19 @@ Feature:
       """
       <ol class="breadcrumb">
       """
-    
+
+
+  Scenario: non-bootstrap
+    Given a fixture app "basic-app"
+    And a file name "source/foo/bar.html.erb" with:
+      """
+      <%= breadcrumbs(current_page, bootstrap_style: false, delimiter: '|') %>
+      """
+    When I goto "/foo/bar.html"
+    Then I should see:
+      """
+      foo
+      """
 
 
 

@@ -24,7 +24,16 @@ module Middleman
       ################
       # attribugtes
 
-      attr_reader :pages
+#      attr_reader :pages
+      def page
+        @pages.sort(&:name)
+      end
+      def add_page(page)
+        if page.is_a? PageAttributes::InstanceMethodsToResource 
+          page.extend PageAttributes::InstanceMethodsToResource 
+        end
+        @pages << page
+      end
       alias_method :articles, :pages
 
       def top_page
