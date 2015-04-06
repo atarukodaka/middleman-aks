@@ -16,11 +16,11 @@ Feature: breadcrumbs
 
   Scenario: non-bootstrap
     Given a fixture app "basic-app"
-    And a file name "source/foo/bar.html.erb" with:
+    And a file named "source/foo/bar.html.erb" with:
       """
       <%= breadcrumbs(current_page, bootstrap_style: false, delimiter: '|') %>
       """
-    When I goto "/foo/bar.html"
+    When I go to "/foo/bar.html"
     Then I should see:
       """
       foo

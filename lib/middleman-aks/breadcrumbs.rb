@@ -15,6 +15,7 @@ module Middleman
           end
         end
         def breadcrumbs(page, options = {})
+#          binding.pry
           default_options = {
             parentage_only: false,
             bootstrap_style: true,

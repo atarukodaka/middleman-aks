@@ -25,8 +25,8 @@ module Middleman
       # attribugtes
 
 #      attr_reader :pages
-      def page
-        @pages.sort(&:name)
+      def pages
+        @pages
       end
       def add_page(page)
         if page.is_a? PageAttributes::InstanceMethodsToResource 
