@@ -1,5 +1,9 @@
 ## master
 
+### 0.0.3
+* PageAttributes 廃止。Utils::page_title(page), page_date(page) へ。
+* site_treeでの make_tree を manipulate_resource_list ではなく ready に
+
 ### 0.0.2
 
 * released 2015/4/7

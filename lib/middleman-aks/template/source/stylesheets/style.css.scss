@@ -135,6 +135,7 @@ header.eyecatch {
 /*****************************************************************/
 /* breakcrumbs */
 
+/*
 nav.crumbs {
     border: {
 	top: 1px solid #ddd;
@@ -149,14 +150,17 @@ nav.crumbs {
 	bottom: 5px;
     }
 }
-
+*/
 ol.breadcrumb {
-    background-color: white; 
+    background-color: white;
 
-    margin-bottom: 0;
-    padding-top: 0; 
-    padding-bottom: 0;
-    
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
     li.active {
 	font-weight: bold;
     }

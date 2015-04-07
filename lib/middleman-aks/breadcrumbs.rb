@@ -6,6 +6,12 @@ module Middleman
       module Helpers
         def _crumbs(page)
           node = aks.site_tree.node_for(page)
+          if node.nil?
+            logger.debug("node is nil for page: #{page.path}")
+            return []
+          end
+
+
           if page == aks.top_page
             ["Home"]
           else
@@ -20,6 +26,7 @@ module Middleman
             bootstrap_style: true,
             delimiter: ' / '
           }
+
           page ||= current_page
           options.reverse_merge! default_options
 
@@ -28,7 +35,9 @@ module Middleman
             crumbs << content_tag(:li, h(page.data.title), :class=>'active') if page != aks.top_page
             content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
           else
-            _crumbs(page).join(options[:delimiter])
+#            binding.pry
+            ar = _crumbs(page)
+            ar.join(options[:delimiter])
           end
         end
       end ## module Helpers

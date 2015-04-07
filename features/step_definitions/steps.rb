@@ -24,11 +24,11 @@ Given /^an archives year template exists$/ do
 
 <h1>Archives for <%= year %></h1>
 
-<% articles.group_by {|a| a.date.month }.each do |month, month_articles| %>
+<% pages.group_by {|a| page_date(a).month }.each do |month, month_pages| %>
 <h3><%= link_to_archives(Date.new(year, month, 1).strftime("%b"), :month, year, month) %></h3>
 <ul>
-  <% month_articles.each do |article| %>
-  <li><%= link_to(article.title, article) %></li>
+  <% month_pages.each do |page| %>
+  <li><%= link_to(page.data.title, page) %></li>
   <% end %>
 </ul>
 <% end %>
@@ -43,13 +43,13 @@ Given /^an archives month template exists$/ do
 ---
 ---
 
-<% articles ||= [] %>
+<% pages ||= [] %>
 
 <% content_for(:title) { "Archives for %s" % [Date.new(year, month, 1).strftime("%b %Y")] } %>
 
 <ul>
-<% articles.each do |article| %>
-<li><%= link_to(article.title, article) %>
+<% pages.each do |page| %>
+<li><%= link_to(page.data.title, page) %>
 <% end%>
 </ul>
 EOS

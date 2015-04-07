@@ -55,10 +55,12 @@ module Middleman
         
         logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
         
-        controller.pages.group_by {|a| a.date.year }.each do |year, y_articles|
+#        controller.pages.group_by {|a| a.date.year }.each do |year, y_articles|
+        controller.pages(resources).group_by {|a| page_date(a).year }.each do |year, y_articles|
           newres << create_archives_page(:year, year, nil, y_articles) if year_template_exists
           if month_template_exists
-            y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
+#            y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
+            y_articles.group_by {|a| page_date(a).month }.each do |month, m_articles|
               newres << create_archives_page(:month, year, month, m_articles)
             end
           end
@@ -68,12 +70,12 @@ module Middleman
 
       ################
       private
-      def create_archives_page(type, year, month, articles)
+      def create_archives_page(type, year, month, pages)
         path = url_for(type, year, month).sub(/^\//, '')
         locals = {
           year: year,
           month: month,
-          articles: articles
+          pages: pages
         }
         controller.create_proxy_page(path, @template[type], locals).tap {|p|
           controller.pages << p

@@ -2,7 +2,7 @@ require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
 require 'middleman-aks/breadcrumbs'
-require 'middleman-aks/page_attributes'
+#require 'middleman-aks/page_attributes'
 
 module Middleman
   module Aks
@@ -11,50 +11,46 @@ module Middleman
     class Controller
       include ERB::Util
       #
-
-      attr_reader :processors
+      
+      attr_reader :app, :processors
       def initialize(app, ext)
         @app = app
         @ext = ext
         @processors = {}
         @site_tree = nil
-        @pages = []
       end
 
       ################
       # attribugtes
 
 #      attr_reader :pages
-      def pages
-        @pages
+      def pages(resources=nil)
+        resources ||= app.sitemap.resources
+        resources.select {|r|
+          r.ext == '.html' && ! r.ignored? && r.data.published != false
+        }
       end
-      alias_method :articles, :pages
+#      alias_method :articles, :pages
 
       def top_page
-        @app.sitemap.find_resource_by_path("/#{@app.index_file}")
+        app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
 #      alias_method :root_page, :root
 
       def site_tree
         @processors[:site_tree]
       end
+      
       ################
       # return list of directories for resources (sitemap.resource if not specified)
       #
       def directory_list(resources = nil)
         resources ||= @app.sitemap.resources
 
-#        hash = {}
         ar = []
         resources.each do | resource |
           dirs = resource.path.split('/')
           dirs.pop
-=begin
-          dirs.inject('') do | result, dir |
-            hash[r = "#{result}/#{dir}"] = true
-            r
-          end
-=end
           dirs.inject([]) do | result, dir |
             ar.tap {|a| a << [result.last, dir].join('/')}
           end
@@ -66,23 +62,27 @@ module Middleman
       end
       ################
       def manipulate_resource_list(resources)
+=begin
         # extend page attributes into each pages
+
         @pages = resources.select {|r|
           r.ext == '.html' && ! r.ignored? && r.data.published != false
         }.map {|r|
           r.extend PageAttributes::InstanceMethodsToResource 
         }
-
+=end
         # return pages excluding unpublished one
         resources.reject {|r| r.data.published == false}
+
       end
+
       ################
       # create new page to the given path
       #
       def create_page(path, locals={})
         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
           p.add_metadata locals: locals
-          p.extend PageAttributes::InstanceMethodsToResource 
+#          p.extend PageAttributes::InstanceMethodsToResource 
         end
       end
       def create_proxy_page(path, template, locals={})
@@ -101,10 +101,21 @@ module Middleman
       #
       # this will be called from after_configuration hook on extension 
       #
+      def ready
+        @processors.each do |name, processor|
+          if processor.respond_to? :ready
+            @app.ready do
+              processor.ready
+            end
+          end
+        end
+      end
       def after_configuration
         processor_classes = [Archives, IndexCreator, Breadcrumbs, SiteTree]
 
-        @processors = {pages: self}     # this class itself has manipulator
+        # register manipulator of this class first
+        @app.sitemap.register_resource_list_manipulator(:pages, self)
+
         processor_classes.each {|klass| 
 #          @processors[klass.to_s.demodulize.underscore.to_sym] = klass.new(@app, self)
           register_processor(klass.to_s.demodulize.underscore.to_sym, klass.new(@app, self))

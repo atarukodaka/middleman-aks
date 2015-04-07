@@ -4,6 +4,8 @@ module Middleman
   module Aks
     class Extension < Middleman::Extension
       helpers do
+        include ::Middleman::Aks::Utils
+        
         def aks_controller
           @_aks_controller
         end
@@ -19,6 +21,15 @@ module Middleman
           sitemap.find_resource_by_path(path)
         end
         alias_method :resource_for, :page_for
+
+
+        ################
+        # return title of the page
+        # /index.html => "Home"
+        # /foo/index.html => "foo"  (as its directory index)
+        # /foo/bar.html => "bar"
+        #
+
       end ## helpers
 
       #
@@ -49,7 +60,12 @@ module Middleman
 #        app.logger.level = 0   ## yet: debug
 #        app.logger.debug "- extension: after_configuration"
 
-        app.aks = Middleman::Aks::Controller.new(app, self).tap {|c| c.after_configuration}
+        app.aks = Middleman::Aks::Controller.new(app, self).tap {|c|
+          c.after_configuration
+          app.ready do 
+            c.ready
+          end
+        }
       end
     end
   end

@@ -9,8 +9,6 @@ module Middleman
     # create a tree from the given resources.
     #
     class SiteTree < Processor
-      include ERB::Util
-
       # node class
       class TreeNode < Tree::TreeNode
         alias_method :resource, :content
@@ -20,11 +18,11 @@ module Middleman
           parentage[0..-1].map {|p| p.name}.join("/")
         end
 
-
         def to_hash
           hash = {
             name: name,
-            title: resource.try(:title),
+#            title: resource.try(:title),
+            title: page_title(resource),
             path: resource.try(:path)
           }
           hash[:children] =  children.map(&:to_hash) if has_children?
@@ -119,9 +117,9 @@ module Middleman
             end
           caption = 
             if node.resource && node.resource == @app.current_resource
-              app.content_tag(:span, h(node.resource.title), :class=>'active')
+              app.content_tag(:span, h(page_title(node.resource)), :class=>'active')
             else
-              app.link_to(h(node.resource.title), node.resource)
+              app.link_to(h(page_title(node.resource)), node.resource)
             end
 
 #          flag = app.current_resource.path =~ Regexp.new([node.parentage.reverse[1..-1].map {|n| n.name}, node.name].flatten.join("/"))
@@ -175,7 +173,6 @@ module Middleman
       # 
       def node_for(resource)
         return @root if resource == controller.top_page
-        
 
         paths = resource.path.split("/")
         paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
@@ -201,10 +198,16 @@ module Middleman
       ################
       # Manipulate resource list
       #
-      def manipulate_resource_list(resources)   
+      def ready
+        app.logger.debug "site_tree: ready"
         make_tree(controller.pages)
+      end
+=begin
+      def manipulate_resource_list(resources)   
+#        make_tree(controller.pages(resources))
         resources
       end
+=end
     end ## class SiteTree
   end ## module Aks
 end ## module Middleman

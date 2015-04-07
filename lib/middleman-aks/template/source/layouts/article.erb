@@ -3,10 +3,15 @@
 <article>
   <header>
     <%= breadcrumbs(current_page) %>
-    <h1><%= h(current_page.title) %></h1>
+    <h1><%= h(page_title(current_page)) %></h1>
     <section class="page_info">
-      <%= current_page.date.strftime("%d %b %Y") %>
-      <%= link_to("permlink", current_page) %>
+      | 
+      <%= breadcrumbs(current_page, bootstrap_style: false) %>
+      |
+      <%= current_page.date.strftime("%d %b %Y") %> 
+      |
+      <%= link_to("permlink", current_page) %> 
+      |
       <!-- %= page_info(current_article) % -->
     </section>
 

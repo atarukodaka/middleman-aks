@@ -2,15 +2,15 @@
 layout: page
 ---
 
-<% articles ||= [] %>
+<% pages ||= [] %>
 
 <% content_for(:title) { "Archives for #{year}" } %>
 
-<% articles.group_by {|a| a.date.month }.each do |month, month_articles| %>
+<% pages.group_by {|page| page_date(page).month }.each do |month, month_pages| %>
 <h3><%= link_to_archives(Date.new(year, month, 1).strftime("%b"), :month, year, month) %></h3>
 <ul>
-  <% month_articles.each do |article| %>
-  <li><%= link_to(article.title, article) %></li>
+  <% month_pages.each do |page| %>
+  <li><%= link_to(h(page_title(page), page) %></li>
   <% end %>
 </ul>
 <% end %>

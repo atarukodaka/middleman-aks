@@ -2,29 +2,31 @@ Feature: breadcrumbs
 
   Scenario: breadcrumbs
     Given a fixture app "basic-app"
-    And a file named "source/index.html.erb" with:
+    And a file named "source/foo/index.html.erb" with:
       """
       <%= breadcrumbs(current_page) %>
       """
     And the Server is running at "basic-app"
-    When I go to "/index.html"
+    When I go to "/foo/index.html"
     Then I should see:
       """
       <ol class="breadcrumb">
       """
 
 
-  Scenario: non-bootstrap
+  Scenario: non-bootstrap style
     Given a fixture app "basic-app"
-    And a file named "source/foo/bar.html.erb" with:
+    And a file named "source/foo/index.html.erb" with:
       """
-      <%= breadcrumbs(current_page, bootstrap_style: false, delimiter: '|') %>
+      <%= breadcrumbs(current_page, bootstrap_style: false, delimiter: "|") %>
       """
-    When I go to "/foo/bar.html"
-    Then I should see:
+    And the Server is running at "basic-app"
+    When I go to "/foo/index.html"
+    Then I should not see:
       """
-      foo
+      <ol class="breadcrumb">
       """
-
-
-
+    And I should see:
+      """
+      Home
+      """

@@ -1,6 +1,11 @@
+require 'middleman-aks/utils'
+
 module Middleman
   module Aks
     class Processor
+      include ERB::Util
+      include Middleman::Aks::Utils
+
       # base class to process the feature, mainly manipulate resource list
       #
       attr_reader :app, :controller
@@ -8,21 +13,8 @@ module Middleman
         @app = app
         @controller = controller
         @options = options
-=begin
-        @app.after_configuration do
-          after_configuration()
-        end
-=end
+        
       end
-=begin
-      def after_configuration
-        if self.class.const_defined?('Helpers')
-          app.helpers do
-            include "#{self.class}::Helpers".constantize
-          end
-        end
-      end
-=end
       def logger
         @app.logger
       end
