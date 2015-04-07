@@ -28,12 +28,6 @@ module Middleman
       def pages
         @pages
       end
-      def add_page(page)
-        if page.is_a? PageAttributes::InstanceMethodsToResource 
-          page.extend PageAttributes::InstanceMethodsToResource 
-        end
-        @pages << page
-      end
       alias_method :articles, :pages
 
       def top_page
