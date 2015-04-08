@@ -1,21 +1,23 @@
 <% wrap_layout :layout do %>
 
+<% page ||= current_page %>
+
 <article>
   <header>
-    <%= breadcrumbs(current_page) %>
-    <h1><%= h(page_title(current_page)) %></h1>
+    <%= breadcrumbs(page) %>
+    <h1><%= h(page_title(page)) %></h1>
     <section class="page_info">
       | 
-      <%= breadcrumbs(current_page, bootstrap_style: false) %>
+      <%= breadcrumbs(page, bootstrap_style: false) %>
       |
-      <%= page_date(current_page).strftime("%d %b %Y") %> 
+      <%= page_date(page).strftime("%d %b %Y") %> 
       |
-      <%= link_to("permlink", current_page) %> 
+      <%= link_to("permlink", page) %> 
       |
       <!-- %= page_info(current_article) % -->
     </section>
 
-    <!-- %= render_toc(current_page, use_collapsing: false ) % -->
+    <!-- %= render_toc(page, use_collapsing: false ) % -->
 
   </header>
 
@@ -29,8 +31,8 @@
       <!-- % if category = current_article.category % -->
       
       <!-- % end % -->
-      at <%= page_date(current_page).strftime("%d %b %Y") %> 
-      on <%= link_to("this permlink", current_page) %>.
+      at <%= page_date(page).strftime("%d %b %Y") %> 
+      on <%= link_to("this permlink", page) %>.
     </div>
     <div class="share_sns">
       <!-- %= [share_twitter(data.config.site_info.twitter), share_hatena_bookmark(current_article)].join(" ") % -->

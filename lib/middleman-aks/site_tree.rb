@@ -131,7 +131,7 @@ module Middleman
               if node.resource == app.current_resource
                 app.content_tag(:span, h(page_title(node.resource)), :class=>'active')
               else
-                app.link_to(h(page_title(node.resource)), node.resource)
+                app.link_to(h(page_title(node.resource) || node.name), node.resource)
               end
             end
 
