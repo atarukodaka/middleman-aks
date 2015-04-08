@@ -31,7 +31,7 @@
     <h2>Recent</h2>
 
     <% num_recent_articles = 10 %>
-    <% aks.pages.group_by {|a| page_date(a)}.each do |date, pages | %>
+    <% aks.pages.reject {|p| p.proxy?}.group_by {|a| page_date(a)}.each do |date, pages | %>
     <h4><%= date.strftime("%d %b %Y") %></h4>
     <ul class="article_list">
       <% pages.each do |page| %>

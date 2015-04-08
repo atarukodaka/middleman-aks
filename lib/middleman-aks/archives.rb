@@ -73,14 +73,20 @@ module Middleman
 
       ################
       private
-      def create_archives_page(type, year, month, pages)
+      def create_archives_page(type, year, month=nil, pages)
+        month ||= 1
         path = url_for(type, year, month).sub(/^\//, '')
-        locals = {
-          year: year,
-          month: month,
-          pages: pages
+        data = {
+          locals: {
+            year: year,
+            month: month,
+            pages: pages
+          },
+          page: {
+            "date" => Date.new(year, month, 1)
+          }
         }
-        controller.create_proxy_page(path, @template[type], locals: locals).tap {|p|
+        controller.create_proxy_page(path, @template[type], data).tap {|p|
           controller.pages << p
         }
       end
