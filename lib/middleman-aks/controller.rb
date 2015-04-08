@@ -17,7 +17,6 @@ module Middleman
         @app = app
         @ext = ext
         @processors = {}
-        @site_tree = nil
       end
 
       ################
@@ -40,7 +39,7 @@ module Middleman
       def site_tree
         @processors[:site_tree]
       end
-      
+
       ################
       # return list of directories for resources (sitemap.resource if not specified)
       #
@@ -97,10 +96,6 @@ module Middleman
       end
 
       ################
-      # create instances of each processors and register manipulators
-      #
-      # this will be called from after_configuration hook on extension 
-      #
       def ready
         @processors.each do |name, processor|
           if processor.respond_to? :ready
@@ -110,6 +105,12 @@ module Middleman
           end
         end
       end
+
+      ################
+      # create instances of each processors and register manipulators
+      #
+      # this will be called from after_configuration hook on extension 
+      #
       def after_configuration
         processor_classes = [Archives, IndexCreator, Breadcrumbs, SiteTree]
 
@@ -124,7 +125,7 @@ module Middleman
         # register manipulators of each processors and helpers if any
         #
         @processors.each do |name, processor|
-          @app.sitemap.register_resource_list_manipulator(name, processor)  # if processor.respond_to? :manipulate_resource_list
+          @app.sitemap.register_resource_list_manipulator(name, processor) if processor.respond_to? :manipulate_resource_list
           if processor.class.const_defined?('Helpers')
             @app.helpers do
               #include Object.const_get("#{processor.class}::Helpers")

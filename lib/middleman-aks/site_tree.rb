@@ -95,6 +95,19 @@ module Middleman
         # finally, return the root node
         return @root
       end
+      ################
+      # validate
+      def validate
+#        app.sitemap.resources.each do | resource |
+        controller.pages.each do | resource |
+          node = node_for(resource)
+          if node.nil?
+            app.logger.warn "#{resource.path} does NOT have node"
+          else
+            app.logger.debug "#{resource.path}: ok"
+          end
+        end
+      end
       
       ################
       # Render the tree.
