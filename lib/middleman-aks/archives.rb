@@ -9,10 +9,13 @@ module Middleman
     #   /archives/2015/index.html  as per year template
     #   /archives/2015/03.html     as per month template
     #
+    # in default, template files are located at:
+    #   year:  source/templates/archives_template_year.html.erb
+    #   month: source/templates/archives_template_month.html.erb
+    #
     class Archives < Processor
       module Helpers
         def link_to_archives(caption, type, year, month = nil)
-          # link_to(caption, aks.processors[:archives].url_for(type, year, month))
           link_to(caption, aks.archives.url_for(type, year, month))
         end
       end
@@ -40,12 +43,11 @@ module Middleman
           month: '%02d' % [month.to_i]
         }
         return @path_template[type] % params
-        #return aks.processors[:archives].path_template[type] % params
       end
 
       ################
-      # add proxy pages for year/month archives if temlate files exist
-      # this returns the given resources and additional proxy pages
+      # add proxy pages for year/month archives if temlate files exist.
+      # this returns the given resources and additional proxy pages.
       #
       def manipulate_resource_list(resources)
         logger.debug '- archives.manipulate'
@@ -54,13 +56,13 @@ module Middleman
         year_template_exists = ! @app.resource_for(@template.year).nil?
         month_template_exists = ! @app.resource_for(@template.month).nil?
         
-        logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
+#        logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
         
-#        controller.pages.group_by {|a| a.date.year }.each do |year, y_articles|
-        controller.pages(resources).group_by {|a| page_date(a).year }.each do |year, y_articles|
-          newres << create_archives_page(:year, year, nil, y_articles) if year_template_exists
+        controller.pages(resources).group_by {|p| page_date(p).year }.each do |year, y_articles|
+          if year_template_exists
+            newres << create_archives_page(:year, year, nil, y_articles)
+          end
           if month_template_exists
-#            y_articles.group_by {|a| a.date.month }.each do |month, m_articles|
             y_articles.group_by {|a| page_date(a).month }.each do |month, m_articles|
               newres << create_archives_page(:month, year, month, m_articles)
             end

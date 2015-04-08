@@ -15,13 +15,13 @@ module Middleman
 
         def path
           return resource.path if resource
-          parentage[0..-1].map {|p| p.name}.join("/")
+#          parentage[0..-1].map {|p| p.name}.join("/")
+          parentage.map {|p| p.name}.join("/")
         end
 
         def to_hash
           hash = {
             name: name,
-#            title: resource.try(:title),
             title: page_title(resource),
             path: resource.try(:path)
           }
@@ -98,7 +98,6 @@ module Middleman
       ################
       # validate
       def validate
-#        app.sitemap.resources.each do | resource |
         controller.pages.each do | resource |
           node = node_for(resource)
           if node.nil?
@@ -115,14 +114,11 @@ module Middleman
       def render(node = nil, options = {})
         node ||= @root
         options.reverse_merge!(depth: 0, num: 0)
-#        depth = options[:depth]
-#        num = options[:num]
         depth, num, prefix = [:depth, :num, :prefix].map {|key| options[key]}
      
         return if ! [options[:exclude_dirs]].flatten.select {|re| node.resource.try(:path) =~ re }.empty?
 
         app.content_tag(:li) do
-          #target_id = "#{prefix}menu_#{depth}_#{num}"
           target_id = [prefix, "menu", depth, num].join("_")
           pointer = 
             if node.has_children?
@@ -135,14 +131,6 @@ module Middleman
               app.link_to(h(page_title(node.resource)), node.resource)
             end
 
-#          flag = app.current_resource.path =~ Regexp.new([node.parentage.reverse[1..-1].map {|n| n.name}, node.name].flatten.join("/"))
-#          collapse_in = "node: #{node.name}, flag: #{flag}"
-=begin
-            if depth <= 1 || app.current_resource.path =~ Regexp.new([node.parentage.reverse[1..-1].map {|n| n.name}, node.name].flatten.join("/"))
-              'in'
-            end
-=end
-
           flag = 
             if options[:open_all]
               true
@@ -152,7 +140,6 @@ module Middleman
               curr_path =~ Regexp.new(node_path)
             end
 
-          #collapse_in = (depth <=1 || !flag.nil?) ? 'in' : ''
           collapse_in = (!flag.nil?) ? 'in' : ''
           
 #          logger.debug "#{flag}: #{curr_path} =~ #{node_path}"
@@ -197,9 +184,6 @@ module Middleman
         return node
       end
       def basename(resource)
-#        return "Home" if resource == root
-#        bname = File.basename(resource.path)
-#        if bname == @app.index_file
         if resource == controller.top_page
           "Home"
         elsif resource.directory_index?
@@ -215,12 +199,6 @@ module Middleman
         app.logger.debug "site_tree: ready"
         make_tree(controller.pages)
       end
-=begin
-      def manipulate_resource_list(resources)   
-#        make_tree(controller.pages(resources))
-        resources
-      end
-=end
     end ## class SiteTree
   end ## module Aks
 end ## module Middleman

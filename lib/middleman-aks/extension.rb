@@ -20,7 +20,9 @@ module Middleman
           sitemap.find_resource_by_path(path)
         end
         alias_method :resource_for, :page_for
-        
+        def link_to_page(page)
+          link_to(page_title(page), page)
+        end
       end ## helpers
 
       ################
