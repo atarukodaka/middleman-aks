@@ -11,13 +11,15 @@
 ## master
 
 ### 0.0.3
+
+* released 2015-4-8
 * PageAttributes 廃止。Utils::page_title(page), page_date(page) へ。
 * site_treeでの make_tree を manipulate_resource_list ではなく ready に
 
 
 ### 0.0.2
 
-* released 2015/4/7
+* released 2015-4-7
 * resource に PageAttributes::InstanceMethodsToResource を extend させる方式
   * akg.pages がそうだと ensure できないので、廃止するかも
   
