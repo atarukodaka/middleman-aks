@@ -33,7 +33,7 @@ module Middleman
             index_path: index_path,
             index_name: dir.split('/').last
           }
-          newres << controller.create_proxy_page(index_path, @template, locals).tap {|p|
+          newres << controller.create_proxy_page(index_path, @template, locals: locals).tap {|p|
             controller.pages << p
           }
 #          proxy_page = controller.create_proxy_page(index_path, @template, locals)

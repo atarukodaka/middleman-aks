@@ -77,7 +77,7 @@ module Middleman
           month: month,
           pages: pages
         }
-        controller.create_proxy_page(path, @template[type], locals).tap {|p|
+        controller.create_proxy_page(path, @template[type], locals: locals).tap {|p|
           controller.pages << p
         }
       end

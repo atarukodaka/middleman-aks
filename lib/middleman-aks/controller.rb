@@ -78,14 +78,15 @@ module Middleman
       ################
       # create new page to the given path
       #
-      def create_page(path, locals={})
+      def create_page(path, data = {})
         Sitemap::Resource.new(@app.sitemap, path).tap do |p|
-          p.add_metadata locals: locals
+          p.add_metadata data if ! data.empty?
+          #          p.add_metadata locals: locals
 #          p.extend PageAttributes::InstanceMethodsToResource 
         end
       end
-      def create_proxy_page(path, template, locals={})
-        create_page(path, locals).tap do |p|
+      def create_proxy_page(path, template, data={})
+        create_page(path, data).tap do |p|
           p.proxy_to(template)
         end
       end
