@@ -6,7 +6,7 @@ group: navigation
 ---
 
 <ul>
-<% aks.articles.group_by {|a| a.date.year }.each do |year, articles| %>
+<% aks.pages.group_by {|a| page_date(a).year }.each do |year, pages| %>
 <li><%= link_to_archives(year, :year, year) %></li>
 <% end %>
 </ul>

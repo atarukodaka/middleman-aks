@@ -1,3 +1,13 @@
+## TODO
+
+* summary の作成
+  * タイトルのみリストアップ型
+  * 要約表示型
+* 低優先度  
+  * pager, paginate
+  * partial or helper for share_sns
+  * tags
+
 ## master
 
 ### 0.0.3
