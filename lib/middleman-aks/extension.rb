@@ -15,21 +15,13 @@ module Middleman
         end
         alias_method :aks, :aks_controller
         alias_method :aks=, :aks_controller=
+          
         # utils
-
-        def page_for(path)
-          sitemap.find_resource_by_path(path)
-        end
+          def page_for(path)
+            sitemap.find_resource_by_path(path)
+          end
         alias_method :resource_for, :page_for
-
-
-        ################
-        # return title of the page
-        # /index.html => "Home"
-        # /foo/index.html => "foo"  (as its directory index)
-        # /foo/bar.html => "bar"
-        #
-
+        
       end ## helpers
 
       #
