@@ -8,7 +8,7 @@ index name: <%= index_name %>
 
 <ul>
   <% current_page.children.each do |p| %>
-  <li><%= link_to(h(p.data.title || File.split(p.path).first.split("/").last), p) %></li>
+  <li><%= link_to(h(page_title(p)), p) %></li>
   <% end %>
 </ul>
 EOS

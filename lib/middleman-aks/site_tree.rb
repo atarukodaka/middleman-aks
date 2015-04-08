@@ -22,7 +22,7 @@ module Middleman
         def to_hash
           hash = {
             name: name,
-            title: page_title(resource),
+            title: (resource.nil?) ? name : page_title(resource),
             path: resource.try(:path)
           }
           hash[:children] =  children.map(&:to_hash) if has_children?
@@ -125,10 +125,14 @@ module Middleman
               app.content_tag(:a, "[+] ", 'data-toggle'=>'collapse', 'data-target'=>"##{target_id}", :style=>'cursor: pointer')
             end
           caption = 
-            if node.resource && node.resource == @app.current_resource
-              app.content_tag(:span, h(page_title(node.resource)), :class=>'active')
+            if node.resource.nil?
+              node.name
             else
-              app.link_to(h(page_title(node.resource)), node.resource)
+              if node.resource == app.current_resource
+                app.content_tag(:span, h(page_title(node.resource)), :class=>'active')
+              else
+                app.link_to(h(page_title(node.resource)), node.resource)
+              end
             end
 
           flag = 

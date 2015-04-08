@@ -20,12 +20,12 @@ module Middleman
         # skip if template file does not exist
         return resources if @app.resource_for(@template).nil?  
 
-        dirs = controller.directory_list(controller.pages)
+        dirs = controller.directory_list(controller.pages(resources))
         
         newres = []
 
         dirs.each do | dir |
-          index_path = File.join(dir, @app.index_file)
+          index_path = File.join(dir, app.index_file)
           # skip if an index already exists
           next if ! resources.find {|r| r.path == index_path}.nil?
 
