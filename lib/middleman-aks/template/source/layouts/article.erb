@@ -8,7 +8,7 @@
       | 
       <%= breadcrumbs(current_page, bootstrap_style: false) %>
       |
-      <%= current_page.date.strftime("%d %b %Y") %> 
+      <%= page_date(current_page).strftime("%d %b %Y") %> 
       |
       <%= link_to("permlink", current_page) %> 
       |
@@ -29,7 +29,7 @@
       <!-- % if category = current_article.category % -->
       
       <!-- % end % -->
-      at <%= current_page.date.strftime("%d %b %Y") %> 
+      at <%= page_date(current_page).strftime("%d %b %Y") %> 
       on <%= link_to("this permlink", current_page) %>.
     </div>
     <div class="share_sns">

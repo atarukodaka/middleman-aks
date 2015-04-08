@@ -14,12 +14,17 @@ module Middleman
       #     /foo/bar/baz.html => "baz"
       #
       def page_title(page)
-        page.data.title || page.metadata[:page]['title'] ||=
+        title = page.data.title || page.metadata[:page]['title']
+        return title if title
+
+        title =
           if page.directory_index?
             ((dir = File.dirname(page.path)) == ".") ? "Home" : dir.split('/').last
           else
             File.basename(page.path, ".*")
           end
+        page.add_metadata(page: {title: title})
+                
       end
       ################
       # return date of the page
@@ -27,12 +32,25 @@ module Middleman
       #   2. ctime() of the source file
       #
       def page_date(page)
-        date = page.metadata[:page]['date'] ||= 
-          begin
-            ctime = File.exists?(page.source_file) ? File.ctime(page.source_file) : Time.now
-            ctime.strftime("%Y-%m-%d")
+        #date = page.metadata[:page]['date'] ||=
+        if date = page.metadata[:page]['date']
+          if date.is_a? Date
+            return date
+          else
+            date = Date.parse(date)
           end
-        (date.is_a? Date) ? date : Date.parse(date)
+        else
+          date_str =
+            begin
+              ctime = File.exists?(page.source_file) ? File.ctime(page.source_file) : Time.now
+              page.app.logger.debug "getting ctime of #{page.path}"
+              ctime.strftime("%Y-%m-%d")
+            end
+          date = Date.parse(date_str)
+        end
+#        binding.pry
+        page.add_metadata(page: {"date" => date})
+        return date
       end
     end  # module Utils
   end

@@ -23,9 +23,9 @@ module Middleman
         @index_creator = Middleman::Aks::IndexCreator.new(app, self)
 
         ## set helpers
-        [Middleman::Aks::Breadcrumbs::Helpers,
-         Middleman::Aks::Archives::Helpers].each do | klass |
-          @ext.class.defined_helpers << klass
+        app.helpers do
+          include Middleman::Aks::Breadcrumbs::Helpers
+          include Middleman::Aks::Archives::Helpers
         end
         
         ## set hooks
@@ -36,8 +36,8 @@ module Middleman
       end
 
       ################
-      # attribugtes
-
+      # pages, directory utils
+      #
       def pages(resources=nil)
         resources ||= app.sitemap.resources
         resources.select {|r|
@@ -49,7 +49,6 @@ module Middleman
         app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
 
-      ################
       # return list of directories for resources (sitemap.resource if not specified)
       #
       def directory_list(resources = nil)
@@ -65,7 +64,6 @@ module Middleman
         end
 
         ## take out brank dir and strip out '^/' 
-#        return hash.keys.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}
         return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
       end
       ################
@@ -83,6 +81,8 @@ module Middleman
       end
 
       ################
+      # hooks / resource manipulating
+      #
       def after_configuration
         app.sitemap.register_resource_list_manipulator(:pages, self)
         
