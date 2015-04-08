@@ -60,12 +60,15 @@ module Middleman
 #        app.logger.level = 0   ## yet: debug
 #        app.logger.debug "- extension: after_configuration"
 
+        app.aks = Middleman::Aks::Controller.new(app, self)
+=begin
         app.aks = Middleman::Aks::Controller.new(app, self).tap {|c|
           c.after_configuration
           app.ready do 
             c.ready
           end
         }
+=end
       end
     end
   end

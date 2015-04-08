@@ -12,11 +12,25 @@ module Middleman
       include ERB::Util
       #
       
-      attr_reader :app, :processors
+      attr_reader :app, :site_tree, :archives, :index_creator #, :processors
       def initialize(app, ext)
         @app = app
         @ext = ext
-        @processors = {}
+#        @processors = {}
+
+        @site_tree = Middleman::Aks::SiteTree.new(app, self)
+        @archives = Middleman::Aks::Archives.new(app, self)
+        @index_creator = Middleman::Aks::IndexCreator.new(app, self)
+
+        [Middleman::Aks::Breadcrumbs::Helpers,
+         Middleman::Aks::Archives::Helpers].each do | klass |
+          @ext.class.defined_helpers << klass
+        end
+        ## set hooks
+        after_configuration
+        app.ready do
+          aks.site_tree.ready
+        end
       end
 
       ################
@@ -36,10 +50,11 @@ module Middleman
       end
 #      alias_method :root_page, :root
 
+=begin
       def site_tree
         @processors[:site_tree]
       end
-
+=end
       ################
       # return list of directories for resources (sitemap.resource if not specified)
       #
@@ -92,11 +107,13 @@ module Middleman
       end
       
       ################
+=begin
       def register_processor(name, processor)
         @processors[name] = processor
       end
-
+=end
       ################
+=begin
       def ready
         @processors.each do |name, processor|
           if processor.respond_to? :ready
@@ -106,6 +123,7 @@ module Middleman
           end
         end
       end
+=end
 
       ################
       # create instances of each processors and register manipulators
@@ -113,6 +131,13 @@ module Middleman
       # this will be called from after_configuration hook on extension 
       #
       def after_configuration
+        app.sitemap.register_resource_list_manipulator(:pages, self)
+        
+        [archives, index_creator].each do | processor |
+          name = processor.class.to_s.demodulize.underscore.to_sym
+          app.sitemap.register_resource_list_manipulator(name, processor)
+        end
+=begin        
         processor_classes = [Archives, IndexCreator, Breadcrumbs, SiteTree]
 
         # register manipulator of this class first
@@ -134,6 +159,7 @@ module Middleman
             end
           end
         end
+=end
       end
     end  ## class Controller
   end
