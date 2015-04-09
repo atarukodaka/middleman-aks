@@ -2,10 +2,15 @@ require 'middleman-aks/controller'
 
 module Middleman
   module Aks
+  end
+end
+
+module Middleman
+  module Aks
     class Extension < Middleman::Extension
       ################
       helpers do
-        include ::Middleman::Aks::Utils
+#        include ::Middleman::Aks::Utils
         def aks_controller
           @_aks_controller
         end
@@ -21,7 +26,7 @@ module Middleman
         end
         alias_method :resource_for, :page_for
         def link_to_page(page)
-          link_to(page_title(page), page)
+          link_to(page.title, page)
         end
       end ## helpers
 

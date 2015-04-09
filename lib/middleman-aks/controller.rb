@@ -2,7 +2,7 @@ require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
 require 'middleman-aks/breadcrumbs'
-#require 'middleman-aks/page_attributes'
+require 'middleman-aks/page_attributes'
 
 module Middleman
   module Aks
@@ -35,7 +35,7 @@ module Middleman
         end
 
         ## activate
-#        Middleman::Aks::PageAttributes.activate
+        Middleman::Aks::PageAttributes.activate
       end
 
       ################
@@ -49,7 +49,7 @@ module Middleman
       end
 
       def top_page
-        app.sitemap.find_resource_by_path("/#{@app.index_file}")
+        app.sitemap.find_resource_by_path("/#{app.index_file}")
       end
       def is_top_page?(page)
         page.path == app.index_file
@@ -79,7 +79,7 @@ module Middleman
       # create new page to the given path
       #
       def create_page(path, data = {})
-        Sitemap::Resource.new(@app.sitemap, path).tap do |p|
+        Sitemap::Resource.new(app.sitemap, path).tap do |p|
           p.add_metadata data if ! data.empty?
         end
       end

@@ -58,12 +58,12 @@ module Middleman
         
 #        logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
         
-        controller.pages(resources).group_by {|p| page_date(p).year }.each do |year, y_articles|
+        controller.pages(resources).group_by {|page| page.date.year }.each do |year, y_articles|
           if year_template_exists
             newres << create_archives_page(:year, year, nil, y_articles)
           end
           if month_template_exists
-            y_articles.group_by {|a| page_date(a).month }.each do |month, m_articles|
+            y_articles.group_by {|page| page.date.month }.each do |month, m_articles|
               newres << create_archives_page(:month, year, month, m_articles)
             end
           end

@@ -16,7 +16,7 @@ module Middleman
 
           node = aks.site_tree.node_for(page)
           parentage =
-            if aks.is_top_page?(page)
+            if page.is_top_page?
               ["Home"]
             else
               node.parentage.map {|nd|
@@ -26,7 +26,7 @@ module Middleman
           
           if options[:bootstrap_style]
             crumbs = parentage.map {|item| content_tag(:li, item)}
-            crumbs << content_tag(:li, h(page.data.title), :class=>'active') if ! aks.is_top_page?(page)
+            crumbs << content_tag(:li, h(page.title), :class=>'active') if ! page.is_top_page?
             content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
           else
 #            binding.pry

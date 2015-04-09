@@ -29,8 +29,13 @@
 
 ## master
 
+### 0.0.5
+
+* page attributes 復活
+
 ### 0.0.4
 
+* released 2015-4-9
 * /index.html がない場合の対処を追加
   * top page かの判定を path 名でするように（index.htmlがない時のため）
   * index_creator: index.html がない時は index template に従って作る

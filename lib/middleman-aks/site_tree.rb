@@ -23,7 +23,7 @@ module Middleman
         def to_hash
           hash = {
             name: name,
-            title: (resource.nil?) ? name : page_title(resource),
+            title: (resource.nil?) ? name : resource.title,
             path: resource.try(:path)
           }
           hash[:children] =  children.map(&:to_hash) if has_children?
@@ -66,7 +66,7 @@ module Middleman
 
         # second, add nodes with existing resources respectively
         resources.each do | resource |
-          next if controller.is_top_page?(resource)
+          next if resource.is_top_page?
 #          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
 
           dirs = File.dirname(resource.path).split("/")
@@ -130,9 +130,9 @@ module Middleman
               node.name
             else
               if node.resource == app.current_resource
-                app.content_tag(:span, h(page_title(node.resource)), :class=>'active')
+                app.content_tag(:span, h(node.resource.title), :class=>'active')
               else
-                app.link_to(h(page_title(node.resource) || node.name), node.resource)
+                app.link_to(h(node.resource.title || node.name), node.resource)
               end
             end
 
@@ -177,7 +177,7 @@ module Middleman
       ################
       # 
       def node_for(resource)
-        return @root if controller.is_top_page?(resource)
+        return @root if resource.is_top_page?
 
         paths = resource.path.split("/")
         paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file

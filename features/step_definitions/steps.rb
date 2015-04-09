@@ -6,7 +6,7 @@ Given /^an index_template exists$/ do
 
 <% page ||= current_page %>
 
-<% content_for(:title, page_title(page)) %>
+<% content_for(:title, page.title) %>
 
 <ul>
   <% page.children.each do |child| %>
@@ -26,11 +26,11 @@ Given /^an archives year template exists$/ do
 
 <h1>Archives for <%= year %></h1>
 
-<% pages.group_by {|a| page_date(a).month }.each do |month, month_pages| %>
+<% pages.group_by {|a| a.date.month }.each do |month, month_pages| %>
 <h3><%= link_to_archives(Date.new(year, month, 1).strftime("%b"), :month, year, month) %></h3>
 <ul>
   <% month_pages.each do |page| %>
-  <li><%= link_to(page.data.title, page) %></li>
+  <li><%= link_to_page(page) %></li>
   <% end %>
 </ul>
 <% end %>
@@ -51,7 +51,7 @@ Given /^an archives month template exists$/ do
 
 <ul>
 <% pages.each do |page| %>
-<li><%= link_to(page.data.title, page) %>
+<li><%= link_to_page(page) %>
 <% end%>
 </ul>
 EOS
