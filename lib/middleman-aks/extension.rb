@@ -10,7 +10,17 @@ module Middleman
     class Extension < Middleman::Extension
       ################
       helpers do
-#        include ::Middleman::Aks::Utils
+        # general utils
+        def page_for(path)
+          sitemap.find_resource_by_path(path)
+        end
+        alias_method :resource_for, :page_for
+        def link_to_page(page)
+          link_to(page.title, page)
+        end
+
+
+        # controller accessors
         def aks_controller
           @_aks_controller
         end
@@ -21,13 +31,6 @@ module Middleman
         alias_method :aks, :aks_controller
         alias_method :aks=, :aks_controller=
           
-        def page_for(path)
-          sitemap.find_resource_by_path(path)
-        end
-        alias_method :resource_for, :page_for
-        def link_to_page(page)
-          link_to(page.title, page)
-        end
       end ## helpers
 
       ################
