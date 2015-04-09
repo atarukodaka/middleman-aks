@@ -1,11 +1,28 @@
+## Memo
+
+* page title
+  - extension
+  - site tree
+  - layout / partial / templates
+* page date
+  - archives
+  - layout / partial / templates  
+  
+* top_page
+  * helper
+    * breadcrumbs
+  * class
+    * index_creator
+
 ## TODO
 
-* /index.html がないとき
-  * index_creator が作る
+* やっぱり page.date, page.title つかうかな？
+  * middleman-vcs-time を利用して mtime
+  * それを to_date して 
 * summary の作成
   * タイトルのみリストアップ型
   * 要約表示型
-* 低優先度  
+* 低優先度
   * pager, paginate
   * partial or helper for share_sns
   * tags

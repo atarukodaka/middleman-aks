@@ -33,6 +33,9 @@ module Middleman
         app.ready do
           aks.site_tree.ready
         end
+
+        ## activate
+#        Middleman::Aks::PageAttributes.activate
       end
 
       ################
