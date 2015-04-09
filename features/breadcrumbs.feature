@@ -26,7 +26,3 @@ Feature: breadcrumbs
       """
       <ol class="breadcrumb">
       """
-    And I should see:
-      """
-      Home
-      """

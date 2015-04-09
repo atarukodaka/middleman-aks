@@ -45,6 +45,8 @@ module Middleman
       option :archives_path_year, "/archives/%{year}/index.html"
       option :archives_path_month, "/archives/%{year}/%{month}.html"
 
+      option :numbering_headings, true, "show numbering for headers"
+
       def initialize(klass, options_hash={}, &block)
         super
         klass.set :aks_settings, options

@@ -2,19 +2,48 @@
 
 <% page ||= current_page %>
 
-<section class="page">
+<article>
   <header>
     <%= breadcrumbs(page) %>
-    <h1><%= h(page.title) %></h1>
+    <h1 class="title"><%= h(yield_content(:title) || page.title) %></h1>
+    <section class="page_info">
+      | <%= breadcrumbs(page, bootstrap_style: false) %> 
+      | <%= page.date.strftime("%d %b %Y") %> 
+      | <%= link_to("permlink", page) %> 
+      |
+    </section>
+
+    <!-- %= render_toc(page, use_collapsing: false ) % -->
+
   </header>
 
-  <section class="content">
+  <% show_numbering_headings = (page.data.has_key? "numbering_headings") ? page.data.numbering_headings : config.aks_settings.numbering_headings %>
+  
+  <section class="content <%= "numbering_headings" if show_numbering_headings %>">
     <%= yield %>
   </section>
 
   <footer>
+    <div>
+      Posted by <%= h(data.config.site_info.author) %> 
+      <!-- % if category = current_article.category % -->
+      
+      <!-- % end % -->
+      at <%= page.date.strftime("%d %b %Y") %> 
+      on <%= link_to("this permlink", page) %>.
+    </div>
+    <div class="share_sns">
+      <!-- %= [share_twitter(data.config.site_info.twitter), share_hatena_bookmark(current_article)].join(" ") % -->
+    </div>
+    <!-- pager -->
+    <nav>
+      <ul class="pager">
+	<!-- %= article_pager(:previous, current_article.previous_article) % -->
+	<!-- %= article_pager(:next, current_article.next_article) % -->
+      </ul>
+    </nav>
   </footer>
-</section>
+</article>
 
 <% end %>
 

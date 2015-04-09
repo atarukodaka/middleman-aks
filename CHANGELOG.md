@@ -17,7 +17,8 @@
   * summary_text(). gem 'nokogiri'
 * index_summary.html.erb：child folder/pages に分け、pages は summary を表示するように
   * partial/_summary.erb をいじる
-
+  * aks_settings.numbering_headings を加える。
+  
 ### 0.0.4
 
 * released 2015-4-9
