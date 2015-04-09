@@ -48,23 +48,29 @@ module Middleman
       def top_page
         app.sitemap.find_resource_by_path("/#{@app.index_file}")
       end
+      def is_top_page?(page)
+        page.path == app.index_file
+      end
 
       # return list of directories for resources (sitemap.resource if not specified)
       #
       def directory_list(resources = nil)
         resources ||= pages()
 
+        #ar = ['/']
         ar = []
         resources.each do | resource |
           dirs = resource.path.split('/')
-          dirs.pop
+          dirs.pop     # take out basename
           dirs.inject([]) do | result, dir |
             ar.tap {|a| a << [result.last, dir].join('/')}
           end
         end
 
         ## take out brank dir and strip out '^/' 
+        #binding.pry
         return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
+        #return ar.uniq
       end
       ################
       # create new page to the given path

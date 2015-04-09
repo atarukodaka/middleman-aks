@@ -16,6 +16,7 @@ module Middleman
         def path
           return resource.path if resource
 #          parentage[0..-1].map {|p| p.name}.join("/")
+          return "" if parentage.nil?  # for the case /index.html doest not exist
           parentage.map {|p| p.name}.join("/")
         end
 
@@ -65,7 +66,7 @@ module Middleman
 
         # second, add nodes with existing resources respectively
         resources.each do | resource |
-          next if resource == controller.top_page
+          next if controller.is_top_page?(resource)
 #          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
 
           dirs = File.dirname(resource.path).split("/")
@@ -75,7 +76,7 @@ module Middleman
           if resource.directory_index?
             # "a/b/index.html" => ['a']
             dirname = dirs.pop
-
+            app.logger.debug.warn "dirname is nil for resource: #{resource.path}" if dirname.nil?
             node = @root  # parent node
             dirs.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
             node[dirname].content = resource  ## ?? the tree shd hv the node
@@ -176,7 +177,7 @@ module Middleman
       ################
       # 
       def node_for(resource)
-        return @root if resource == controller.top_page
+        return @root if controller.is_top_page?(resource)
 
         paths = resource.path.split("/")
         paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file

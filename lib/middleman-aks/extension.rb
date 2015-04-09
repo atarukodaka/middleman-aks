@@ -42,8 +42,8 @@ module Middleman
       ################
       # Hooks
       def after_configuration
-#        app.logger.level = 0   ## yet: debug
-#        app.logger.debug "- extension: after_configuration"
+        app.logger.level = 0   ## yet: debug
+        app.logger.debug "- extension: after_configuration"
 
         app.aks = Middleman::Aks::Controller.new(app, self)
       end

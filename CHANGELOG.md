@@ -1,5 +1,7 @@
 ## TODO
 
+* /index.html がないとき
+  * index_creator が作る
 * summary の作成
   * タイトルのみリストアップ型
   * 要約表示型
@@ -9,6 +11,13 @@
   * tags
 
 ## master
+
+### 0.0.4
+
+* /index.html がない場合の対処を追加
+  * top page かの判定を path 名でするように（index.htmlがない時のため）
+  * index_creator: index.html がない時は index template に従って作る
+
 
 ### 0.0.3
 

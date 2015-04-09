@@ -14,9 +14,9 @@ module Middleman
           }
           options.reverse_merge! default_options
 
-          node = page.app.aks.site_tree.node_for(page)
+          node = aks.site_tree.node_for(page)
           parentage =
-            if page == aks.top_page
+            if aks.is_top_page?(page)
               ["Home"]
             else
               node.parentage.map {|nd|
@@ -26,7 +26,7 @@ module Middleman
           
           if options[:bootstrap_style]
             crumbs = parentage.map {|item| content_tag(:li, item)}
-            crumbs << content_tag(:li, h(page.data.title), :class=>'active') if page != aks.top_page
+            crumbs << content_tag(:li, h(page.data.title), :class=>'active') if ! aks.is_top_page?(page)
             content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
           else
 #            binding.pry

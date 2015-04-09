@@ -20,17 +20,21 @@ module Middleman
         # skip if template file does not exist
         return resources if @app.resource_for(@template).nil?  
 
-        dirs = controller.directory_list(controller.pages(resources))
-        
-        newres = []
+        newres = []    # new resource to return in addition to existing resouces
 
+        # create top_page if not exist
+        if controller.top_page.nil?
+          newres << controller.create_proxy_page("index.html", @template, locals: {index_name: "Home"})
+        end
+        
+        # traverse each directories and create directory indices if not exists
+        dirs = controller.directory_list(controller.pages(resources))
         dirs.each do | dir |
           index_path = File.join(dir, app.index_file)
           # skip if an index already exists
           next if ! resources.find {|r| r.path == index_path}.nil?
 
           locals = {
-            index_path: index_path,
             index_name: dir.split('/').last
           }
           newres <<

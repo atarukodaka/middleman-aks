@@ -4,11 +4,13 @@ Given /^an index_template exists$/ do
 ---
 ---
 
-index name: <%= index_name %>
+<% page ||= current_page %>
+
+<% content_for(:title, page_title(page)) %>
 
 <ul>
-  <% current_page.children.each do |p| %>
-  <li><%= link_to(h(page_title(p)), p) %></li>
+  <% page.children.each do |child| %>
+  <li><%= link_to_page(child) %></li>
   <% end %>
 </ul>
 EOS

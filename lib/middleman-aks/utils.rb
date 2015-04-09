@@ -18,13 +18,15 @@ module Middleman
         return title if title
 
         title =
-          if page.directory_index?
-            ((dir = File.dirname(page.path)) == ".") ? "Home" : dir.split('/').last
+          if page.app.aks.is_top_page?(page)
+            "Home"
+          elsif page.directory_index?
+            File.dirname(page.path).split('/').last
           else
             File.basename(page.path, ".*")
           end
         page.add_metadata(page: {title: title})
-                
+        return title
       end
       ################
       # return date of the page
