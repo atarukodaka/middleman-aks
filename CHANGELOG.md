@@ -15,6 +15,8 @@
 * page attributes 復活
   * .date, .title, is_top_page? を Sitemap::Resource に追加
   * summary_text(). gem 'nokogiri'
+* index_summary.html.erb：child folder/pages に分け、pages は summary を表示するように
+  * partial/_summary.erb をいじる
 
 ### 0.0.4
 
