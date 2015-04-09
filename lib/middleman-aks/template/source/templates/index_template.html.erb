@@ -4,12 +4,26 @@ layout: page
 
 <% page ||= current_page %>
 
-<% content_for(:title, page.title) %>
+<% content_for :title, page.title + " - Index" %>
 
+
+
+<% folders = []; pages = [] ;%>
+<% page.children.each {|p| (p.directory_index?) ? folders.push(p) : pages.push(p)} %>
+   
+<% if ! folders.empty? %>
+<h2>Folders</h2>
 <ul>
-  <% page.children.each do |p| %>
+<% folders.each do |p| %>
   <li><%= link_to_page(p) %></li>
-  <% end %>
+<% end %>
 </ul>
+<% end %>
 
 
+
+<% if ! pages.empty? %>
+<h2>Pages</h2>
+<%= partial("partials/summary", locals: {pages: pages}) %>
+<% end %> 
+   

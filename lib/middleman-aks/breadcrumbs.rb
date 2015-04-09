@@ -29,7 +29,7 @@ module Middleman
             crumbs << content_tag(:li, h(page.title), :class=>'active') if ! page.is_top_page?
             content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
           else
-#            binding.pry
+            parentage.shift if ! parentage.empty?
             parentage.join(options[:delimiter])
           end
         end
