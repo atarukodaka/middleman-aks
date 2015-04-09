@@ -5,7 +5,7 @@
 <section class="page">
   <header>
     <%= breadcrumbs(page) %>
-    <h1><%= h(page_title(page) || yield_content(:title)) %></h1>
+    <h1><%= h(page.title) %></h1>
   </header>
 
   <section class="content">

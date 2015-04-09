@@ -2,11 +2,13 @@
 layout: page
 ---
 
-<% content_for(:title, index_name) %>
+<% page ||= current_page %>
+
+<% content_for(:title, page.title) %>
 
 <ul>
-  <% current_page.children.each do |p| %>
-  <li><%= link_to(h(p.data.title || File.split(p.path).first.split("/").last), p) %></li>
+  <% page.children.each do |p| %>
+  <li><%= link_to_page(p) %></li>
   <% end %>
 </ul>
 

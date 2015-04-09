@@ -5,16 +5,12 @@
 <article>
   <header>
     <%= breadcrumbs(page) %>
-    <h1><%= h(page_title(page)) %></h1>
+    <h1><%= h(page.title) %></h1>
     <section class="page_info">
-      | 
-      <%= breadcrumbs(page, bootstrap_style: false) %>
+      | <%= breadcrumbs(page, bootstrap_style: false) %> 
+      | <%= page.date.strftime("%d %b %Y") %> 
+      | <%= link_to("permlink", page) %> 
       |
-      <%= page_date(page).strftime("%d %b %Y") %> 
-      |
-      <%= link_to("permlink", page) %> 
-      |
-      <!-- %= page_info(current_article) % -->
     </section>
 
     <!-- %= render_toc(page, use_collapsing: false ) % -->
@@ -31,7 +27,7 @@
       <!-- % if category = current_article.category % -->
       
       <!-- % end % -->
-      at <%= page_date(page).strftime("%d %b %Y") %> 
+      at <%= page.date.strftime("%d %b %Y") %> 
       on <%= link_to("this permlink", page) %>.
     </div>
     <div class="share_sns">
@@ -44,12 +40,6 @@
 	<!-- %= article_pager(:next, current_article.next_article) % -->
       </ul>
     </nav>
-
-    <% if extensions.has_key?(:disqus) %>
-      <%= disqus %>
-      <%= disqus_count %>
-    <% end %>
-
   </footer>
 </article>
 

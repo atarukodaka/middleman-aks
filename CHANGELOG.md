@@ -1,24 +1,5 @@
-## Memo
-
-* page title
-  - extension
-  - site tree
-  - layout / partial / templates
-* page date
-  - archives
-  - layout / partial / templates  
-  
-* top_page
-  * helper
-    * breadcrumbs
-  * class
-    * index_creator
-
 ## TODO
 
-* やっぱり page.date, page.title つかうかな？
-  * middleman-vcs-time を利用して mtime
-  * それを to_date して 
 * summary の作成
   * タイトルのみリストアップ型
   * 要約表示型
@@ -32,6 +13,8 @@
 ### 0.0.5
 
 * page attributes 復活
+  * .date, .title, is_top_page? を Sitemap::Resource に追加
+  * summary_text(). gem 'nokogiri'
 
 ### 0.0.4
 
@@ -39,7 +22,6 @@
 * /index.html がない場合の対処を追加
   * top page かの判定を path 名でするように（index.htmlがない時のため）
   * index_creator: index.html がない時は index template に従って作る
-
 
 ### 0.0.3
 

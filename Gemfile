@@ -16,3 +16,4 @@ gem 'rb-readline'
 gem 'middleman-pry'
 
 gem 'actionview'
+gem 'nokogiri'

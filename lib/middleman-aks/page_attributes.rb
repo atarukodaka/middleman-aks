@@ -44,6 +44,16 @@ module Middleman::Aks
         add_metadata(page: {"date" => date})
         return date
       end
+      ################
+      def summary_text(length = 250, leading_message = "...read more")
+        rendered = render(layout: false)
+        Nokogiri::HTML(rendered).text[0..length-1] + app.link_to(leading_message, self)
+#        require 'middleman-aks/truncate_html'
+#        rendered = render(layout: false)
+#        truncated_text = Nokogiri::HTML(TruncateHTML.truncate_html(rendered, length)).text
+#        truncated_text + app.link_to(leading_message, self)
+      end
+
     end
     
     ################

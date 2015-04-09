@@ -18,9 +18,9 @@
   <aside>
     <h2>Archives</h2>
     <ul>
-      <% aks.pages.group_by {|a| sprintf("%04d%02d", page_date(a).year, page_date(a).month) }.each do |year, pages| %>
+      <% aks.pages.group_by {|a| sprintf("%04d%02d", a.date.year, a.date.month) }.each do |year, pages| %>
       <% page = pages.first %>
-      <li><%= link_to_archives(page_date(page).strftime("%b %Y"), :month, page_date(page).year, page_date(page).month) %> (<%= pages.size %>)</li>
+      <li><%= link_to_archives(page.date.strftime("%b %Y"), :month, page.date.year, page.date.month) %> (<%= pages.size %>)</li>
       <% end %>
     </ul>
   </aside>
@@ -31,11 +31,11 @@
     <h2>Recent</h2>
 
     <% num_recent_articles = 10 %>
-    <% aks.pages.reject {|p| p.proxy?}.group_by {|a| page_date(a)}.each do |date, pages | %>
+    <% aks.pages.reject {|p| p.proxy?}.group_by {|a| a.date}.each do |date, pages | %>
     <h4><%= date.strftime("%d %b %Y") %></h4>
     <ul class="article_list">
       <% pages.each do |page| %>
-      <li><%= link_to(h(page_title(page)), page) %></li>
+      <li><%= link_to(h(page.title), page) %></li>
         <% num_recent_articles -= 1 %>
       <% end %>
     </ul>

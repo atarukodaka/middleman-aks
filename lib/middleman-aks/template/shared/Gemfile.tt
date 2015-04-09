@@ -9,6 +9,7 @@ gem 'middleman-aks'
 gem 'middleman-syntax'
 gem 'middleman-deploy'
 gem 'rouge'  ## for Rouge::Themes
+gem 'nokogiri'  ## for summary text of the page
 
 #gem 'middleman-rouge'
 #gem "slim"
