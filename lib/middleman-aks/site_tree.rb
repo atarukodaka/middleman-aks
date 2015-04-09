@@ -44,7 +44,7 @@ module Middleman
       # @return Middleman::SiteTree::TreeNode root node
       def make_tree(resources)
         # first, make a tree with directory points only
-        @root = TreeNode.new('Home', controller.top_page)  # set root node at first
+        @root = TreeNode.new('Home', app.top_page)  # set root node at first
 
         # listing up all directory and register into the tree
 #        binding.pry
@@ -189,7 +189,7 @@ module Middleman
         return node
       end
       def basename(resource)
-        if resource == controller.top_page
+        if resource.is_top_page?
           "Home"
         elsif resource.directory_index?
           File.dirname(resource.path).split("/").last

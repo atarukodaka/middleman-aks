@@ -47,14 +47,6 @@ module Middleman
           r.ext == '.html' && ! r.ignored? && r.data.published != false
         }
       end
-
-      def top_page
-        app.sitemap.find_resource_by_path("/#{app.index_file}")
-      end
-      def is_top_page?(page)
-        page.path == app.index_file
-      end
-
       # return list of directories for resources (sitemap.resource if not specified)
       #
       def directory_list(resources = nil)

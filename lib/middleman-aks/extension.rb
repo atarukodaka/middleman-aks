@@ -18,7 +18,9 @@ module Middleman
         def link_to_page(page)
           link_to(page.title, page)
         end
-
+        def top_page
+          sitemap.find_resource_by_path("/#{index_file}")
+        end
 
         # controller accessors
         def aks_controller

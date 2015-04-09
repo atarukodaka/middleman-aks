@@ -23,7 +23,7 @@ module Middleman
         newres = []    # new resource to return in addition to existing resouces
 
         # create top_page if not exist
-        if controller.top_page.nil?
+        if app.top_page.nil?
           newres << controller.create_proxy_page("index.html", @template, locals: {index_name: "Home"})
         end
         
