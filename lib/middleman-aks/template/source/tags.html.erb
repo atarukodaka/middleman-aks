@@ -1,0 +1,16 @@
+---
+title: Tags
+date: 2015-04-11
+
+---
+
+<ul>
+<% aks.tags.each do |tag, pages| %>
+<li><%= h(tag) %>
+  <ul>
+    <% pages.each do |page| %>
+    <li><%= link_to_page(page) %></li>
+    <% end %>
+  </ul>
+<% end %>
+</ul>

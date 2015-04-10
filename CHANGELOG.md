@@ -23,7 +23,6 @@
   * 要約表示型
 * 低優先度
   * pager, paginate
-  * partial or helper for share_sns
   * tags
 
 ## master
@@ -31,6 +30,7 @@
 ### 0.0.6
 
 * partial/_share_sns.erb 追加。はてブとtwitterのみ
+* tag 機能実装
 
 ### 0.0.5
 

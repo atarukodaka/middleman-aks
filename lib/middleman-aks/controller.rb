@@ -2,6 +2,7 @@ require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
 require 'middleman-aks/page_attributes'
+require 'middleman-aks/tag_manager'
 
 module Middleman
   module Aks
@@ -10,7 +11,7 @@ module Middleman
     class Controller
       include ERB::Util
       
-      attr_reader :app, :site_tree, :archives, :index_creator
+      attr_reader :app, :site_tree, :archives, :index_creator, :tag_manager
 
       def initialize(app, ext)
         @app = app
@@ -23,6 +24,7 @@ module Middleman
         @site_tree = Middleman::Aks::SiteTree.new(app, self)
         @archives = Middleman::Aks::Archives.new(app, self)
         @index_creator = Middleman::Aks::IndexCreator.new(app, self)
+        @tag_manager = Middleman::Aks::TagManager.new(app, self)
 
         ## set helpers
 =begin
@@ -64,6 +66,10 @@ module Middleman
         #return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
         return ar.map {|p| p.sub(/^\//, '')}.uniq
       end
+      def tags
+        tag_manager.tags
+      end
+
       ################
       # create new page to the given path
       #

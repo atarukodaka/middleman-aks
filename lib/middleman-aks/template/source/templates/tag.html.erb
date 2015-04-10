@@ -1,0 +1,14 @@
+---
+numbering_headings: false
+---
+
+
+<% tag ||= "" %>
+<% pages ||= [] %>
+
+<% content_for(:title) { "Tag: #{h(tag)}" } %>
+
+<% pages.each do |page| %>
+<%= partial("partials/summary", locals: {pages: pages}) %>
+<% end %>
+   

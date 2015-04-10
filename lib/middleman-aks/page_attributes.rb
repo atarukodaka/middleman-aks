@@ -45,6 +45,11 @@ module Middleman::Aks
         return date
       end
       ################
+      def tags
+        tgs = data['tags'] || data['tag']
+        (tgs.is_a? String) ? tgs.split(/,/).map(&:strip) : Array(tgs).map(&:to_s)
+      end
+      ################
       def summary_text(length = 250, leading_message = "...read more")
         rendered = render(layout: false)
         Nokogiri::HTML(rendered).text[0..length-1] + app.link_to(leading_message, self)
