@@ -30,6 +30,7 @@
 
 ### 0.0.5
 
+* released 2015-4-10
 * page attributes 復活
   * .date, .title, is_top_page? を Sitemap::Resource に追加
   * summary_text(). gem 'nokogiri'
