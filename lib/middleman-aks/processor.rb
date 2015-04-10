@@ -15,13 +15,13 @@ module Middleman
         bind_after_configuration
         bind_ready
       end
+      
       protected
+      
       def bind_helpers
         if self.class.const_defined? :Helpers
           klass = Object.const_get "#{self.class}::Helpers"
           app.helpers do
-            $stderr.puts "* include helpers"
-            $stderr.puts klass.to_s
             include klass
           end
         end
@@ -43,8 +43,6 @@ module Middleman
         if respond_to? :ready
           processor = self
           app.ready do
-            $stderr.puts "* ready hook"
-            $stderr.puts processor.class.to_s
             processor.ready
           end
         end
@@ -52,3 +50,4 @@ module Middleman
     end ## class Processor
   end
 end
+################################################################

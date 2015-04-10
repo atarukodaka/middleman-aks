@@ -1,7 +1,6 @@
 require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
-#require 'middleman-aks/breadcrumbs'
 require 'middleman-aks/page_attributes'
 
 module Middleman
