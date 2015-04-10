@@ -28,6 +28,10 @@
 
 ## master
 
+### 0.0.6
+
+* partial/_share_sns.erb 追加。はてブとtwitterのみ
+
 ### 0.0.5
 
 * released 2015-4-10
