@@ -50,13 +50,11 @@ module Middleman
       # this returns the given resources and additional proxy pages.
       #
       def manipulate_resource_list(resources)
-        logger.debug '- archives.manipulate'
+        app.logger.debug '- archives.manipulate'
         newres = []
 
         year_template_exists = ! @app.resource_for(@template.year).nil?
         month_template_exists = ! @app.resource_for(@template.month).nil?
-        
-#        logger.debug "year: #{year_template_exists}, month: #{month_template_exists}"
         
         controller.pages(resources).group_by {|page| page.date.year }.each do |year, y_articles|
           if year_template_exists
@@ -86,9 +84,7 @@ module Middleman
             "date" => Date.new(year, month, 1)
           }
         }
-        controller.create_proxy_page(path, @template[type], data).tap {|p|
-          controller.pages << p
-        }
+        controller.create_proxy_page(path, @template[type], data)
       end
     end ## class Archives
   end

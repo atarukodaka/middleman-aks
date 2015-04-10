@@ -9,6 +9,7 @@ module Middleman
     # create a tree from the given resources.
     #
     class SiteTree < Processor
+      ################
       # node class
       class TreeNode < Tree::TreeNode
         alias_method :resource, :content
@@ -30,7 +31,39 @@ module Middleman
           hash
         end
       end
+      ################
+      # helpers
+      module Helpers
+        def breadcrumbs(page = nil, options = {})
+          page ||= current_page
+          
+          default_options = {
+            bootstrap_style: true,
+            delimiter: ' / '
+          }
+          options.reverse_merge! default_options
 
+          node = aks.site_tree.node_for(page)
+          parentage =
+            if page.is_top_page?
+              ["Home"]
+            else
+              node.parentage.map {|nd|
+              #(nd.resource) ? link_to(h(nd.name), nd.resource) : h(nd.name)
+              (nd.resource) ? link_to_page(nd.resource) : h(nd.name)
+            }.reverse
+            end
+          
+          if options[:bootstrap_style]
+            crumbs = parentage.map {|item| content_tag(:li, item)}
+            crumbs << content_tag(:li, h(page.title), :class=>'active') if ! page.is_top_page?
+            content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
+          else
+            parentage.shift if ! parentage.nil?
+            parentage.join(options[:delimiter])
+          end
+        end
+      end
       ################
       # @!attribute [r] root
       # 
@@ -49,7 +82,7 @@ module Middleman
         # listing up all directory and register into the tree
 #        binding.pry
         controller.directory_list(resources).each do | dir |
-          next if dir == "."   # skip if its root as alread registered before this loop
+          #next if dir == "."   # skip if its root as alread registered before this loop
 
           node = @root
 #          binding.pry
@@ -99,12 +132,13 @@ module Middleman
       ################
       # validate
       def validate
+        app.logger.debug "- validate all resources registered into the tree"
         controller.pages.each do | resource |
           node = node_for(resource)
           if node.nil?
-            app.logger.warn "#{resource.path} does NOT have node"
+            app.logger.warn "NG: #{resource.path} does NOT have node"
           else
-            app.logger.debug "#{resource.path}: ok"
+            app.logger.debug "ok: #{resource.path}"
           end
         end
       end
@@ -188,21 +222,10 @@ module Middleman
         end
         return node
       end
-      def basename(resource)
-        if resource.is_top_page?
-          "Home"
-        elsif resource.directory_index?
-          File.dirname(resource.path).split("/").last
-        else
-          File.basename(resource.path)
-        end
-      end
       ################
-      # Manipulate resource list
-      #
       def ready
-        app.logger.debug "site_tree: ready"
         make_tree(controller.pages)
+        validate()
       end
     end ## class SiteTree
   end ## module Aks

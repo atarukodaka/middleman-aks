@@ -2,11 +2,6 @@ require 'middleman-aks/controller'
 
 module Middleman
   module Aks
-  end
-end
-
-module Middleman
-  module Aks
     class Extension < Middleman::Extension
       ################
       helpers do
@@ -17,7 +12,7 @@ module Middleman
         alias_method :resource_for, :page_for
 
         def link_to_page(page)
-          link_to(page.title, page)
+          link_to(h(page.title), page)
         end
         def top_page
           sitemap.find_resource_by_path("/#{index_file}")
@@ -33,7 +28,6 @@ module Middleman
         end
         alias_method :aks, :aks_controller
         alias_method :aks=, :aks_controller=
-          
       end ## helpers
 
       ################
@@ -55,7 +49,7 @@ module Middleman
       ################
       # Hooks
       def after_configuration
-        app.logger.level = 0   ## yet: debug
+        #app.logger.level = 0   ## yet: debug
         app.logger.debug "- extension: after_configuration"
 
         app.aks = Middleman::Aks::Controller.new(app, self)

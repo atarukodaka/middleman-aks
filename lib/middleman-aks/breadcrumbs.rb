@@ -2,13 +2,16 @@ require 'middleman-aks/processor'
 
 module Middleman
   module Aks
+    # == Breadcrumbs module
+    #
+    # helper method of 'breadcrumbs' to show breadcrumbs of the given page
+    #
     class Breadcrumbs < Processor
       module Helpers
         def breadcrumbs(page = nil, options = {})
           page ||= current_page
           
           default_options = {
-            parentage_only: false,
             bootstrap_style: true,
             delimiter: ' / '
           }
@@ -20,7 +23,8 @@ module Middleman
               ["Home"]
             else
               node.parentage.map {|nd|
-              (nd.resource) ? link_to(h(nd.name), nd.resource) : h(nd.name)
+              #(nd.resource) ? link_to(h(nd.name), nd.resource) : h(nd.name)
+              (nd.resource) ? link_to_page(nd.resource) : h(nd.name)
             }.reverse
             end
           
@@ -29,7 +33,7 @@ module Middleman
             crumbs << content_tag(:li, h(page.title), :class=>'active') if ! page.is_top_page?
             content_tag(:ol, crumbs.join.html_safe, :class=>'breadcrumb')
           else
-            parentage.shift if ! parentage.empty?
+            parentage.shift if ! parentage.nil?
             parentage.join(options[:delimiter])
           end
         end

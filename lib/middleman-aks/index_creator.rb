@@ -24,7 +24,7 @@ module Middleman
 
         # create top_page if not exist
         if app.top_page.nil?
-          newres << controller.create_proxy_page("index.html", @template, locals: {index_name: "Home"})
+          newres << controller.create_proxy_page("index.html", @template)
         end
         
         # traverse each directories and create directory indices if not exists
@@ -34,13 +34,7 @@ module Middleman
           # skip if an index already exists
           next if ! resources.find {|r| r.path == index_path}.nil?
 
-          locals = {
-            index_name: dir.split('/').last
-          }
-          newres <<
-            controller.create_proxy_page(index_path, @template, locals: locals).tap {|p|
-            controller.pages << p
-          }
+          newres << controller.create_proxy_page(index_path, @template)
         end
         resources + newres
       end

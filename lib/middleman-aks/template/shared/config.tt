@@ -1,30 +1,18 @@
+################
+# directory settings
 
 set :css_dir, 'stylesheets'
 set :js_dir, 'javascripts'
 set :images_dir, 'images'
 
-set :layout, "article"
+set :layout, "page"
+set :relative_links, true
+
+################
+# livereload for development
 
 configure :development do
   activate :livereload
-end
-
-################
-# markdown
-
-set :markdown_engine, :redcarpet
-set :markdown, :fenced_code_blocks => true, :autolink => true, :smartypants => true, :tables => true, :with_toc_data => true
-
-################
-# syntax
-activate :syntax  #, line_numbers: true, :lineanchor => 'line'
-
-#activate :directory_indexes
-
-################
-# aks
-activate :aks do |e|
-
 end
 
 ################
@@ -36,12 +24,27 @@ activate :deploy do |deploy|
 end
 
 configure :build do
-  activate :dotenv
+  #activate :dotenv
 
   if asset_host = ENV['ASSET_HOST']
     activate :asset_host, :host => asset_host
   end
 end
 
-set :relative_links, true
+
+################
+# markdown
+
+set :markdown_engine, :redcarpet
+set :markdown, :fenced_code_blocks => true, :autolink => true, :smartypants => true, :tables => true, :with_toc_data => true
+
+# syntax
+activate :syntax  #, line_numbers: true, :lineanchor => 'line'
+
+################
+# aks
+activate :aks do |aks|
+  #aks.index_template = "templates/index_template.html"
+  
+end
 

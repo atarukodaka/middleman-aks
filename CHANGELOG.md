@@ -1,3 +1,21 @@
+## Memo
+
+* helper
+  * top_page
+  * link_to_page
+  * page_for, resource_for
+  * aks, aks_controllerq
+  * link_to_archives
+  * breadcrumbs
+* Sitemap::Resource
+  * title, date
+  * is_top_page?
+  * summary_text
+* controller
+  * site_tree, index_creator, archives
+
+  
+
 ## TODO
 
 * summary の作成
@@ -18,7 +36,10 @@
 * index_summary.html.erb：child folder/pages に分け、pages は summary を表示するように
   * partial/_summary.erb をいじる
   * aks_settings.numbering_headings を加える。
-  
+* article.erb layout 廃止。page.erb に統一  
+* breadcrumbs を site_tree に統合
+* helper の追加、after_configuration, ready フックは processor クラスでやることに
+
 ### 0.0.4
 
 * released 2015-4-9

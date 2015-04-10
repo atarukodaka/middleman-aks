@@ -1,7 +1,7 @@
 require 'middleman-aks/site_tree'
 require 'middleman-aks/index_creator'
 require 'middleman-aks/archives'
-require 'middleman-aks/breadcrumbs'
+#require 'middleman-aks/breadcrumbs'
 require 'middleman-aks/page_attributes'
 
 module Middleman
@@ -10,30 +10,29 @@ module Middleman
     #
     class Controller
       include ERB::Util
-      #
       
-      attr_reader :app, :site_tree, :archives, :index_creator #, :processors
+      attr_reader :app, :site_tree, :archives, :index_creator
+
       def initialize(app, ext)
         @app = app
         @ext = ext
 
+        ## set hooks
+        app.sitemap.register_resource_list_manipulator(:pages, self)
+        
         ## set processors
         @site_tree = Middleman::Aks::SiteTree.new(app, self)
         @archives = Middleman::Aks::Archives.new(app, self)
         @index_creator = Middleman::Aks::IndexCreator.new(app, self)
 
         ## set helpers
+=begin
         app.helpers do
-          include Middleman::Aks::Breadcrumbs::Helpers
+          #include Middleman::Aks::Breadcrumbs::Helpers
+          include Middleman::Aks::SiteTree::Helpers
           include Middleman::Aks::Archives::Helpers
         end
-        
-        ## set hooks
-        after_configuration
-        app.ready do
-          aks.site_tree.ready
-        end
-
+=end        
         ## activate
         Middleman::Aks::PageAttributes.activate
       end
@@ -62,10 +61,9 @@ module Middleman
           end
         end
 
-        ## take out brank dir and strip out '^/' 
-        #binding.pry
-        return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
-        #return ar.uniq
+        ## take out brank dir
+        #return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
+        return ar.map {|p| p.sub(/^\//, '')}.uniq
       end
       ################
       # create new page to the given path
@@ -84,14 +82,14 @@ module Middleman
       ################
       # hooks / resource manipulating
       #
+=begin
       def after_configuration
-        app.sitemap.register_resource_list_manipulator(:pages, self)
-        
         [archives, index_creator].each do | processor |
           name = processor.class.to_s.demodulize.underscore.to_sym
           app.sitemap.register_resource_list_manipulator(name, processor)
         end
       end
+=end
       ################
       def manipulate_resource_list(resources)
         # return pages excluding unpublished one
