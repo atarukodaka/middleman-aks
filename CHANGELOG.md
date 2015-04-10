@@ -2,28 +2,28 @@
 
 * helper
   * top_page
-  * link_to_page
+  * link_to_page(page)
   * page_for, resource_for
-  * aks, aks_controllerq
-  * link_to_archives
+  * aks, aks_controller
+  * link_to_archives()
+  * link_to_tag()
   * breadcrumbs
 * Sitemap::Resource
   * title, date
   * is_top_page?
   * summary_text
 * controller
-  * site_tree, index_creator, archives
-
+  * site_tree, index_creator, archives, tag_manager
+  * tags{}
+  * pages[]
+  * create_proxy_page()
   
 
 ## TODO
 
-* summary の作成
-  * タイトルのみリストアップ型
-  * 要約表示型
 * 低優先度
   * pager, paginate
-  * tags
+  * tags：タグクラウド
 
 ## master
 
@@ -31,6 +31,10 @@
 
 * partial/_share_sns.erb 追加。はてブとtwitterのみ
 * tag 機能実装
+  * frontmatter: tags or tag
+  * controller.tag_manager で processor, controller.tags でハッシュ
+  * tags.html.erb でタグ、ページサマリ一覧
+  * templates/tag.erb があれば tags/%{tag}.html にタグ別ページを作る
 
 ### 0.0.5
 
