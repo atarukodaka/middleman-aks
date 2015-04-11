@@ -46,7 +46,15 @@ module Middleman::Aks
       end
       ################
       def tags
-        tgs = data['tags'] || data['tag']
+#        binding.pry
+        #tgs = data['tags'] || data['tag']
+        logger.debug path
+#        binding.pry if path == "archives/2015/index.html"
+        logger.debug data
+
+          
+        tgs = data.tags || data.tag
+
         (tgs.is_a? String) ? tgs.split(/,/).map(&:strip) : Array(tgs).map(&:to_s)
       end
       ################

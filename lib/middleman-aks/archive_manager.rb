@@ -85,7 +85,7 @@ module Middleman
             "date" => Date.new(year, month, 1)
           }
         }
-        controller.create_proxy_page(path, @template[type], data)
+        controller.create_proxy_page(path, @template[type], nil, data)
       end
     end ## class Archives
   end

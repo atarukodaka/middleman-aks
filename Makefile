@@ -28,7 +28,7 @@ server :
 console:
 	(cd $(PROJECT_DIR); bundle exec middleman console --verbose)
 
-source_reflect:
+reflect_source:
 	cp -r $(PROJECT_DIR)/source/* lib/middleman-aks/template/source
 
 mastering:

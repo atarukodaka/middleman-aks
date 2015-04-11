@@ -46,7 +46,7 @@ module Middleman::Aks
         tags.map do |tag, pages|
           data = {locals: {tag: tag, pages: pages}}
           app.logger.debug "* tag proxy: #{tag} with #{pages.size} pages"
-          newres << controller.create_proxy_page(url_for(tag), @template, data)
+          newres << controller.create_proxy_page(url_for(tag), @template, nil, data)
         end
       end
       return resources + newres

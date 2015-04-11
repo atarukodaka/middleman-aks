@@ -67,9 +67,11 @@ module Middleman
       def root_node
         processors.site_tree.root
       end
+=begin
       def site_tree
         processors.site_tree
       end
+=end
       def tags
         processors.tag_manager.tags
       end
@@ -77,13 +79,13 @@ module Middleman
       ################
       # create new page to the given path
       #
-      def create_page(path, data = {})
-        Sitemap::Resource.new(app.sitemap, path).tap do |p|
+      def create_page(path, source=nil, data = {})
+        Sitemap::Resource.new(app.sitemap, path, source).tap do |p|
           p.add_metadata data if ! data.empty?
         end
       end
-      def create_proxy_page(path, template, data = {})
-        create_page(path, data).tap do |p|
+      def create_proxy_page(path, template, source=nil, data = {})
+        create_page(path, source, data).tap do |p|
           p.proxy_to(template)
         end
       end

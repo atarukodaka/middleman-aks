@@ -12,7 +12,7 @@
   <!-- ================ -->
   <aside class="site_tree">
     <ul>
-      <%= aks.site_tree.render(nil, exclude_dirs: [/^archives/, /^tags/], prefix: "sidebar") %>
+      <%= aks.processors.site_tree.render(nil, exclude_dirs: [/^archives/, /^tags/], prefix: "sidebar") %>
     </ul>
   </aside>
   <aside>

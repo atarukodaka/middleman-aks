@@ -1,32 +1,10 @@
-## Memo
-
-* helper
-  * top_page
-  * link_to_page(page)
-  * page_for, resource_for
-  * aks, aks_controller
-  * link_to_archives()
-  * link_to_tag()
-  * breadcrumbs
-* Sitemap::Resource
-  * title, date
-  * is_top_page?
-  * summary_text
-* controller
-  * site_tree, index_creator, archives, tag_manager
-  * tags{}
-  * pages[]
-  * create_proxy_page()
-  
-
 ## TODO
 
-* site tree 再編？
-  * directory_index を親ノード扱いに
 * archives/index.html の位置づけ
 * 低優先度
   * pager, paginate
   * tags：タグクラウド
+  * share_sns をもうちょっとどうにか
 
 ## master
 
@@ -38,6 +16,8 @@
   * controller.tag_manager で processor, controller.tags でハッシュ
   * tags.html.erb でタグ、ページサマリ一覧
   * templates/tag.erb があれば tags/%{tag}.html にタグ別ページを作る
+* site tree 修正
+  * enopymous directory index に対応
 
 ### 0.0.5
 
@@ -74,3 +54,24 @@
   
 ### 0.0.1
 
+
+## Memo
+
+* helper
+  * top_page
+  * link_to_page(page)
+  * page_for, resource_for
+  * aks, aks_controller
+  * link_to_archives()
+  * link_to_tag()
+  * breadcrumbs
+* Sitemap::Resource
+  * title, date
+  * is_top_page?
+  * summary_text
+* controller
+  * site_tree, index_creator, archives, tag_manager
+  * tags{}
+  * pages[]
+  * create_proxy_page()
+  
