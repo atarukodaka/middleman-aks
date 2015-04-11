@@ -10,6 +10,7 @@
 
 ### 0.0.6
 
+* release 2015-4-11
 * partial/_share_sns.erb 追加。はてブとtwitterのみ
 * tag 機能実装
   * frontmatter: tags or tag
