@@ -1,6 +1,6 @@
 require 'middleman-aks/page_attributes'
 require 'middleman-aks/site_tree'
-require 'middleman-aks/index_creator'
+require 'middleman-aks/directory_index_creator'
 require 'middleman-aks/archive_manager'
 require 'middleman-aks/tag_manager'
 
@@ -23,10 +23,10 @@ module Middleman
         ## set processors
         require 'ostruct'
         @processors = 
-          OpenStruct.new(site_tree: Middleman::Aks::SiteTree.new(app, self),
-                         archives: Middleman::Aks::ArchiveManager.new(app, self),
-                         index_creator: Middleman::Aks::IndexCreator.new(app, self),
-                         tag_manager: Middleman::Aks::TagManager.new(app, self))
+          OpenStruct.new(site_tree: SiteTree.new(app, self),
+                         archives: ArchiveManager.new(app, self),
+                         directory_index_creator: DirectoryIndexCreator.new(app, self),
+                         tag_manager: TagManager.new(app, self))
 
         ## activate
         Middleman::Aks::PageAttributes.activate
