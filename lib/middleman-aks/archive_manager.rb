@@ -2,7 +2,7 @@ require 'middleman-aks/processor'
 
 module Middleman
   module Aks
-    # == Archives Class
+    # == Archive Manager Class
     #
     # create archives pages, e.g. if a page dated 2015-3-1 on frontmatter exists,
     # an instance of this class creates:
@@ -13,7 +13,7 @@ module Middleman
     #   year:  source/templates/archives_template_year.html.erb
     #   month: source/templates/archives_template_month.html.erb
     #
-    class Archives < Processor
+    class ArchiveManager < Processor
       module Helpers
         def link_to_archives(caption, type, year, month = nil)
           link_to(h(caption), aks.processors.archives.url_for(type, year, month))
