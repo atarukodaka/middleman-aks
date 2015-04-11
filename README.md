@@ -30,6 +30,10 @@ $ gem install middleman-aks
 $ middleman init PROJECT --template aks
 ```
 
+## Build & Dependency Status
+[![Build Status](https://travis-ci.org/atarukodaka/middleman-aks.svg?branch=devel-blog)](https://travis-ci.org/atarukodaka/middleman-aks)
+
+
 ## Contributing
 
 1. Fork it ( https://github.com/atarukodaka/middleman-aks/fork )
