@@ -10,8 +10,10 @@
 ## master
 
 ### 0.0.7
-
+* released 2015-4-12
 * travis, coveralls, code climate を付与
+* middleman-blog を使う方向に転換するため、一旦タグうち
+  * 次は 0.1.0 の予定
 
 ### 0.0.6
 
