@@ -34,6 +34,21 @@ module Middleman
       ################
       # helpers
       module Helpers
+        ################
+        # 
+        def node_for(resource)
+          return @root if resource.is_top_page?
+          
+          paths = resource.path.split("/")
+          paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
+          
+          node = aks.root_node
+          paths.each do | path |
+            node = node[path]
+          end
+          return node
+        end
+
         def breadcrumbs(page = nil, options = {})
           page ||= current_page
           
@@ -43,7 +58,7 @@ module Middleman
           }
           options.reverse_merge! default_options
 
-          node = aks.site_tree.node_for(page)
+          node = node_for(page)
           parentage =
             if page.is_top_page?
               ["Home"]
@@ -134,7 +149,7 @@ module Middleman
       def validate
         app.logger.debug "- validate all resources registered into the tree"
         controller.pages.each do | resource |
-          node = node_for(resource)
+          node = app.node_for(resource)
           if node.nil?
             app.logger.warn "NG: #{resource.path} does NOT have node"
           else
@@ -207,20 +222,6 @@ module Middleman
          "#{space}#{node.name} (#{node.resource.path})\n",
          node.children.map {|n| space + dump(n, indent + 1) }
         ].join()
-      end
-      ################
-      # 
-      def node_for(resource)
-        return @root if resource.is_top_page?
-
-        paths = resource.path.split("/")
-        paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
-
-        node = @root
-        paths.each do | path |
-          node = node[path]
-        end
-        return node
       end
       ################
       def ready

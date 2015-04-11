@@ -16,7 +16,7 @@ module Middleman
     class Archives < Processor
       module Helpers
         def link_to_archives(caption, type, year, month = nil)
-          link_to(h(caption), aks.archives.url_for(type, year, month))
+          link_to(h(caption), aks.processors.archives.url_for(type, year, month))
         end
       end
       ################

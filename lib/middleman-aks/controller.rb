@@ -11,7 +11,7 @@ module Middleman
     class Controller
       include ERB::Util
       
-      attr_reader :app, :site_tree, :archives, :index_creator, :tag_manager
+      attr_reader :app, :processors, :site_tree, :archives, :index_creator, :tag_manager
 
       def initialize(app, ext)
         @app = app
@@ -21,23 +21,21 @@ module Middleman
         app.sitemap.register_resource_list_manipulator(:pages, self)
         
         ## set processors
-        @site_tree = Middleman::Aks::SiteTree.new(app, self)
-        @archives = Middleman::Aks::Archives.new(app, self)
-        @index_creator = Middleman::Aks::IndexCreator.new(app, self)
-        @tag_manager = Middleman::Aks::TagManager.new(app, self)
+        require 'ostruct'
+        @processors = 
+          OpenStruct.new(site_tree: Middleman::Aks::SiteTree.new(app, self),
+                         archives: Middleman::Aks::Archives.new(app, self),
+                         index_creator: Middleman::Aks::IndexCreator.new(app, self),
+                         tag_manager: Middleman::Aks::TagManager.new(app, self))
 
-        ## set helpers
-=begin
-        app.helpers do
-          #include Middleman::Aks::Breadcrumbs::Helpers
-          include Middleman::Aks::SiteTree::Helpers
-          include Middleman::Aks::Archives::Helpers
-        end
-=end        
         ## activate
         Middleman::Aks::PageAttributes.activate
       end
-
+=begin
+      def register_processor(name, processor)
+        @processor[name] = processor
+      end
+=end
       ################
       # pages, directory utils
       #
@@ -66,8 +64,14 @@ module Middleman
         #return ar.select {|p| p != '' }.map {|p| p.sub(/^\//, '')}.uniq
         return ar.map {|p| p.sub(/^\//, '')}.uniq
       end
+      def root_node
+        processors.site_tree.root
+      end
+      def site_tree
+        processors.site_tree
+      end
       def tags
-        tag_manager.tags
+        processors.tag_manager.tags
       end
 
       ################
