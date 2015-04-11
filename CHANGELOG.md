@@ -21,6 +21,9 @@
 
 ## TODO
 
+* site tree 再編？
+  * directory_index を親ノード扱いに
+* archives/index.html の位置づけ
 * 低優先度
   * pager, paginate
   * tags：タグクラウド

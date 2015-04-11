@@ -37,6 +37,8 @@ module Middleman
         ################
         # 
         def node_for(resource)
+          return aks.root_node.find {|node| node.resource && node.resource.path == resource.path }
+=begin
           return @root if resource.is_top_page?
           
           paths = resource.path.split("/")
@@ -48,6 +50,7 @@ module Middleman
             node = node[path]
           end
           return node
+=end
         end
 
         def breadcrumbs(page = nil, options = {})
@@ -118,23 +121,30 @@ module Middleman
           next if resource.is_top_page?
 #          next if ! [@ignore_dirs].flatten.select {|re| resource.path =~ re }.empty?
 
-          dirs = File.dirname(resource.path).split("/")
-          dirs.pop if dirs.size == 1  && dirs.first == "." # take it out "." as its root
+          #parts = File.dirname(resource.path).split("/")
+          #parts.pop if dirs.size == 1  && dirs.first == "." # take it out "." as its root          
+          parts = resource.path.split('/')
+          parts.pop   # take out basename
           
-          if File.basename(resource.path) == app.index_file 
-#          if resource.directory_index?
-            # "a/b/index.html" => ['a']
-            dirname = dirs.pop
+#          if File.basename(resource.path) == app.index_file 
+          if resource.directory_index?
+            if resource.eponymous_directory?
+              # "a/b.html" => parts: ['a'], dirname: 'b'
+              dirname = File.basename(resource.path, ".*")
+            else
+              # "a/b/index.html" => parts: ['a'], dirname: 'b'
+              dirname = parts.pop
+            end
             app.logger.debug.warn "dirname is nil for resource: #{resource.path}" if dirname.nil?
             node = @root  # parent node
-            dirs.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
+            parts.each {| dir | node = node[dir] } #['a', 'b', 'c'] => node['a']['b']['c']
             node[dirname].content = resource  ## ?? the tree shd hv the node
           else
             # "a/b/c.html" => ['a', 'b']
 
 #            binding.pry
             node = @root   # parent node
-            dirs.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
+            parts.each {| dir | node = node[dir] } # ['a', 'b', 'c'] => node['a']['b']['c']
             name = File.basename(resource.path)
 #            new_node = TreeNode.new(name, resource)
 #            new_node = TreeNode.new(resource.data.title || name, resource)
@@ -220,7 +230,7 @@ module Middleman
         indent ||= 0
         space = Array.new(indent * 2){" "}.join
         [
-         "#{space}#{node.name} (#{node.resource.path})\n",
+         "#{space}#{node.name} (#{(node.resource) ? node.resource.path: "nil"})\n",
          node.children.map {|n| space + dump(n, indent + 1) }
         ].join()
       end

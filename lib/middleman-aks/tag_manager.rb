@@ -5,7 +5,7 @@ module Middleman::Aks
     module Helpers
       def link_to_tag(tag, caption=nil)
         caption ||= tag
-        link_to(h(caption), aks.tag_manager.url_for(tag))
+        link_to(h(caption), aks.processors.tag_manager.url_for(tag))
       end
     end
     attr_reader :tags

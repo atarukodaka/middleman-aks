@@ -58,7 +58,8 @@ module Middleman
         
         controller.pages(resources).group_by {|page| page.date.year }.each do |year, y_articles|
           if year_template_exists
-            newres << create_archives_page(:year, year, nil, y_articles)
+            month = y_articles.first.date.month
+            newres << create_archives_page(:year, year, month, y_articles)
           end
           if month_template_exists
             y_articles.group_by {|page| page.date.month }.each do |month, m_articles|

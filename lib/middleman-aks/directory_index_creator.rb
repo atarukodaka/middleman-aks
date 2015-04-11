@@ -27,12 +27,15 @@ module Middleman
           newres << controller.create_proxy_page("index.html", @template)
         end
         
-        # traverse each directories and create directory indices if not exists
+        # traverse each directories and create directory index file if not exists
         dirs = controller.directory_list(controller.pages(resources))
         dirs.each do | dir |
           index_path = File.join(dir, app.index_file)
+          eponymous_path = dir + ".html"
           # skip if an index already exists
-          next if ! resources.find {|r| r.path == index_path}.nil?
+          next if ! resources.find {|r| 
+            r.path == index_path || r.path == eponymous_path
+          }.nil?
 
           newres << controller.create_proxy_page(index_path, @template)
         end
