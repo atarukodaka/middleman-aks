@@ -25,8 +25,8 @@ module Middleman
         @processors = 
           OpenStruct.new(site_tree: SiteTree.new(app, self),
                          archives: ArchiveManager.new(app, self),
-                         directory_index_creator: DirectoryIndexCreator.new(app, self),
-                         tag_manager: TagManager.new(app, self))
+                         tag_manager: TagManager.new(app, self),
+                         directory_index_creator: DirectoryIndexCreator.new(app, self))
 
         ## activate
         Middleman::Aks::PageAttributes.activate

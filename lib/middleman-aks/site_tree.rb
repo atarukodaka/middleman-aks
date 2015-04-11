@@ -40,7 +40,8 @@ module Middleman
           return @root if resource.is_top_page?
           
           paths = resource.path.split("/")
-          paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
+          #paths.pop if resource.directory_index? # File.basename(resource.path) == @app.index_file
+          paths.pop if File.basename(resource.path) == index_file
           
           node = aks.root_node
           paths.each do | path |
@@ -120,8 +121,8 @@ module Middleman
           dirs = File.dirname(resource.path).split("/")
           dirs.pop if dirs.size == 1  && dirs.first == "." # take it out "." as its root
           
-#          if File.basename(resource.path) == @app.index_file 
-          if resource.directory_index?
+          if File.basename(resource.path) == app.index_file 
+#          if resource.directory_index?
             # "a/b/index.html" => ['a']
             dirname = dirs.pop
             app.logger.debug.warn "dirname is nil for resource: #{resource.path}" if dirname.nil?
