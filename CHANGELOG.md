@@ -1,5 +1,6 @@
 ## TODO
 
+* やっぱり mm-blog を使うか？
 * archives/index.html の位置づけ
 * 低優先度
   * pager, paginate
@@ -7,6 +8,10 @@
   * share_sns をもうちょっとどうにか
 
 ## master
+
+### 0.0.7
+
+* travis, coveralls, code climate を付与
 
 ### 0.0.6
 

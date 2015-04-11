@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/atarukodaka/middleman-aks.svg?branch=devel-blog)](https://travis-ci.org/atarukodaka/middleman-aks)
+[![Coverage Status](https://coveralls.io/repos/atarukodaka/middleman-aks/badge.svg?branch=devel-blog)](https://coveralls.io/r/atarukodaka/middleman-aks?branch=devel-blog)
+[![Code Climate](https://codeclimate.com/github/atarukodaka/middleman-aks/badges/gpa.svg)](https://codeclimate.com/github/atarukodaka/middleman-aks)
+
+
 # Middleman::Aks
 
 middleman-aks is a template of Middleman with some extensions to manage Markdown Files efficiently.
@@ -29,10 +34,6 @@ $ gem install middleman-aks
 ```
 $ middleman init PROJECT --template aks
 ```
-
-## Build & Dependency Status
-[![Build Status](https://travis-ci.org/atarukodaka/middleman-aks.svg?branch=devel-blog)](https://travis-ci.org/atarukodaka/middleman-aks)
-[![Coverage Status](https://coveralls.io/repos/atarukodaka/middleman-aks/badge.svg?branch=devel-blog)](https://coveralls.io/r/atarukodaka/middleman-aks?branch=devel-blog)
 
 ## Contributing
 
