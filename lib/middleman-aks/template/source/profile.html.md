@@ -1,5 +1,5 @@
 ---
-title: profile
+title: Profile
 group: navigation
 numbering_headings: false
 date: 2015-3-1

@@ -12,7 +12,18 @@
   <!-- ================ -->
   <aside class="site_tree">
     <ul>
-      <%= aks.site_tree.render(nil, exclude_dirs: [/^archives/], prefix: "sidebar") %>
+      <%= aks.site_tree.render(nil, exclude_dirs: [/^archives/, /^tags/], prefix: "sidebar") %>
+    </ul>
+  </aside>
+  <aside>
+    <h2>Tags</h2>
+    <ul class="tag_box inline">
+    <% aks.tags.each do |tag, pages| %>
+    <li><% content_tag(:a, href: aks.processors.tag_manager.url_for(tag)) do %>
+      <%= h(tag) %><span><%= pages.size %></span>
+	<% end %>
+    </li>
+    <% end %>
     </ul>
   </aside>
   <aside>
