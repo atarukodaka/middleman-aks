@@ -67,5 +67,3 @@ activate :aks do |aks|
   #aks.index_template = "templates/index_template.html"
   
 end
-
-<

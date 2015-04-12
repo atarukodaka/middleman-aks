@@ -9,7 +9,7 @@
     </section>
 
     <!-- %= partial("partials/toc") % -->
-    <%= render_toc(current_page) %>
+    <!-- %= render_toc(current_page) % -->
   </header>
 
   <section class="content numbering_headings">
@@ -26,7 +26,7 @@
       on <%= link_to("this permlink", current_article) %>.
     </div>
     <div class="share_sns">
-      <%= [share_twitter(data.config.site_info.twitter), share_hatena_bookmark(current_article)].join(" ") %>
+      <!-- %= [share_twitter(data.config.site_info.twitter), share_hatena_bookmark(current_article)].join(" ") % -->
     </div>
     <ul class="tag_box inline">
       <% blog.tags.each do |tag, pages| %>
