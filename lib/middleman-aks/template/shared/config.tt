@@ -9,6 +9,26 @@ set :layout, "page"
 set :relative_links, true
 
 ################
+# middleman-blog
+#
+activate :blog do |blog|
+  blog.layout = "article"
+  blog.prefix = "articles"
+  blog.sources = "{category}/{title}.html"
+  blog.permalink = "{category}/{title}.html"
+  blog.default_extension = ".md"
+
+  blog.year_template = "proxy_templates/archives_yearly_template.html"
+  blog.month_template = "proxy_templates/archives_monthly_template.html"
+  blog.year_link = "archives/{year}/index.html"
+  blog.month_link = "archives/{year}/{month}.html"
+
+  blog.paginate = true
+  blog.page_link = "p{num}"
+  blog.per_page = 10
+end
+
+################
 # livereload for development
 
 configure :development do

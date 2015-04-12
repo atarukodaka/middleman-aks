@@ -64,7 +64,7 @@ module Middleman::Aks
 
       if page == top_page
         lists << content_tag(:li, h(page.data.title), :class => 'active')
-      elsif page.blog_controller
+      elsif page.try(:blog_controller)
         lists << [content_tag(:li, link_to_page(top_page)),
                   content_tag(:li, link_to_category_summary_page(page.category)),
                   content_tag(:li, h(page.title), :class => 'active')

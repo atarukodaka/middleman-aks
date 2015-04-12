@@ -3,19 +3,16 @@
 source 'https://rubygems.org'
 
 gem 'middleman', '~>3.3.7'
+gem 'middleman-blog'
 
-gem "redcarpet"
-gem 'middleman-aks'
 gem 'middleman-syntax'
+gem 'middleman-aks'
 gem 'middleman-deploy'
 gem 'rouge'  ## for Rouge::Themes
 gem 'nokogiri'  ## for summary text of the page
+gem "redcarpet"
 
-#gem 'middleman-rouge'
-#gem "slim"
-#gem "builder"
 gem 'therubyracer'
-gem 'rubytree'
 
 ################
 # Live-reloading plugin
