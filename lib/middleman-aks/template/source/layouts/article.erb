@@ -1,0 +1,59 @@
+<% wrap_layout :layout do %>
+
+<article>
+  <header>
+    <%= breadcrumbs(current_article) %>
+    <h1><%= yield_content(:title) || h(current_page.title) %></h1>
+    <section class="page_info">
+      <%= page_info(current_article) %>
+    </section>
+
+    <!-- %= partial("partials/toc") % -->
+    <%= render_toc(current_page) %>
+  </header>
+
+  <section class="content numbering_headings">
+    <%= yield %>
+  </section>
+
+  <footer>
+    <div>
+      Posted by <%= h(data.config.site_info.author) %> 
+      <% if category = current_article.category %>
+      in <%= link_to(h(category), category_summary_page(category)) %>
+      <% end %>
+      at <%= current_article.date.strftime("%d %b %Y %Z") %> 
+      on <%= link_to("this permlink", current_article) %>.
+    </div>
+    <div class="share_sns">
+      <%= [share_twitter(data.config.site_info.twitter), share_hatena_bookmark(current_article)].join(" ") %>
+    </div>
+    <ul class="tag_box inline">
+      <% blog.tags.each do |tag, pages| %>
+        <% if current_article.tags.include? tag %>
+          <li>
+	    <% caption = "%{tag} <span>%{count}</span>" % {tag: h(tag), count: pages.count} %>
+            <%= link_to(caption, "/tags.html#" + h(tag)) %>
+	  </li>
+	<% end %>
+      <% end %>
+    </ul>
+
+    <!-- pager -->
+    <nav>
+      <ul class="pager">
+	<%= article_pager(:previous, current_article.previous_article) %>
+	<%= article_pager(:next, current_article.next_article) %>
+      </ul>
+    </nav>
+
+    <% if extensions.has_key?(:disqus) %>
+      <%= disqus %>
+      <%= disqus_count %>
+    <% end %>
+
+  </footer>
+</article>
+
+<% end %>
+
