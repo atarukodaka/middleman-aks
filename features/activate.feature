@@ -11,6 +11,7 @@ Feature: activate the extension
         blog.permalink = "{category}/{title}.html"
         blog.layout = "article"
       end
+      activate :aks
       """
     And a file named "source/index.html.erb" with:
       """
