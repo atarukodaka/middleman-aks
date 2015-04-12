@@ -1,5 +1,27 @@
 ---
-title: Top
+title: Home
+layout: page
 ---
 
-Welcome
+Hi, This is my site.
+
+<h1>Recent Articles </h1>
+
+<%= partial("partials/summary", locals: {articles: blog.articles[0..4]}) %>
+
+<% if paginate %>
+  <nav>
+    <ul class="pager">
+      <% opt = {}; opt[:class] = 'disabled' if prev_page.nil? %>
+      <% content_tag(:li, opt) do; link_to('Prev', prev_page); end %>
+      <% opt = {}; opt[:class] = 'disabled' if next_page.nil? %>
+      <% content_tag(:li, opt) do; link_to('Next', next_page); end %>
+    </ul>
+  </nav>
+<% end %>
+
+<hr>
+
+<div>
+... <a href="articles/">see more articles</a>
+</div>

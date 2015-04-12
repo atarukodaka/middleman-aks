@@ -1,5 +1,5 @@
 <div class="sidebar">
-  <!-- %= partial("partials/_google_custom_search") % -->
+  <%= partial("partials/_google_custom_search") %>
   <!-- ================ -->
   <aside>
     <h2><%= link_to("Profile", "/profile.html") %></h2>
@@ -10,43 +10,61 @@
     <p><%= h(data.config.site_info.description) %></p>
   </aside>
   <!-- ================ -->
-  <aside class="site_tree">
-    <ul>
-      <%= aks.processors.site_tree.render(nil, exclude_dirs: [/^archives/, /^tags/], prefix: "sidebar") %>
-    </ul>
-  </aside>
   <aside>
-    <h2>Tags</h2>
-    <ul class="tag_box inline">
-    <% aks.tags.each do |tag, pages| %>
-    <li><% content_tag(:a, href: aks.processors.tag_manager.url_for(tag)) do %>
-      <%= h(tag) %><span><%= pages.size %></span>
+    <h2><%= link_to("Categories", "/categories.html") %></h2>
+    <div>
+      <% blog.articles.group_by {|p| p.category }.each do |category, pages| %>
+      <% next if category.to_s == "" %>
+      <h3><%= link_to_category_summary_page(category) %></h3>
+      <ul class="article_list">
+	<% num = 10 %>
+	<% pages[0..num-1].each do |page| %>
+	<li>
+	  <% if page.path == current_page.path %>
+	    <%= h(page.data.title) %>
+	  <% else %>
+	    <%= link_to(h(page.data.title), page) %>
+	  <% end %>
 	<% end %>
-    </li>
+	<% if pages.size > num %>
+	<li><%= link_to("...", "/categories/#{h(category)}.html") %>
+	  <% end %>
+      </ul>
     <% end %>
+    </div>
+  </aside>
+  <!-- ================ -->
+  <aside>
+    <h2><%= link_to("Tags", "/tags.html") %></h2>
+    <ul class="tag_box inline">
+      <% blog.tags.each do |tag, pages| %>
+      <% caption = "%{tag} <span>%{count}</span>" % {tag: h(tag), count: pages.count} %>
+      <li><%= link_to(caption, "/tags.html#" + h(tag)) %></li>
+      <% end %>
     </ul>
   </aside>
+  <!-- ================ -->  
   <aside>
-    <h2>Archives</h2>
+    <h2><%= link_to("Archives", "#{blog.options.prefix}archives.html") %></h2>
     <ul>
-      <% aks.pages.group_by {|a| sprintf("%04d%02d", a.date.year, a.date.month) }.each do |year, pages| %>
-      <% page = pages.first %>
-      <li><%= link_to_archives(page.date.strftime("%b %Y"), :month, page.date.year, page.date.month) %> (<%= pages.size %>)</li>
+      <% blog.articles.group_by {|a| sprintf("%04d%02d", a.date.year, a.date.month) }.each do |year, articles| %>
+      <% article = articles.first %>
+      <% num_articles = articles.size %>
+      <li><%= link_to(article.date.strftime("%b %Y"), blog_month_path(article.date.year, article.date.month)) + sprintf("  (%d)", num_articles) %></li>
       <% end %>
     </ul>
   </aside>
   
   <!-- ================ -->  
-
   <aside>
-    <h2>Recent</h2>
+    <h2><%= link_to("Recent Articles", blog.options.prefix) %></h2>
 
     <% num_recent_articles = 10 %>
-    <% aks.pages.reject {|p| p.proxy?}.group_by {|a| a.date}.each do |date, pages | %>
+    <% blog.articles.group_by {|a| a.date}.each do |date, articles| %>
     <h4><%= date.strftime("%d %b %Y") %></h4>
     <ul class="article_list">
-      <% pages.each do |page| %>
-      <li><%= link_to(h(page.title), page) %></li>
+      <% articles.each do |article| %>
+      <li><%= link_to_page(article) %></li>
         <% num_recent_articles -= 1 %>
       <% end %>
     </ul>
@@ -54,4 +72,23 @@
     <% end %>
   </aside>
   
+
+<!--
+  <aside>
+    <h2>Series</h2>
+
+      <% sitemap.resources.group_by {|p| p.data.series }.each do |series, pages| %>
+      <% next if series.to_s == "" %>
+	<h3><%= h(series) %></h3>
+	<ol>
+	  <% pages.sort {|a, b| a.url <=> b.url }.each do |page| %>
+	    <li><%= link_to(h(page.data.title), page) %>
+	  <% end %>
+	</ol>
+      </li>
+      <% end %>
+
+  </aside>
+  <hr>
+-->
 </div>

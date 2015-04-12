@@ -1,8 +1,11 @@
+=begin
 require 'middleman-aks/page_attributes'
 require 'middleman-aks/site_tree'
 require 'middleman-aks/directory_index_creator'
 require 'middleman-aks/archive_manager'
 require 'middleman-aks/tag_manager'
+=end
+require 'middleman-aks/category_manager'
 
 module Middleman
   module Aks
@@ -18,18 +21,22 @@ module Middleman
         @ext = ext
 
         ## set hooks
-        app.sitemap.register_resource_list_manipulator(:pages, self)
+#        app.sitemap.register_resource_list_manipulator(:pages, self)
         
         ## set processors
         require 'ostruct'
-        @processors = 
-          OpenStruct.new(site_tree: SiteTree.new(app, self),
+        @processors =
+          OpenStruct.new(category_manager: CategoryManager.new(app, self))
+=begin
+        OpenStruct.new(site_tree: SiteTree.new(app, self),
                          archives: ArchiveManager.new(app, self),
                          tag_manager: TagManager.new(app, self),
                          directory_index_creator: DirectoryIndexCreator.new(app, self))
-
+=end
+        
         ## activate
-        Middleman::Aks::PageAttributes.activate
+#        Middleman::Aks::PageAttributes.activate
+#        Middleman::Aks::CategoryManager.activate
       end
 =begin
       def register_processor(name, processor)

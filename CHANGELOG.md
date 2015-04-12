@@ -6,10 +6,17 @@
   * pager, paginate
   * tags：タグクラウド
   * share_sns をもうちょっとどうにか
+* twitter カード
+  
+  ## master
 
-## master
+### 0.1.0
+
+* middleman-blog に立脚スタイルに戻す
+  * 車輪の再発明すぎたし
 
 ### 0.0.7
+
 * released 2015-4-12
 * travis, coveralls, code climate を付与
 * middleman-blog を使う方向に転換するため、一旦タグうち

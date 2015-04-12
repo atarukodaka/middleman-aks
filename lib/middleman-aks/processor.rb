@@ -13,7 +13,6 @@ module Middleman
 
         bind_helpers
         bind_after_configuration
-        bind_ready
       end
       
       protected
@@ -35,15 +34,6 @@ module Middleman
           if processor.respond_to? :manipulate_resource_list
             name = processor.class.to_s.demodulize.underscore.to_sym
             processor.app.sitemap.register_resource_list_manipulator(name, processor)
-          end
-        end
-      end
-      def bind_ready
-        ## ready hook
-        if respond_to? :ready
-          processor = self
-          app.ready do
-            processor.ready
           end
         end
       end

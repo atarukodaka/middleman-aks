@@ -1,50 +1,18 @@
 <% wrap_layout :layout do %>
 
-<% page ||= current_page %>
-
-<article>
+<section class="page">
   <header>
-    <%= breadcrumbs(page) %>
-    <h1 class="title"><%= h(yield_content(:title) || page.title) %></h1>
-    <section class="page_info">
-      | <%= breadcrumbs(page, bootstrap_style: false) %> 
-      | <%= page.date.strftime("%d %b %Y") %> 
-      | <%= link_to("permlink", page) %> 
-      |
-    </section>
-
-    <!-- %= render_toc(page, use_collapsing: false ) % -->
-
+    <%= breadcrumbs(current_page) %>
+    <h1><%= h(current_page.data.title || yield_content(:title)) %></h1>
   </header>
 
-  <% show_numbering_headings = (page.data.has_key? "numbering_headings") ? page.data.numbering_headings : config.aks_settings.numbering_headings %>
-  
-  <section class="content <%= "numbering_headings" if show_numbering_headings %>">
+  <section class="content">
     <%= yield %>
   </section>
 
   <footer>
-    <div>
-      Posted by <%= h(data.config.site_info.author) %> 
-      <!-- % if category = current_article.category % -->
-      
-      <!-- % end % -->
-      at <%= page.date.strftime("%d %b %Y") %> 
-      on <%= link_to("this permlink", page) %>.
-    </div>
-    <div class="share_sns">
-      <%= partial("partials/share_sns") %>
-      <!-- %= [share_twitter(data.config.site_info.twitter), share_hatena_bookmark(current_article)].join(" ") % -->
-    </div>
-    <!-- pager -->
-    <nav>
-      <ul class="pager">
-	<!-- %= article_pager(:previous, current_article.previous_article) % -->
-	<!-- %= article_pager(:next, current_article.next_article) % -->
-      </ul>
-    </nav>
   </footer>
-</article>
+</section>
 
 <% end %>
 

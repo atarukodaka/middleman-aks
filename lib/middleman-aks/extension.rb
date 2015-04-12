@@ -1,19 +1,23 @@
 require 'middleman-aks/controller'
+require 'middleman-aks/helpers'
 
 module Middleman
   module Aks
     class Extension < Middleman::Extension
       ################
       helpers do
+        include Helpers
         # general utils
         def page_for(path)
           sitemap.find_resource_by_path(path)
         end
         alias_method :resource_for, :page_for
 
+=begin
         def link_to_page(page)
           link_to(h(page.title), page)
         end
+=end
         def top_page
           sitemap.find_resource_by_path("/#{index_file}")
         end

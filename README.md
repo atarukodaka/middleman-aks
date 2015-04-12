@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/atarukodaka/middleman-aks.svg?branch=devel-blog)](https://travis-ci.org/atarukodaka/middleman-aks)
-[![Coverage Status](https://coveralls.io/repos/atarukodaka/middleman-aks/badge.svg?branch=devel-blog)](https://coveralls.io/r/atarukodaka/middleman-aks?branch=devel-blog)
+[![Build Status](https://travis-ci.org/atarukodaka/middleman-aks.svg?branch=master)](https://travis-ci.org/atarukodaka/middleman-aks)
+[![Coverage Status](https://coveralls.io/repos/atarukodaka/middleman-aks/badge.svg?branch=master)](https://coveralls.io/r/atarukodaka/middleman-aks?branch=master)
 [![Code Climate](https://codeclimate.com/github/atarukodaka/middleman-aks/badges/gpa.svg)](https://codeclimate.com/github/atarukodaka/middleman-aks)
 
 

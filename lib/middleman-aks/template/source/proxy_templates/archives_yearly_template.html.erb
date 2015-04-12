@@ -1,0 +1,29 @@
+---
+pageable: true
+layout: page
+pageable: true
+per_page: 100
+---
+
+<% content_for(:title) { "Archives for #{year}" } %>
+
+<% articles.group_by {|a| a.date.month }.each do |month, month_articles| %>
+<h3><%= link_to(Date.new(year, month, 1).strftime("%b"), blog_month_path(year, month)) %></h3>
+<ul>
+  <% month_articles.each do |article| %>
+  <li><%= link_to_page_formatted(article) %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<% if paginate %>
+  <nav>
+    <ul class="pager">
+      <% opt = {}; opt[:class] = 'disabled' if prev_page.nil? %>
+      <% content_tag(:li, opt) do; link_to('Prev', prev_page); end %>
+      <% opt = {}; opt[:class] = 'disabled' if next_page.nil? %>
+      <% content_tag(:li, opt) do; link_to('Next', next_page); end %>
+    </ul>
+  </nav>
+<% end %>
+

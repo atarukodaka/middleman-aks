@@ -1,0 +1,9 @@
+---
+pageable: true
+layout: page
+---
+
+<% content_for(:title) { "Archives for #{ Date.new(year, month, 1).strftime("%b %Y") }" } %>
+
+<%= partial("partials/summary", locals: {articles: blog.articles}) %>
+

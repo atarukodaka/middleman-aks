@@ -1,17 +1,17 @@
 
-<% pages.each do |page| %>
+<% articles ||= blog.articles %>
+
+
+<% articles.each do |article| %>
 <article class="article_summary">
   <header>
-    <h1><%= link_to_page(page) %></h1>
+    <h1><%= link_to_page(article) %></h1>
     <section class="page_info">
-      | <%= breadcrumbs(page, bootstrap_style: false) %> 
-      | <%= page.date.strftime("%d %b %Y") %> 
-      | <%= link_to("permlink", page) %> 
-      |
+      <!-- %= page_info(article) % -->
     </section>
   </header>
   <section class="page_content">
-    <%= page.summary_text(250, "... read more") %>
+    <%= article.summary_text(250, "... read more") %>
   </section>
 </article>
 <% end %>
