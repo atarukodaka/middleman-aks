@@ -96,39 +96,6 @@ module Middleman::Aks
       end
     end
 
-    def crumbs(page, type=:page)
-      #crumb_type:
-      #  top: *Home*
-      #  page: [Home] / *page*
-      #  article: [Home] / [category] / *page*
-
-      #  category: [Home] / Category: *category*
-      #  archives: [Home] / Archives in year / *month*
-
-      content_tag(:nav, :class => "crumbs") do
-        content_tag(:ol, :class => "breadcrumb") do
-          case type
-          when :page
-            if page == top_page()    ## only if top page
-              content_tag(:li, :class => "active") do
-                h(page.data.title)
-              end
-            else                   ## normal pages
-              [
-               content_tag(:li, link_to_page(top_page())),
-               content_tag(:li, h(page.data.title || yield_content(:title)), :class => "active")
-              ].join('').html_safe
-            end
-          when :article
-            [content_tag(:li, link_to_page(top_page())),
-             content_tag(:li, link_to(h(page.category), category_summary_page(page.category))),
-             content_tag(:li, h(page.data.title), :class => "active")].join('').html_safe
-          else
-            raise "no such crumbs type: #{type}"
-          end  ## case
-        end
-      end
-    end
 
     # pagerhelper
     def short_title(article)  ## yet:: to BlogArticle ??
@@ -145,6 +112,7 @@ module Middleman::Aks
         end
       end
     end
+
     def article_pager(direction, nav_article)
       title = (nav_article.nil?) ? "" : h(nav_article.data.title)
       nav_str_w_arr = 
