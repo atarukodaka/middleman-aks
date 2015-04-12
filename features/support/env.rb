@@ -1,3 +1,6 @@
+ENV["TEST"] = "true"
+ENV["AUTOLOAD_SPROCKETS"] = "false"
+
 require 'simplecov'
 SimpleCov.start do
   add_filter "/features/"
