@@ -103,6 +103,7 @@ module Middleman::Aks
 
 
     # pagerhelper
+
     def short_title(article)  ## yet:: to BlogArticle ??
       num_charactors = 30
 
@@ -137,10 +138,11 @@ module Middleman::Aks
       end
     end
 
+=begin
     def share_sns(page)
       [share_twitter(data.config.site_info.twitter), share_haten_bookmark(page)].join("")
     end
-
+=end
     def copyright
       years = blog.articles.group_by {|a| a.date.year}.map {|year, articles| year}
       start_year = years[-1]

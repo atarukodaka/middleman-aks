@@ -1,7 +1,8 @@
 #require 'middleman-aks/controller'
 require 'middleman-aks/helpers'
 
-require 'middleman-aks/category_manager'
+require 'middleman-aks/category_attributes'
+
 
 module Middleman
   module Aks
@@ -18,23 +19,11 @@ module Middleman
     class Extension < Middleman::Extension
       helpers do
         include Middleman::Aks::Helpers
-
-=begin
-        def aks
-          @aks
-        end
-        def aks=(ext)
-          @aks = ext
-        end
-=end
       end ## helpers
 
       ################
       # option settings
       #
-      option :category_template, "proxy_templates/category_template.html"
-      option :categorylink, "categories/{category}.html"
-      attr_reader :processors
       def initialize(klass, options_hash={}, &block)
         super
         #klass.set :aks_settings, options
@@ -49,17 +38,8 @@ module Middleman
       def after_configuration
         #app.logger.level = 0   ## yet: debug
         app.logger.debug "- extension: after_configuration"
-#        app.aks = self
 
-        if prefix = app.blog_controller.options.prefix
-          options.categorylink = File.join(prefix, options.categorylink)
-        end
-        
-        require 'ostruct'
-        @processors =
-          OpenStruct.new(category_manager: CategoryManager.new(app, self))
-
-        #app.aks = Middleman::Aks::Controller.new(app, self)
+        Middleman::Aks::CategoryAttributes.activate
       end
     end
   end
