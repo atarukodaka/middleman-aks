@@ -1,22 +1,22 @@
 
 
-
 module Middleman::Aks
   module LinktoHelpers
-    def link_to_page(page)
+    def link_to_page(page, caption = nil)
       if ! page.is_a?(Middleman::Sitemap::Resource)
         page = sitemap.find_resource_by_path(page) || raise("no such resource: #{page}") # yet
       end
       #link_to(h(page.data.title) || "(untitled)", page)
-      link_to(h(page.data.title) || "(untitled)", page)
+      caption ||= page.data.title
+      link_to(h(caption) || "(untitled)", page)
     end
     def link_to_page_formatted(page, format=nil)
-      format ||= "%{page_link}...<small>[%{category_summary}] at %{date}</small>"
+      format ||= "%{page_link}...<small>[%{category}] at %{date}</small>"
 
       hash = {
         page_link: link_to_page(page),
         page_title: h(page.data.title),
-        category_summary: link_to(h(page.category), category_summary_page(page.category)) || "-",
+        category: link_to(page.category) || "-",
         date: page.date.strftime("%d %b %Y")
       }
       format % hash
@@ -47,15 +47,10 @@ module Middleman::Aks
        end].join.html_safe
     end
     def page_info(page)
-      #category = page.metadata[:page]["category"]
-      category = page.category
-      #category_page = sitemap.find_resource_by_path("categories/#{category}.html")
-
       ["", 
-       (category.nil?) ? "-" : link_to(h(category), category_summary_page(category)),
+       (page.category.nil?) ? "-" : link_to_category(page.category),
        page.date.strftime("%d %b %Y %Z"),
-       link_to("permlink", page),
-       ""      # prose_edit_link(page, data.config.site_info.github, "site")
+       link_to("permlink", page)
       ].join(" | ")
     end
 
@@ -66,7 +61,7 @@ module Middleman::Aks
         lists << content_tag(:li, h(page.data.title), :class => 'active')
       elsif page.try(:blog_controller)
         lists << [content_tag(:li, link_to_page(top_page)),
-                  content_tag(:li, link_to_category_summary_page(page.category)),
+                  content_tag(:li, link_to_category(page.category)),
                   content_tag(:li, h(page.title), :class => 'active')
                  ]
       else

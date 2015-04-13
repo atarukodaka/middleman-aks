@@ -15,7 +15,7 @@ module Middleman
     ################
     class Extension < Middleman::Extension
       helpers do
-        include Helpers
+        include Middleman::Aks::Helpers
         # general utils
         def page_for(path)
           sitemap.find_resource_by_path(path)
@@ -46,8 +46,8 @@ module Middleman
       ################
       # option settings
       #
-      option :category_template, "/proxy_templates/summary.html"
-      opiton :category_path, "/categories/%{category}.html"
+      option :category_template, "proxy_templates/category_template.html"
+      option :category_uri_template, "categories/{category}.html"
       
 =begin
       option :index_template, "/templates/index_template.html"

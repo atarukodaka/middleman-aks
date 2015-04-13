@@ -1,10 +1,11 @@
 require 'middleman-aks/processor'
+require 'middleman-blog/uri_templates'
 
 module Middleman::Aks
   class CategoryManager < Processor
     module InstanceMethodsToBlogData
       def categories
-        @categories ||= articles.group_by {|p| p.category }
+        @categories ||= articles.group_by {|p| p.category }.reject {|c, a| c.nil?}
       end
     end ## module InstanceMethodsToBlogData
     module InstanceMethodsToBlogArticle
@@ -12,18 +13,13 @@ module Middleman::Aks
         return self.data.category || self.metadata[:page]["category"]
       end
     end
+    ################
     module Helpers
-      def category_summary_page_path(category)
-        #blog_category_summary_settings.outputpath_template % {category: h(category)}
-        "categories/%{category}.html" % {category: h(category)}
+      def link_to_category(category, caption=nil)
+        caption ||= h(category)
+        link_to(caption, aks.processors.category_manager.url_for(category))
       end
-      def link_to_category_summary_page(category)
-        link_to(h(category), category_summary_page(category))
       end
-      def category_summary_page(category)
-        sitemap.find_resource_by_path(category_summary_page_path(category))
-      end
-    end
     ################
     class << self
       def activate
@@ -35,25 +31,34 @@ module Middleman::Aks
         end
       end
     end
-    
+    include Middleman::Blog::UriTemplates
     def initialize(app, controller, options = {})
       super
-      @category_template = "proxy_templates/category_summary_template.html"
-      app.ignore @category_template
-
+      @template = controller.options.category_template
+      @uri_template = controller.options.category_uri_template
+      #@template = "proxy_templates/category_template.html"
+      #@uri_template = "categories/{category}.html"
+      app.ignore @template
+      
       self.class.activate
     end
-    def after_configuraion
-      template = @category_template
-      app.ready do
-# =>         category_template = "proxy_templates/category_summary_template.html"
-
-        blog.articles.group_by {|a| a.category}.each do |category, articles|
-          next if category.nil?
-          proxy(category_summary_page_path(category), @template,
-                :locals => { :category => category, :articles => articles, :ignore => true })
-        end
+    def page_for(category)
+      app.sitemap.find_resource_by_path(url_for(catgory))
+    end
+    def url_for(category)
+      apply_uri_template(uri_template(@uri_template), {category: category})
+    end
+    def manipulate_resource_list(resources)
+      newres = app.blog.categories.map do |category, articles|
+        path = url_for(category)
+        Middleman::Sitemap::Resource.new(app.sitemap, path).tap {|r|
+          $stderr.puts "proxy for #{category} on #{path}: #{@template}"
+          r.proxy_to(@template)
+          data = {locals: {category: category, articles: articles}}
+          r.add_metadata data
+        }
       end
+      resources + newres
     end
   end ## CategoryManager
 end ## module Middleman::Aks

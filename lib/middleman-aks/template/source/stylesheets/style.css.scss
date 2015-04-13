@@ -103,17 +103,6 @@ header.eyecatch {
 .sidebar {
     margin-top: 30px;
 
-    aside.site_tree {
-	ul {
-	    padding-left: 0.75em;
-	}
-	li {
-/*	    list-style: none;*/
-	}
-	.active {
-	    font-weight: bold;
-	}
-    }
     aside {
 	border-top: 1px solid #eeeeee; 
 	padding-bottom: 10px;
@@ -135,7 +124,6 @@ header.eyecatch {
 /*****************************************************************/
 /* breakcrumbs */
 
-/*
 nav.crumbs {
     border: {
 	top: 1px solid #ddd;
@@ -150,17 +138,14 @@ nav.crumbs {
 	bottom: 5px;
     }
 }
-*/
+
 ol.breadcrumb {
-    background-color: white;
+    background-color: white; 
 
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-
+    margin-bottom: 0;
+    padding-top: 0; 
+    padding-bottom: 0;
+    
     li.active {
 	font-weight: bold;
     }
@@ -191,6 +176,18 @@ ol.breadcrumb {
 $border_color_dec: #222;
 $margin_for_content: 30px;
 
+
+header { 
+    h1 {
+	font-weight: bold;
+	border-bottom: 1px solid #888;
+	margin: 0px 0 0px 0;
+	padding: 0px 0px 1px 10px;
+    }
+    .page_info {
+	text-align: right;
+    }
+}
 .content {
     margin-left: $margin_for_content;
     margin-top: 40px;
@@ -208,7 +205,7 @@ $margin_for_content: 30px;
 	}
     }
     h1, h2 { margin-top: 40px; }
-    h4, h5 { font-size: meduim; }
+    h4, h5 { font-size: medium; }
 
     img {
 	max-width: 90%;
@@ -230,18 +227,6 @@ $margin_for_content: 30px;
 	font-size: small;
     }
 }
-header { 
-    .title {
-	font-weight: bold;
-	border-bottom: 1px solid #888;
-	margin: 0px 0 0px 0;
-	padding: 0px 0px 1px 10px;
-    }
-    .page_info {
-	text-align: right;
-    }
-}
-
 footer {
     padding: 10px;
     margin-top: 50px;
@@ -287,3 +272,9 @@ body {
 }
 
 /*****************************************************************/
+
+/* ninja */
+
+#nin_ad {
+    display: none;
+}

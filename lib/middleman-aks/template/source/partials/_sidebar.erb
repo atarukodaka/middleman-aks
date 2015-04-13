@@ -14,8 +14,7 @@
     <h2><%= link_to("Categories", "/categories.html") %></h2>
     <div>
       <% blog.articles.group_by {|p| p.category }.each do |category, pages| %>
-      <% next if category.to_s == "" %>
-      <h3><%= link_to_category_summary_page(category) %></h3>
+      <h3><%= link_to_category(category) %></h3>
       <ul class="article_list">
 	<% num = 10 %>
 	<% pages[0..num-1].each do |page| %>
@@ -27,7 +26,7 @@
 	  <% end %>
 	<% end %>
 	<% if pages.size > num %>
-	<li><%= link_to("...", "/categories/#{h(category)}.html") %>
+	<li><%= link_to_category(category, "...") %>
 	  <% end %>
       </ul>
     <% end %>

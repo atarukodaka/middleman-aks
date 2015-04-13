@@ -6,7 +6,7 @@ Feature: basic
     When I go to "/index.html"
     Then I should see "Welcome"
 
-    When I go to "/articles/cooking/egg.html"
+    When I go to "/cooking/egg.html"
     Then the status code should be "200"
 
 

@@ -6,7 +6,7 @@ Feature: activate the extension
       """
       set :layout, :page
       activate :blog do |blog|
-        blog.prefix = "articles"
+        blog.prefix = ""
         blog.sources = "{category}/{title}.html"
         blog.permalink = "{category}/{title}.html"
         blog.layout = "article"
@@ -20,7 +20,7 @@ Feature: activate the extension
       ---
       Welcome
       """
-    And a file named "source/articles/cooking/egg.html.erb" with:
+    And a file named "source/cooking/egg.html.erb" with:
       """
       ---
       title: egg
@@ -42,7 +42,7 @@ Feature: activate the extension
     When I go to "/index.html"
     Then I should see "Welcome"
 
-    When I go to "/articles/cooking/egg.html"
+    When I go to "/cooking/egg.html"
     Then the status code should be "200"
     And I should see "cooking egg"
     And I should see "article layout:"

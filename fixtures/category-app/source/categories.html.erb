@@ -3,6 +3,8 @@ title: Categories
 group: navigation
 ---
 
+Categories
+
 <% blog.categories.each do |category, pages | %>
   <h2><%= link_to_category(category) %></h2>
     <ul>
@@ -12,5 +14,3 @@ group: navigation
     </ul>
   </li>
 <% end %>
-
-
