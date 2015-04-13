@@ -6,7 +6,7 @@ group: navigation
 Categories
 
 <% blog.categories.each do |category, pages | %>
-  <h2><%= link_to_category(category) %></h2>
+  <h2><%= link_to(category, category_path(category)) %></h2>
     <ul>
     <% pages.each do |page| %>
       <li><%= link_to_page(page) %></li>

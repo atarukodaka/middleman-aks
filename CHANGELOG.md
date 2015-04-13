@@ -14,7 +14,8 @@
 
 * middleman-blog に立脚スタイルに戻す
   * 車輪の再発明すぎたし
-* category manager と主要 helper や template, partials をいれて、とりあえずエラーなく動くように  
+* category manager と主要 helper や template, partials をいれて、とりあえずエラーなく動くように
+* category pages は custom pagesで取り扱う
 
 ### 0.0.7
 

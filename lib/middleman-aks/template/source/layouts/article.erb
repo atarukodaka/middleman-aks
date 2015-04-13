@@ -20,7 +20,7 @@
     <div>
       Posted by <%= h(data.config.site_info.author) %> 
       <% if category = current_article.category %>
-      in <%= link_to_category(category) %>
+      in <%= link_to(h(category), category_path(category)) %>
       <% end %>
       at <%= current_article.date.strftime("%d %b %Y %Z") %> 
       on <%= link_to("this permlink", current_article) %>.

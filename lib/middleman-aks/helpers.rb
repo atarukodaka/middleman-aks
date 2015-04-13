@@ -1,6 +1,12 @@
 
 
 module Middleman::Aks
+  module ResourceHelpers
+    # general utils
+    def page_for(path)
+      sitemap.find_resource_by_path(path)
+    end
+  end
   module LinktoHelpers
     def link_to_page(page, caption = nil)
       if ! page.is_a?(Middleman::Sitemap::Resource)
@@ -9,6 +15,10 @@ module Middleman::Aks
       #link_to(h(page.data.title) || "(untitled)", page)
       caption ||= page.data.title
       link_to(h(caption) || "(untitled)", page)
+    end
+    def link_to_category(category, caption=nil)
+      caption ||= h(category)
+      link_to(caption, category_path(category))
     end
     def link_to_page_formatted(page, format=nil)
       format ||= "%{page_link}...<small>[%{category}] at %{date}</small>"
@@ -144,6 +154,7 @@ module Middleman::Aks
   ################################################################
   module Helpers
     include ERB::Util
+    include ResourceHelpers
     include LinktoHelpers
     include SelectPageHelpers    
     include ArticleContentHelpers
