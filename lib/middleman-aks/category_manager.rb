@@ -4,19 +4,13 @@ module Middleman::Aks
   class CategoryManager < Processor
     module InstanceMethodsToBlogData
       def categories
-        articles.group_by {|p| p.category }
+        @categories ||= articles.group_by {|p| p.category }
       end
     end ## module InstanceMethodsToBlogData
     module InstanceMethodsToBlogArticle
       def category
         return self.data.category || self.metadata[:page]["category"]
-
       end
-      def summary_text(length = 250, leading_message = "...read more")
-        rendered = render(layout: false)
-        Nokogiri::HTML(rendered).text[0..length-1] + app.link_to(leading_message, self)
-      end
-
     end
     module Helpers
       def category_summary_page_path(category)

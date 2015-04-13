@@ -3,8 +3,17 @@ require 'middleman-aks/helpers'
 
 module Middleman
   module Aks
+    module SummaryText
+      module InstanceMethodsToBlogArticle
+        def summary_text(length = 250, leading_message = "...read more")
+          require 'nokogiri'
+          rendered = render(layout: false)
+          Nokogiri::HTML(rendered).text[0..length-1] + app.link_to(leading_message, self)
+        end
+      end
+    end
+    ################
     class Extension < Middleman::Extension
-      ################
       helpers do
         include Helpers
         # general utils
@@ -37,6 +46,10 @@ module Middleman
       ################
       # option settings
       #
+      option :category_template, "/proxy_templates/summary.html"
+      opiton :category_path, "/categories/%{category}.html"
+      
+=begin
       option :index_template, "/templates/index_template.html"
       option :archives_template_year, "/templates/archives_template_year.html"
       option :archives_template_month, "/templates/archives_template_month.html"
@@ -44,10 +57,17 @@ module Middleman
       option :archives_path_month, "/archives/%{year}/%{month}.html"
 
       option :numbering_headings, true, "show numbering for headers"
-
+=end
+      
       def initialize(klass, options_hash={}, &block)
         super
         klass.set :aks_settings, options
+
+        Middleman::Blog::BlogArticle.class_eval do
+          include Middleman::Aks::SummaryText::InstanceMethodsToBlogArticle
+        end
+
+        
       end
       
       ################
