@@ -11,7 +11,7 @@ group: navigation
   <li>
     <%= link_to_page(page) %>
     ...
-    <%= (category) ? "[" + link_to_category(category)) + "] " : "" %>
+    <%= (category) ? "[" + link_to_category(category) + "] " : "" %>
     <small><%= page.date.strftime("%Y/%m/%d") %></small>
   </li>
   <% end %>

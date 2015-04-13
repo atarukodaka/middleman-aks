@@ -13,7 +13,7 @@ set :relative_links, true
 #
 activate :blog do |blog|
   blog.layout = "article"
-  blog.prefix = "articles"
+  blog.prefix = ""
   blog.sources = "{category}/{title}.html"
   blog.permalink = "{category}/{title}.html"
   blog.default_extension = ".md"
