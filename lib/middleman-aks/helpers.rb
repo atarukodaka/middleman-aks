@@ -104,29 +104,14 @@ module Middleman::Aks
 
     # pagerhelper
 
-    def short_title(article)  ## yet:: to BlogArticle ??
-      num_charactors = 30
-
-      if article.nil?
-        ""
-      else
-        s = h(article.data.title)
-        if s.size > num_charactors        
-          s[0..num_charactors] + "..."
-        else
-          s[0..-1]
-        end
-      end
-    end
-
     def article_pager(direction, nav_article)
       title = (nav_article.nil?) ? "" : h(nav_article.data.title)
       nav_str_w_arr = 
         case direction
         when :previous
-          "<span>&larr;</span>" + short_title(nav_article)
+          "<span>&larr;</span>" + nav_article.short_title(nav_article)
         when :next
-          short_title(nav_article) + "<span>&rarr;</span>"
+          nav_article.short_title + "<span>&rarr;</span>"
         else
           raise "unknown direction: #{direction}"
         end
