@@ -129,12 +129,15 @@ module Middleman::Aks
     end
 =end
     def copyright
-      years = blog.articles.group_by {|a| a.date.year}.map {|year, articles| year}
-      start_year = years[-1]
-      end_year = years[0]
+      years = blog.articles.group_by {|a| a.date.year}.keys
+      start_year = years.min
+      end_year = years.max
 
       years_str = (start_year == end_year) ? start_year.to_s : "%d-%d" % [start_year, end_year]
-      "&copy; %s by %s (%s)" % [years_str, h(data.config.site_info.author), h(data.config.site_info.email)]
+      return "&copy; %{years_str} by %{author} (%{email})" %{
+        years_str: years_str,
+        author: h(data.config.site_info.author),
+        email: h(data.config.site_info.email)}
     end
   end
   
