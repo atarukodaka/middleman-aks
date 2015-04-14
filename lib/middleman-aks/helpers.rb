@@ -6,33 +6,23 @@ module Middleman::Aks
     def page_for(path)
       sitemap.find_resource_by_path(path)
     end
+    alias_method :resource_for, :page_for
+    
   end
   module LinktoHelpers
     def link_to_page(page, caption = nil)
+=begin
       if ! page.is_a?(Middleman::Sitemap::Resource)
         page = sitemap.find_resource_by_path(page) || raise("no such resource: #{page}") # yet
       end
+=end
       #link_to(h(page.data.title) || "(untitled)", page)
       caption ||= page.data.title
       link_to(h(caption) || "(untitled)", page)
     end
     def link_to_category(category, caption=nil)
-      caption ||= h(category)
-      link_to(caption, category_path(category))
+      link_to(caption || h(category), category_path(category))
     end
-=begin
-    def link_to_page_formatted(page, format=nil)
-      format ||= "%{page_link}...<small>[%{category}] at %{date}</small>"
-
-      hash = {
-        page_link: link_to_page(page),
-        page_title: h(page.data.title),
-        category: link_to(page.category) || "-",
-        date: page.date.strftime("%d %b %Y")
-      }
-      format % hash
-    end
-=end
   end
 
   ################
@@ -40,14 +30,6 @@ module Middleman::Aks
     def top_page
       sitemap.find_resource_by_path("/" + index_file()) 
     end
-=begin
-    def select_html_pages
-      sitemap.resources.select {|p| p.ext == ".html"}   # .each {|page|
-    end
-    def select_resources_by(key, value)
-      sitemap.resources.select {|p| p.send(key.to_sym) == value}
-    end
-=end
   end
   ################
   module ArticleContentHelpers
@@ -61,10 +43,10 @@ module Middleman::Aks
     end
     def page_info(page)
       ["", 
-       (page.category.nil?) ? "-" : link_to_category(page.category),
+       (page.category.nil?) ? nil : link_to_category(page.category),
        page.date.strftime("%d %b %Y %Z"),
        link_to("permlink", page)
-      ].join(" | ")
+      ].reject(&:nil?).join(" | ")
     end
 
     def breadcrumbs(page)
@@ -104,10 +86,8 @@ module Middleman::Aks
       end
     end
 
-
-    # pagerhelper
-
-    def article_pager(direction, nav_article)
+    def article_navigator(direction, nav_article)
+      # nav_article can be nil
       title = nav_article.try(:title) || ""
       short_title = nav_article.try(:short_title) || ""
       
@@ -118,7 +98,7 @@ module Middleman::Aks
         when :next
           "#{short_title}<span>&rarr;</span>"
         else
-          raise "unknown direction: #{direction}"
+          "??? unknown direction: #{h(direction)}"
         end
       css_class = direction.to_s
       css_class += " disabled" if nav_article.nil?

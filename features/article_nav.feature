@@ -6,8 +6,8 @@ Feature: article navigation
       """
       <%= yield %>
       <ul class="pager">
-	<%= article_pager(:previous, current_article.previous_article) %>
-	<%= article_pager(:next, current_article.next_article) %>
+	<%= article_navigator(:previous, current_article.previous_article) %>
+	<%= article_navigator(:next, current_article.next_article) %>
       </ul>
       """
     And a file named "source/foo/a.html.md" with:
@@ -71,8 +71,8 @@ Feature: article navigation
       """
       <%= yield %>
       <ul class="pager">
-	<%= article_pager(:previous, current_article.previous_article) %>
-	<%= article_pager(:next, current_article.next_article) %>
+	<%= article_navigator(:previous, current_article.previous_article) %>
+	<%= article_navigator(:next, current_article.next_article) %>
       </ul>
       """
     And a file named "source/foo/a.html.md" with:

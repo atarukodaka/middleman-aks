@@ -7,7 +7,7 @@ Feature: helpers
       title: top
       ---
       page_for: <%= page_for("/index.html").path %>
-      link_to_page: <%= link_to_page("/index.html") %>
+      link_to_page: <%= link_to_page(current_page) %>
       """
     And the Server is running at "basic-app"
     When I go to "/index.html"
