@@ -21,7 +21,7 @@ console:
 
 reflect_source:
 	cp $(PROJECT_DIR)/config.rb lib/middleman-aks/template/shared/config.tt
-	cp $(PROJECT_DIR)/Gemfile lib/middleman-aks/template/shared/Gemfile.tt
+#	cp $(PROJECT_DIR)/Gemfile lib/middleman-aks/template/shared/Gemfile.tt
 	cp -r $(PROJECT_DIR)/source/* lib/middleman-aks/template/source
 
 mastering:

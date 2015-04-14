@@ -1,4 +1,5 @@
 Feature: template ci
+
   Scenario: new proj
     Given I run `middleman init proj --template aks`
     And the exit status should be 0
@@ -17,7 +18,4 @@ Feature: template ci
       | source/proxy_templates/archives_yearly_template.html.erb  |
       | source/proxy_templates/archives_monthly_template.html.erb |
       | source/proxy_templates/category_template.html.erb         |
-
-
-
 
