@@ -20,6 +20,7 @@ module Middleman::Aks
       caption ||= h(category)
       link_to(caption, category_path(category))
     end
+=begin
     def link_to_page_formatted(page, format=nil)
       format ||= "%{page_link}...<small>[%{category}] at %{date}</small>"
 
@@ -31,6 +32,7 @@ module Middleman::Aks
       }
       format % hash
     end
+=end
   end
 
   ################
