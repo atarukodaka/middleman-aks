@@ -38,13 +38,14 @@ module Middleman::Aks
     def top_page
       sitemap.find_resource_by_path("/" + index_file()) 
     end
-
+=begin
     def select_html_pages
       sitemap.resources.select {|p| p.ext == ".html"}   # .each {|page|
     end
     def select_resources_by(key, value)
       sitemap.resources.select {|p| p.send(key.to_sym) == value}
     end
+=end
   end
   ################
   module ArticleContentHelpers
@@ -123,11 +124,6 @@ module Middleman::Aks
       end
     end
 
-=begin
-    def share_sns(page)
-      [share_twitter(data.config.site_info.twitter), share_haten_bookmark(page)].join("")
-    end
-=end
     def copyright
       years = blog.articles.group_by {|a| a.date.year}.keys
       start_year = years.min
@@ -136,8 +132,8 @@ module Middleman::Aks
       years_str = (start_year == end_year) ? start_year.to_s : "%d-%d" % [start_year, end_year]
       return "&copy; %{years_str} by %{author} (%{email})" %{
         years_str: years_str,
-        author: h(data.config.site_info.author),
-        email: h(data.config.site_info.email)}
+        author: h(site_author),
+        email: h(site_email)}
     end
   end
   

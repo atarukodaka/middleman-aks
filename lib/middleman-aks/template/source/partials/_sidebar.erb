@@ -4,10 +4,9 @@
   <aside>
     <h2><%= link_to("Profile", "/profile.html") %></h2>
     <p>
-      <%= h(data.config.site_info.author) %> 
-      <%= link_to("@" + h(data.config.site_info.twitter), "http://www.twitter.com/" + h(data.config.site_info.twitter)) if data.config.site_info.twitter %>
+      <%= h(site_author) %> 
     </p>
-    <p><%= h(data.config.site_info.description) %></p>
+    <p><%= h(site_description) %></p>
   </aside>
   <!-- ================ -->
   <aside>
