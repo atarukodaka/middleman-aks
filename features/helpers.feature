@@ -26,14 +26,9 @@ Feature: helpers
       ---
       copyright: <%= copyright %>
       """
-    When I append to "config.rb" with:
-      """
-      set :site_author, 'author'
-      set :site_email, 'your@email.com'
-      """
     And the Server is running at "basic-app"
     And I go to "/foo/bar.html"
-    Then I should see "&copy; 2015 by author (your@email.com)"
+    Then I should see "&copy; 2015"
 
   Scenario: copyright multiple years
     Given a fixture app "basic-app"
@@ -49,12 +44,8 @@ Feature: helpers
       ---
       date: 2010-1-1
       ---
-      """
-    When I append to "config.rb" with:
-      """
-      set :site_author, 'author'
-      set :site_email, 'your@email.com'
+      copyright: <%= copyright %>
       """
     And the Server is running at "basic-app"
     And I go to "/foo/bar.html"
-    Then I should see "&copy; 2010-2015 by author (your@email.com)"
+    Then I should see "&copy; 2010-2015"
