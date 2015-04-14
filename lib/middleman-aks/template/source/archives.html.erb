@@ -14,7 +14,7 @@ per_page: 100
 <h3><%= link_to(Date.new(year, month, 1).strftime("%b"), blog_month_path(year, month)) %></h3>
 <ul>
   <% month_articles.each do |article| %>
-  <li><%= link_to_page_formatted(article) %></li>
+  <li><%= link_to_page(article) %></li>
   <% end %>
 </ul>
 <% end %>
