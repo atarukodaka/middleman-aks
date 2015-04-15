@@ -11,14 +11,7 @@ module Middleman::Aks
   end
   module LinktoHelpers
     def link_to_page(page, caption = nil)
-=begin
-      if ! page.is_a?(Middleman::Sitemap::Resource)
-        page = sitemap.find_resource_by_path(page) || raise("no such resource: #{page}") # yet
-      end
-=end
-      #link_to(h(page.data.title) || "(untitled)", page)
-      caption ||= page.data.title
-      link_to(h(caption) || "(untitled)", page)
+      link_to(caption || h(page.data.title) || "(untitled)", page)
     end
     def link_to_category(category, caption=nil)
       link_to(caption || h(category), category_path(category))
@@ -89,6 +82,7 @@ module Middleman::Aks
     def article_navigator(direction, nav_article)
       # nav_article can be nil
       title = nav_article.try(:title) || ""
+
       short_title = nav_article.try(:short_title) || ""
       
       nav_str_w_arr = 
