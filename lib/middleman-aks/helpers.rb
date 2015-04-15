@@ -34,6 +34,7 @@ module Middleman::Aks
          yield
        end].join.html_safe
     end
+=begin
     def page_info(page)
       ["", 
        (page.category.nil?) ? nil : link_to_category(page.category),
@@ -41,7 +42,7 @@ module Middleman::Aks
        link_to("permlink", page)
       ].reject(&:nil?).join(" | ")
     end
-
+=end
     def breadcrumbs(page)
       lists = []
 
