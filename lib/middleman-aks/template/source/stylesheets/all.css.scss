@@ -1,6 +1,6 @@
-//=require style
-//=require tag-box
-//=require syntax_highlight
-
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "style";
+@import "tag-box";
+@import "syntax_highlight";
+
