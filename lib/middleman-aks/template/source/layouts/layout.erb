@@ -11,16 +11,7 @@
 
     <%= stylesheet_link_tag "normalize.css" %>
     <%= stylesheet_link_tag "bootstrap.min.css" %>
-    <%= stylesheet_link_tag "amazon.css" %>
-    <%= stylesheet_link_tag "pygment_trac.css" %>
-
     <%= stylesheet_link_tag "all" %>
-
-<!--
-    <%= stylesheet_link_tag "style.css" %>
--->
-
-
   </head>
   
   <body>
@@ -52,21 +43,12 @@
       <div class="row">
 	<footer id="footer" class="pane">
 	  <div class="copyright">
-	    <%= copyright() %> by <%= site_author %> (%<= site_email %>)	    
+	    <%= copyright() %> by <%= site_author %> (<%= site_email %>)	    
 	    powered by <a href="https://middlemanapp.com">middleman</a> and <a href="http://github.com/atarukodaka/middleman-aks">middleman-aks</a>.
 	  </div>
 	</footer>
       </div> <!-- row -->
     </div> <!-- container -->
-
-    <!-- web services -->
-    <div id="web_services">
-      <!-- %= google_analytics_tag() if extensions.has_key?(:google_analytics) % -->
-      <% begin %>
-        <%= partial("partials/misc_web_services") %>
-      <% rescue Middleman::CoreExtensions::Rendering::TemplateNotFound %>
-      <% end %>
-    </div>
   </body>
 </html>
 

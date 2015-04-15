@@ -7,7 +7,7 @@
   <header>
     <h1><%= link_to_page(article) %></h1>
     <section class="page_info">
-      <%= page_info(article) %>
+      <%= partial("partials/article_info", {locals: {article: article}}) %>
     </section>
   </header>
   <section class="page_content">

@@ -10,11 +10,11 @@ set :relative_links, true
 
 ################
 # site information
-set :site_url, 'http:///site.com'
+set :site_url, 'http://site.com'
 set :site_author, 'author'
 set :site_email, 'your@email.com'
-set :site_title, 'title'
-set :site_description, 'description'
+set :site_title, 'site title'
+set :site_description, 'site description'
 
 ################
 # middleman-blog

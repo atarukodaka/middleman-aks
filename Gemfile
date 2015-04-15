@@ -8,14 +8,18 @@ gem "middleman-syntax"
 gem "redcarpet"
 gem "rouge"
 
-gem 'rubytree'
+gem 'bootstrap-sass', :require => false
+gem 'jquery-middleman', :require => false
+
+
+#gem 'rubytree'
 
 gem 'pry-byebug'
 gem 'therubyracer'
 gem 'rb-readline'
 gem 'middleman-pry'
 
-gem 'actionview'
+#gem 'actionview'
 gem 'nokogiri'
 
 #gem 'travis'
