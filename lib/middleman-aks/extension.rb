@@ -1,9 +1,4 @@
-#require 'middleman-aks/controller'
 require 'middleman-aks/helpers'
-
-require 'middleman-aks/article_attributes'
-require 'middleman-aks/category_attributes'
-
 
 module Middleman
   module Aks
@@ -28,8 +23,13 @@ module Middleman
         #app.logger.level = 0   ## yet: debug
         app.logger.debug "- extension: after_configuration"
 
-        Middleman::Aks::ArticleAttributes.activate
-        Middleman::Aks::CategoryAttributes.activate
+        #require 'middleman-aks/article_attributes'
+        #require 'middleman-aks/blog_article_methods'
+        require 'middleman-aks/resource_methods'
+        require 'middleman-aks/category_methods'
+
+        Middleman::Aks::ResourceMethods.activate
+        Middleman::Aks::CategoryMethods.activate
       end
     end
   end
