@@ -61,7 +61,7 @@ Feature: breadcrumbs
     When I go to "foo/bar.html"
     Then I should see:
       """
-      <ol class="breadcrumb">
+      <ol class="breadcrumb"><li><a href="/">top</a></li><li>foo</li><li class="active">bar</li>
       """
     And I should see:
       """
@@ -70,6 +70,6 @@ Feature: breadcrumbs
     When I go to "2015-10-10-baz.html"
     Then I should see:
       """
-      <li class="active">baz</li>
+      <li class="active">baz</li></ol>
       """
      
