@@ -2,8 +2,25 @@ Feature: breadcrumbs
 
   Scenario: top page
     Given a fixture app "basic-app"
+    And a file named "config.rb" with:
+      """
+      activate :blog do |blog|
+        blog.layout = "page"
+        blog.prefix = "/"
+        blog.sources = "{year}/{month}/{day}/{title}.html"
+        blog.permalink = "{year}-{month}-{day}-{title}.html"
+
+        blog.custom_collections = {
+          category: {
+            link: '/categories/{category}.html',
+            template: '/proxy_templates/category_template.html'
+          }
+        }
+      end
+      activate :aks
+      """
     And a file named "source/layouts/page.erb" with:
-    """
+      """
       <%= breadcrumbs(current_page) %>
       <%= yield %>
       """
@@ -11,7 +28,6 @@ Feature: breadcrumbs
       """
       ---
       title: top
-      date: 2015-1-1
       layout: page
       ---
       top
@@ -20,7 +36,14 @@ Feature: breadcrumbs
       """
       ---
       title: bar
-      date: 2015-1-1
+      layout: page
+      ---
+      bar
+      """
+    And a file named "source/2015/10/10/baz.html.md" with:
+      """
+      ---
+      title: baz
       layout: page
       ---
       bar
@@ -43,5 +66,10 @@ Feature: breadcrumbs
     And I should see:
       """
       <li class="active">bar</li>
+      """
+    When I go to "2015-10-10-baz.html"
+    Then I should see:
+      """
+      <li class="active">baz</li>
       """
      

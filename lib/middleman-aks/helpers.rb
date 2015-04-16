@@ -59,7 +59,15 @@ module Middleman::Aks
         parts = page.path.split("/")
         parts.pop     ## take out filename on the last of the parts array
         parts.pop if page.path =~ /\/#{index_file()}/  ## take it out if .../index.html
+        #parts.pop if directory_index?
 
+=begin
+        parts.inject("") do |res, part|
+          dir = [res, parts].join('/')
+          
+          [res, parts]
+        end
+=end
         parts_tmp = parts.dup
 
         lists << parts.reverse.map {|d| 
