@@ -45,11 +45,39 @@ module Middleman::Aks
 =end
     def breadcrumbs(page)
       lists = []
+      # caption:, path:, class
+      
+      if page == top_page
+        lists << {name: 'Home', page: nil, :class => 'active'}
+      else
+        if page.try(:blog_controller)
+          lists << {name: 'Home', page: top_page}
+          if page.category
+            lists << {name: page.category, page: page_for(category_path(page.category))}
+          end
+        else
+          page.parentage.each do |parent|
+            lists << {name: parent.name, page: parent.page}
+          end
+        end
+        lists << {name: page.data.title, page: nil, :class => 'active'}
+      end
+      
+      content_tag(:nav, :class=>"crumbs") do
+        content_tag(:ol, :class=>"breadcrumb") do
+          lists.map do |hash|
+            content_tag(:li, :class=>hash[:class]) do
+              (hash[:page]) ? link_to(h(hash[:name]), hash[:page]) : h(hash[:name])
+            end
+          end.join('').html_safe
+        end
+      end
 
+=begin
       if page == top_page
         lists << content_tag(:li, "Home", :class => 'active')
       elsif page.try(:blog_controller)
-        lists << [content_tag(:li, link_to("Home", top_page)),
+        lists += [content_tag(:li, link_to("Home", top_page)),
                   (page.category) ? content_tag(:li, link_to_category(page.category)) : nil,
                   content_tag(:li, h(page.title), :class => 'active')
                  ]
@@ -65,8 +93,9 @@ module Middleman::Aks
       end
  
       content_tag(:nav, :class=>"crumbs") do
-        content_tag(:ol, lists.flatten.reject(&:nil?).join("").html_safe, :class=>"breadcrumb")
+        content_tag(:ol, lists.reject(&:nil?).join("").html_safe, :class=>"breadcrumb")
       end
+=end
     end
 
     def article_navigator(direction, nav_article)

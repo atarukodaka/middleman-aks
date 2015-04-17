@@ -28,14 +28,14 @@ module Middleman::Aks
         parts = dir.split('/')
         parts.pop if directory_index?
 
-
-        ptage = [{name: "Home", page: app.top_page}]
+        require 'ostruct'
+        ptage = [OpenStruct.new(name: "Home", page: app.top_page)]
         
         parts.inject('') do |res, part|
           new_res = "#{res}/#{part}"
           parent_page = app.page_for(File.join(new_res, app.index_file)) ||
             app.page_for("#{new_res}.html")
-          ptage << {name: part.try(:title) || part, page: parent_page}
+          ptage << OpenStruct.new(name: part.try(:title) || part, page: parent_page)
           new_res
         end
 
@@ -45,7 +45,9 @@ module Middleman::Aks
     
     class << self
       def activate
-        Middleman::Sitemap::Resource.include InstanceMethods
+        Middleman::Sitemap::Resource.class_eval do
+          include InstanceMethods
+        end
       end
     end
   end
