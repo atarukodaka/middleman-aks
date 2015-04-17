@@ -23,6 +23,7 @@ activate :blog do |blog|
   blog.layout = "article"
   blog.prefix = ""
   blog.sources = "{category}/{title}.html"
+  #blog.sources = "{year}/{month}/{day}/{title}.html"
   blog.permalink = "{category}/{title}.html"
   blog.default_extension = ".md"
 

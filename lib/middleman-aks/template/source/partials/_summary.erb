@@ -11,7 +11,8 @@
     </section>
   </header>
   <section class="page_content">
-    <%= article.summary_text(250, "... read more") %>
+    <%= article.digest(250) %>
+    <%= link_to("... read more", article) %>
   </section>
 </article>
 <% end %>

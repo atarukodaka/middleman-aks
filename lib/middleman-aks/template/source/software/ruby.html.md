@@ -1,5 +1,5 @@
 ---
-title: 
+title: ruby sample
 date: 2015-04-15
 
 ---

@@ -19,6 +19,27 @@ Feature: breadcrumbs
       end
       activate :aks
       """
+    And a file named "source/partials/_breadcrumbs.erb" with:
+      """
+        <% page ||= current_page %>
+
+        <nav class="crumbs">
+          <ol class="breadcrumb">
+            <% if page == top_page %>
+            <li class="active">Home</li>
+            <% elsif page.try(:blog_controlloer) %>
+            <li><a href="/">Home</li>
+            <li><%= link_to_category(page.category) %></li>
+            <li><%= link_to(h(page.data.title), page, :class=>"active") %></li>
+            <% else %>
+            <% page.parentage_nodes.each do |parent_node| %>
+            <li><%= link_to(parent_node.name, parent_node.page) %></li>
+            <% end%>
+            <li><%= link_to(h(page.data.title), page, :class=>"active") %></li>
+            <% end %>
+          </ol>
+        </nav>
+      """
     And a file named "source/layouts/page.erb" with:
       """
       <%= breadcrumbs(current_page) %>
@@ -57,22 +78,30 @@ Feature: breadcrumbs
     When I go to "index.html"
     Then I should see:
       """
-      <ol class="breadcrumb"><li class="active">Home</li>
+      <ol class="breadcrumb">
       """
 
+    And I should see:
+      """
+      <li class="active">Home</li>
+      """
     When I go to "foo/bar.html"
     Then I should see:
       """
-      <ol class="breadcrumb"><li><a href="/">Home</a></li><li>foo</li><li class="active">bar</li>
+      <li>foo</li>
+      """
+    And I should see:
+      """
+      <li class="active">bar</li>
       """
 
     When I go to "2015-10-10-baz.html"
     Then I should see:
       """
-      <ol class="breadcrumb"><li><a href="/">Home</a></li><li><a href="/categories/foo.html">foo</a></li><li class="active">baz</li>
+      <li><a href="/categories/foo.html">foo</a></li>
       """
     And I should see:
       """
-      <li><
+      <li class="active">baz</li>
       """
      
