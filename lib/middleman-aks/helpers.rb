@@ -104,7 +104,7 @@ module Middleman::Aks
 
   module YoutubeHelpers
     ## youtube
-    def youtube(id, width=560, width=nil, opt = {})
+    def youtube(id, width=560, height=nil, opt = {})
       height ||= (width.to_f * 0.5625).ceil
       opt_str = opt.map {|key, value| h(key.to_s) + "=" + h(value.to_s)}.join("&")
       templ = <<EOS
