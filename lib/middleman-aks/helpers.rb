@@ -56,7 +56,7 @@ module Middleman::Aks
             lists << {name: page.category, page: page_for(category_path(page.category))}
           end
         else
-          page.parentage_node.each do |parent|
+          page.parentage_nodes.each do |parent|
             lists << {name: parent.name, page: parent.page}
           end
         end
@@ -110,13 +110,11 @@ module Middleman::Aks
           "<span>&larr;</span>#{short_title}"
         when :next
           "#{short_title}<span>&rarr;</span>"
-        else
-          "??? unknown direction: #{h(direction)}"
         end
-      css_class = direction.to_s
-      css_class += " disabled" if nav_article.nil?
+      css_class = [direction.to_s]
+      css_class << "disabled" if nav_article.nil?
 
-      content_tag(:li, :class => css_class) do 
+      content_tag(:li, :class => css_class.join(" ")) do 
         link_to(nav_str_w_arr, nav_article, {"data-toggle" => "tooltip", "title" => title})
       end
     end
