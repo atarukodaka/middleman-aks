@@ -19,7 +19,29 @@ module Middleman::Aks
           s
         end
       end
-    end
+      def parentage
+        return [] if path == app.index_file
+        
+        dir = File.dirname(path)
+        return [app.top_page] if dir == "."
+
+        parts = dir.split('/')
+        parts.pop if directory_index?
+
+
+        ptage = [{name: "Home", page: app.top_page}]
+        
+        parts.inject('') do |res, part|
+          new_res = "#{res}/#{part}"
+          parent_page = app.page_for(File.join(new_res, app.index_file)) ||
+            app.page_for("#{new_res}.html")
+          ptage << {name: part.try(:title) || part, page: parent_page}
+          new_res
+        end
+
+        return ptage
+      end
+    end  ## InstanceMethods
     
     class << self
       def activate

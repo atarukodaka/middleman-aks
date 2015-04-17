@@ -45,31 +45,34 @@ Feature: breadcrumbs
       ---
       title: baz
       layout: page
+      category: foo
       ---
       bar
+      """
+    And a file named "source/proxy_templates/category_template.html.erb" with:
+      """
+      <%= category %>
       """
     And the Server is running at "basic-app"
     When I go to "index.html"
     Then I should see:
       """
-      <ol class="breadcrumb">
+      <ol class="breadcrumb"><li class="active">Home</li>
       """
-    And I should see:
-      """
-      <li class="active">top</li>
-      """
+
     When I go to "foo/bar.html"
     Then I should see:
       """
-      <ol class="breadcrumb"><li><a href="/">top</a></li><li>foo</li><li class="active">bar</li>
+      <ol class="breadcrumb"><li><a href="/">Home</a></li><li>foo</li><li class="active">bar</li>
       """
-    And I should see:
-      """
-      <li class="active">bar</li>
-      """
+
     When I go to "2015-10-10-baz.html"
     Then I should see:
       """
-      <li class="active">baz</li></ol>
+      <ol class="breadcrumb"><li><a href="/">Home</a></li><li><a href="/categories/foo.html">foo</a></li><li class="active">baz</li>
+      """
+    And I should see:
+      """
+      <li><
       """
      
