@@ -14,10 +14,10 @@ gem 'jquery-middleman', :require => false
 
 #gem 'rubytree'
 
-gem 'pry-byebug'
-gem 'therubyracer'
-gem 'rb-readline'
-gem 'middleman-pry'
+#gem 'pry-byebug'
+#gem 'therubyracer'
+#gem 'rb-readline'
+#gem 'middleman-pry'
 
 #gem 'actionview'
 gem 'nokogiri'
