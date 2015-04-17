@@ -101,6 +101,18 @@ module Middleman::Aks
       return "&copy; " + [years.min, years.max].uniq.join("-")
     end
   end
+
+  module YoutubeHelpers
+    ## youtube
+    def youtube(id, width=560, width=nil, opt = {})
+      height ||= (width.to_f * 0.5625).ceil
+      opt_str = opt.map {|key, value| h(key.to_s) + "=" + h(value.to_s)}.join("&")
+      templ = <<EOS
+<iframe width="%{width}" height="%{height}" src="http://www.youtube.com/embed/%{id}?%{opt_str}"></iframe>
+EOS
+      templ % {height: height.to_i, width: width.to_i, id: h(id), opt_str: opt_str}
+    end
+  end
   
   ################################################################
   module Helpers
@@ -109,5 +121,6 @@ module Middleman::Aks
     include LinktoHelpers
     include SelectPageHelpers    
     include ArticleContentHelpers
+    include YoutubeHelpers
   end ## module Helpers
 end ## module Middleman::Aks
