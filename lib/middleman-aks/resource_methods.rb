@@ -19,7 +19,7 @@ module Middleman::Aks
           s
         end
       end
-      def parentage
+      def parentage_nodes
         return [] if path == app.index_file
         
         dir = File.dirname(path)
@@ -29,17 +29,19 @@ module Middleman::Aks
         parts.pop if directory_index?
 
         require 'ostruct'
-        ptage = [OpenStruct.new(name: "Home", page: app.top_page)]
+        nodes = [OpenStruct.new(name: "Home", page: app.top_page)]
         
         parts.inject('') do |res, part|
           new_res = "#{res}/#{part}"
           parent_page = app.page_for(File.join(new_res, app.index_file)) ||
             app.page_for("#{new_res}.html")
-          ptage << OpenStruct.new(name: part.try(:title) || part, page: parent_page)
+          hash = OpenStruct.new(name: (parent_page) ? parent_page.data.title : part,
+                                  page: parent_page)
+          nodes << hash
           new_res
         end
 
-        return ptage
+        return nodes
       end
     end  ## InstanceMethods
     
