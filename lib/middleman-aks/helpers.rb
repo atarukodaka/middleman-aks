@@ -104,13 +104,29 @@ module Middleman::Aks
 
   module YoutubeHelpers
     ## youtube
-    def youtube(id, width=560, height=nil, opt = {})
-      height ||= (width.to_f * 0.5625).ceil
-      opt_str = opt.map {|key, value| h(key.to_s) + "=" + h(value.to_s)}.join("&")
+    #def youtube(id, width=560, height=nil, opt = {})
+    def youtube(id, options = {})
+      width = options[:width]
+      height = options[:height]
+      if options[:width].nil? && options[:height].nil?
+        width, height = 560, 315
+      elsif ! options[:width].nil? && options[:height].nil?
+        width, height = options[:width].to_i, (options[:width] * 0.5625).ceil
+      elsif options[:width].nil? && ! options[:height].nil?
+        width, height = (options[:height]/0.5625).ceil, options[:height].to_i
+      else
+        width, height = options[:width].to_i, options[:height].to_i
+      end
+
+      yt_options = []
+      yt_options << "t=%{t}" % {t: options[:t]} if options[:t]
+      
+      #opt_str = opt.map {|key, value| h(key.to_s) + "=" + h(value.to_s)}.join("&")
       templ = <<EOS
-<iframe width="%{width}" height="%{height}" src="http://www.youtube.com/embed/%{id}?%{opt_str}"></iframe>
+<iframe width="%{width}" height="%{height}" src="http://www.youtube.com/embed/%{id}%{options}"></iframe>
 EOS
-      templ % {height: height.to_i, width: width.to_i, id: h(id), opt_str: opt_str}
+      #templ % {height: height.to_i, width: width.to_i, id: h(id), opt_str: opt_str}
+      templ % {height: height, width: width, id: h(id), options: (yt_options.empty?) ? '' : '?' + yt_options.join(" ")}
     end
   end
   

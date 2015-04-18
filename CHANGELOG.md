@@ -10,8 +10,9 @@
   
   ## master
 
-### 0.1.0
+### 0.1.0-dev
 
+* released 2015-4-18
 * middleman-blog に立脚スタイルに戻す
   * 車輪の再発明すぎたし
 * category manager と主要 helper や template, partials をいれて、とりあえずエラーなく動くように
