@@ -37,7 +37,7 @@ module Middleman::Aks
           new_res = "#{res}/#{part}"
           parent_page = app.page_for(File.join(new_res, app.index_file)) ||
             app.page_for("#{new_res}.html")
-          hash = OpenStruct.new(name: (parent_page) ? parent_page.data.title : part,
+          hash = OpenStruct.new(name: (parent_page) ? parent_page.data.title || part : part,
                                   page: parent_page)
           nodes << hash
           new_res

@@ -1,14 +1,9 @@
 ## TODO
 
-* やっぱり mm-blog を使うか？
 * archives/index.html の位置づけ
-* 低優先度
-  * pager, paginate
-  * tags：タグクラウド
-  * share_sns をもうちょっとどうにか
-* twitter カード
+* twitter
   
-  ## master
+## master
 
 ### 0.1.0-dev
 

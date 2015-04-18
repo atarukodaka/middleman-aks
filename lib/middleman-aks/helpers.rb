@@ -23,6 +23,22 @@ module Middleman::Aks
     def top_page
       sitemap.find_resource_by_path("/" + index_file()) 
     end
+    def pagination(current_page)
+      pages = [current_page]
+      page = current_page
+      while prev_page = page.metadata[:locals]['prev_page']
+        pages.unshift(prev_page)
+        page = prev_page
+      end
+
+      page = current_page
+      while next_page = page.metadata[:locals]['next_page']
+        pages.push(next_page)
+        page = next_page
+      end
+
+      return pages
+    end
   end
   ################
   module ArticleContentHelpers
