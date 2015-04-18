@@ -21,13 +21,6 @@ per_page: 100
 <% end %>
 
 <% if paginate %>
-  <nav>
-    <ul class="pager">
-      <% opt = {}; opt[:class] = 'disabled' if prev_page.nil? %>
-      <% content_tag(:li, opt) do; link_to('Prev', prev_page); end %>
-      <% opt = {}; opt[:class] = 'disabled' if next_page.nil? %>
-      <% content_tag(:li, opt) do; link_to('Next', next_page); end %>
-    </ul>
-  </nav>
+<%= partial("partials/pagination") %>
 <% end %>
 

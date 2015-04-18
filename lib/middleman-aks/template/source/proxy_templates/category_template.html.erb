@@ -1,9 +1,14 @@
 ---
 date: 2015-03-14
 layout: page
-category: 
+pageable: true
+per_page: 20
 ---
 
 <% content_for(:title, "Category: #{category}") %>
 
 <%= partial("partials/summary", locals: {articles: articles}) %>
+
+<% if paginate %>
+<%= partial("partials/pagination") %>
+<% end %>
