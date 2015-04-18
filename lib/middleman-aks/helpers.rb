@@ -77,7 +77,8 @@ module Middleman::Aks
             lists << {name: node.name, page: node.page}
           end
         end
-        lists << {name: page.data.title, page: nil, :class => 'active'}
+        title = page.data.title || File.basename(page.path, ".*")
+        lists << {name: title, page: nil, :class => 'active'}
       end
       
       content_tag(:nav, :class=>"crumbs") do
