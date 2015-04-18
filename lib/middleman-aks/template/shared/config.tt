@@ -22,7 +22,7 @@ set :site_description, 'site description'
 #
 activate :blog do |blog|
   blog.layout = "article"
-  blog.prefix = ""
+  blog.prefix = "articles"
   blog.sources = "{category}/{title}.html"
   #blog.sources = "{year}/{month}/{day}/{title}.html"
   blog.permalink = "{category}/{title}.html"
@@ -39,7 +39,7 @@ activate :blog do |blog|
   
   blog.custom_collections = {
     category: {
-      link: '/categories/{category}.html',
+      link: "categories/{category}.html",
       template: '/proxy_templates/category_template.html'
     }
   }
