@@ -24,6 +24,10 @@
       at <%= current_article.date.strftime("%d %b %Y") %> 
       on <%= link_to("this permlink", current_article) %>.
     </div>
+    <div class="share_sns">
+      <!-- %= partial("partials/share_twitter", locals: {username: 'foo'}) % -->  
+      <%= partial("partials/share_twitter") %>  
+    </div>
     <ul class="tag_box inline">
       <% blog.tags.each do |tag, pages| %>
         <% if current_article.tags.include? tag %>
@@ -38,8 +42,17 @@
     <!-- pager -->
     <nav>
       <ul class="pager">
-	<%= article_navigator(:previous, current_article.previous_article) %>
-	<%= article_navigator(:next, current_article.next_article) %>
+	<% if prev = current_article.previous_article %>
+	<li class="previous">
+	  <%= link_to("<span>&larr;</span>#{h(prev.short_title)}", prev, "data-toggle" => "", "title" => h(prev.title)) %>
+	</li>
+	<% end %>
+
+	<% if nxt = current_article.next_article %>
+	<li class="next">
+	  <%= link_to("#{h(nxt.title)}<span>&rarr;</span>", nxt, "data-toggle" => "", "title" => h(nxt.title)) %>
+	</li>
+	<% end %>
       </ul>
     </nav>
 

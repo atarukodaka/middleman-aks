@@ -74,12 +74,12 @@ module Middleman::Aks
         end
       end
     end
-
+=begin    
     def article_navigator(direction, nav_article)
-      # nav_article can be nil
-      title = nav_article.try(:title) || ""
+      return "" if nav_article.nil?
 
-      short_title = nav_article.try(:short_title) || ""
+      title = nav_article.title
+      short_title = nav_article.short_title
       
       nav_str_w_arr = 
         case direction
@@ -95,7 +95,7 @@ module Middleman::Aks
         link_to(nav_str_w_arr, nav_article, {"data-toggle" => "tooltip", "title" => title})
       end
     end
-
+=end
     def copyright
       years = blog.articles.group_by {|a| a.date.year}.keys
       return "&copy; " + [years.min, years.max].uniq.join("-")
