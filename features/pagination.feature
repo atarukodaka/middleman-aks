@@ -7,7 +7,7 @@ Feature: pagination
       per_page: 1
       pageable: true
       ---
-      <% pages = pagination(current_page) %>
+      <% pages = current_page.paginated_resources %>
       <% pages.each do |page| %>
       <%= link_to_page(page) %>
       <% end %>

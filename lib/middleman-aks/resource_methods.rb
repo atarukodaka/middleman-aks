@@ -45,6 +45,28 @@ module Middleman::Aks
 
         return nodes
       end
+      def prev_page
+        metadata[:locals]['prev_page']
+      end
+      def next_page
+        metadata[:locals]['next_page']
+      end
+      def paginated_resources
+        pages = [self]
+        page = self
+        while page.prev_page
+          pages.unshift(page.prev_page)
+          page = page.prev_page
+        end
+        
+        page = self
+        while page.next_page
+          pages.push(page.next_page)
+          page = page.next_page
+        end
+        
+        return pages
+      end
     end  ## InstanceMethods
     
     class << self

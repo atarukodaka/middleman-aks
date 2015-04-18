@@ -23,22 +23,6 @@ module Middleman::Aks
     def top_page
       sitemap.find_resource_by_path("/" + index_file()) 
     end
-    def pagination(current_page)
-      pages = [current_page]
-      page = current_page
-      while prev_page = page.metadata[:locals]['prev_page']
-        pages.unshift(prev_page)
-        page = prev_page
-      end
-
-      page = current_page
-      while next_page = page.metadata[:locals]['next_page']
-        pages.push(next_page)
-        page = next_page
-      end
-
-      return pages
-    end
   end
   ################
   module ArticleContentHelpers
@@ -50,15 +34,6 @@ module Middleman::Aks
          yield
        end].join.html_safe
     end
-=begin
-    def page_info(page)
-      ["", 
-       (page.category.nil?) ? nil : link_to_category(page.category),
-       page.date.strftime("%d %b %Y %Z"),
-       link_to("permlink", page)
-      ].reject(&:nil?).join(" | ")
-    end
-=end
 
     def breadcrumbs(page)
       lists = []
@@ -91,28 +66,6 @@ module Middleman::Aks
         end
       end
     end
-=begin    
-    def article_navigator(direction, nav_article)
-      return "" if nav_article.nil?
-
-      title = nav_article.title
-      short_title = nav_article.short_title
-      
-      nav_str_w_arr = 
-        case direction
-        when :previous
-          "<span>&larr;</span>#{short_title}"
-        when :next
-          "#{short_title}<span>&rarr;</span>"
-        end
-      css_class = [direction.to_s]
-      css_class << "disabled" if nav_article.nil?
-
-      content_tag(:li, :class => css_class.join(" ")) do 
-        link_to(nav_str_w_arr, nav_article, {"data-toggle" => "tooltip", "title" => title})
-      end
-    end
-=end
     def copyright
       years = blog.articles.group_by {|a| a.date.year}.keys
       return "&copy; " + [years.min, years.max].uniq.join("-")
