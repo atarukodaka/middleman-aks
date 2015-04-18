@@ -57,8 +57,8 @@ module Middleman::Aks
             lists << {name: page.category, page: page_for(category_path(page.category))}
           end
         else
-          page.parentage_nodes.each do |parent|
-            lists << {name: parent.name, page: parent.page}
+          page.parentage_nodes.each do |node|
+            lists << {name: node.name, page: node.page}
           end
         end
         lists << {name: page.data.title, page: nil, :class => 'active'}

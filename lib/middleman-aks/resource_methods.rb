@@ -21,15 +21,17 @@ module Middleman::Aks
       end
       def parentage_nodes
         return [] if path == app.index_file
-        
-        dir = File.dirname(path)
-        return [app.top_page] if dir == "."
-
-        parts = dir.split('/')
-        parts.pop if directory_index?
 
         require 'ostruct'
         nodes = [OpenStruct.new(name: "Home", page: app.top_page)]
+        dir = File.dirname(path)
+        #return [app.top_page] if dir == "."
+        return nodes if dir == "."
+
+        parts = dir.split('/')
+        parts.pop if directory_index?
+        
+        #nodes = [OpenStruct.new(name: "Home", page: app.top_page)]
         
         parts.inject('') do |res, part|
           new_res = "#{res}/#{part}"
