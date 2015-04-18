@@ -5,11 +5,10 @@
     <%= breadcrumbs(current_article) %>
     <h1><%= yield_content(:title) || h(current_page.title) %></h1>
     <section class="page_info">
-      <!--%= article_info(current_article) % -->
+      <%= partial("partials/article_info", locals: {article: current_article}) %>
     </section>
 
-    <!-- %= partial("partials/toc") % -->
-    <!-- %= render_toc(current_page) % -->
+    <%= render_toc(current_article) %>
   </header>
 
   <section class="content numbering_headings">

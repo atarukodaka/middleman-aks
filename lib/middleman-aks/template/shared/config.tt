@@ -1,6 +1,6 @@
 ################
 # directory settings
-
+#
 set :css_dir, 'stylesheets'
 set :js_dir, 'javascripts'
 set :images_dir, 'images'
@@ -10,6 +10,7 @@ set :relative_links, true
 
 ################
 # site information
+#
 set :site_url, 'http://site.com'
 set :site_author, 'author'
 set :site_email, 'your@email.com'
@@ -53,6 +54,7 @@ end
 
 ################
 # deploy to github proj-page
+
 activate :deploy do |deploy|
   # deploy.build_before = true
   deploy.method = :git
@@ -74,12 +76,12 @@ end
 set :markdown_engine, :redcarpet
 set :markdown, :fenced_code_blocks => true, :autolink => true, :smartypants => true, :tables => true, :with_toc_data => true
 
+################
 # syntax
 activate :syntax  #, line_numbers: true, :lineanchor => 'line'
 
 ################
 # aks
-activate :aks do |aks|
-  #aks.index_template = "templates/index_template.html"
-  
-end
+activate :aks
+activate :page_toc
+activate :amazon_link
