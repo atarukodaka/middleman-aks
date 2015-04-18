@@ -1,23 +1,17 @@
 ---
 title: Home
 layout: page
+pageable: true
+per_page: 2
 ---
 
 Hi, This is my site.
 
 <h1>Recent Articles </h1>
 
-<%= partial("partials/summary", locals: {articles: blog.articles[0..4]}) %>
+<%= partial("partials/summary", locals: {articles: page_articles}) %>
+
 
 <% if paginate %>
-  <nav>
-    <ul class="pager">
-      <% opt = {}; opt[:class] = 'disabled' if prev_page.nil? %>
-      <% content_tag(:li, opt) do; link_to('Prev', prev_page); end %>
-      <% opt = {}; opt[:class] = 'disabled' if next_page.nil? %>
-      <% content_tag(:li, opt) do; link_to('Next', next_page); end %>
-    </ul>
-  </nav>
+<%= partial("partials/pagination") %>
 <% end %>
-
-<hr>

@@ -1,0 +1,25 @@
+
+
+<% page ||= current_page %>
+<% page_number ||= page.metadata[:locals]['page_number'] %>
+<% prev_page ||= page.metadata[:locals]['prev_page'] %>
+<% next_page ||= page.metadata[:locals]['next_page'] %>
+
+<% pages = pagination(page) %>
+
+<div class="text-center">
+  <ul class="pagination">
+    <% disabled = (prev_page.nil?) ? "disabled" : "" %>
+    <li class="<%= disabled %>"><%= link_to("&laquo;", prev_page) %></li>
+
+    <% pages.each_with_index do |p, i| %>
+    <% active = (i+1 == page_number) ? "active" : "" %>
+    <li class="<%= active %>"><%= link_to(i + 1, p, :class => active) %></li>
+    <% end %>
+
+    <% disabled = (next_page.nil?) ? "disabled" : "" %>
+    
+    <li class="<%= disabled %>"><%= link_to("&raquo;", next_page) %></li>
+  </ul>
+</div>
+

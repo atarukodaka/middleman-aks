@@ -44,13 +44,13 @@
       <ul class="pager">
 	<% if prev = current_article.previous_article %>
 	<li class="previous">
-	  <%= link_to("<span>&larr;</span>#{h(prev.short_title)}", prev, "data-toggle" => "", "title" => h(prev.title)) %>
+	  <%= link_to("<small><span>&larr;</span>#{h(prev.short_title)}</small>", prev, "data-toggle" => "", "title" => h(prev.title)) %>
 	</li>
 	<% end %>
 
 	<% if nxt = current_article.next_article %>
 	<li class="next">
-	  <%= link_to("#{h(nxt.title)}<span>&rarr;</span>", nxt, "data-toggle" => "", "title" => h(nxt.title)) %>
+	  <%= link_to("<small>#{h(nxt.title)}<span>&rarr;</span></small>", nxt, "data-toggle" => "", "title" => h(nxt.title)) %>
 	</li>
 	<% end %>
       </ul>

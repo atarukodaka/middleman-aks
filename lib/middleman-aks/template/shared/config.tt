@@ -30,7 +30,7 @@ activate :blog do |blog|
 
   blog.year_template = "proxy_templates/archives_yearly_template.html"
   blog.month_template = "proxy_templates/archives_monthly_template.html"
-  blog.year_link = "archives/{year}/index.html"
+  blog.year_link = "archives/{year}.html"
   blog.month_link = "archives/{year}/{month}.html"
 
   blog.paginate = true
@@ -68,7 +68,7 @@ configure :build do
     activate :asset_host, :host => asset_host
   end
 end
-
+#activate :asset_host, :host => "foo"
 
 ################
 # markdown
@@ -84,4 +84,13 @@ activate :syntax  #, line_numbers: true, :lineanchor => 'line'
 # aks
 activate :aks
 activate :page_toc
-activate :amazon_link
+
+activate :amazon_link do |amazon|
+  amazon.associate_tag = ENV['ASSOCIATE_TAG']
+  amazon.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
+  amazon.aws_secret_key = ENV['AWS_SECRET_KEY']
+
+  amazon.country = "jp"
+  amazon.use_cache = true
+  amazon.cache_dir = ".cache/amazon"  
+end
