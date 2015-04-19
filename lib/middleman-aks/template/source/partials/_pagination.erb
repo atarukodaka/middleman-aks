@@ -2,24 +2,22 @@
 
 <% page ||= current_page %>
 <% page_number ||= page.metadata[:locals]['page_number'] %>
-<% prev_page ||= page.metadata[:locals]['prev_page'] %>
-<% next_page ||= page.metadata[:locals]['next_page'] %>
 
-<% pages = pagination(page) %>
+<% pages = page.paginated_resources %>
 
 <div class="text-center">
   <ul class="pagination">
-    <% disabled = (prev_page.nil?) ? "disabled" : "" %>
-    <li class="<%= disabled %>"><%= link_to("&laquo;", prev_page) %></li>
+    <% disabled = (page.prev_page.nil?) ? "disabled" : "" %>
+    <li class="<%= disabled %>"><%= link_to("&laquo;", page.prev_page) %></li>
 
     <% pages.each_with_index do |p, i| %>
-    <% active = (i+1 == page_number) ? "active" : "" %>
+    <% active = (p == current_page) ? "active" : "" %>
     <li class="<%= active %>"><%= link_to(i + 1, p, :class => active) %></li>
     <% end %>
 
-    <% disabled = (next_page.nil?) ? "disabled" : "" %>
+    <% disabled = (page.next_page.nil?) ? "disabled" : "" %>
     
-    <li class="<%= disabled %>"><%= link_to("&raquo;", next_page) %></li>
+    <li class="<%= disabled %>"><%= link_to("&raquo;", page.next_page) %></li>
   </ul>
 </div>
 

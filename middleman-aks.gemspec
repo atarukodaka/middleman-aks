@@ -22,7 +22,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency("middleman-page-toc", "~> 0.2")
   spec.add_dependency("middleman-livereload", "~> 3.0")
   spec.add_dependency("middleman-syntax", "~> 2.0")
-
+  spec.add_dependency("middleman-dotenv", "~> 1.0")
+  
   spec.add_dependency("nokogiri", "~> 1.6")
   spec.add_dependency("redcarpet", "~> 3.0")
   spec.add_dependency("rouge", "~> 1.8")

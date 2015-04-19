@@ -46,6 +46,14 @@
 	</footer>
       </div> <!-- row -->
     </div> <!-- container -->
+
+    <div id="web_services">
+      <%= google_analytics_tag() if extensions.has_key?(:google_analytics) %>
+      <% begin %>
+        <%= partial("partials/misc_web_services") %>
+      <% rescue Middleman::CoreExtensions::Rendering::TemplateNotFound %>
+      <% end %>
+    </div>
   </body>
 </html>
 

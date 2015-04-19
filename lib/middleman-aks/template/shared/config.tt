@@ -11,11 +11,31 @@ set :relative_links, true
 ################
 # site information
 #
+# set your site information here of 'data/site_info.yml'
+=begin
 set :site_url, 'http://site.com'
 set :site_author, 'author'
 set :site_email, 'your@email.com'
 set :site_title, 'site title'
 set :site_description, 'site description'
+
+if si = data.site_info
+  set :site_url, si.url
+  set :site_author, si.author
+  set :site_email, si.email
+  set :site_title, si.title
+  set :site_description, si.description
+end
+=end
+
+si = data.site_info
+set :site_url, (si) ? si.url : 'http://site.com'
+set :site_author, (si) ? si.author : 'author'
+set :site_email, (si) ? si.email : 'your@email.com'
+set :site_title, (si) ? si.title : 'site title'
+set :site_description, (si) ? si.description : 'site description'
+
+
 
 ################
 # middleman-blog
@@ -58,7 +78,8 @@ end
 activate :deploy do |deploy|
   # deploy.build_before = true
   deploy.method = :git
-  deploy.branch = 'gh-pages'
+  deploy.branch = 'master'
+  #deploy.branch = 'gh-pages'
 end
 
 configure :build do
@@ -84,6 +105,8 @@ activate :syntax  #, line_numbers: true, :lineanchor => 'line'
 # aks
 activate :aks
 activate :page_toc
+
+activate :middleman_dotenv
 
 activate :amazon_link do |amazon|
   amazon.associate_tag = ENV['ASSOCIATE_TAG']
