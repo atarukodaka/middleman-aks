@@ -2,7 +2,8 @@
 
 <section class="page">
   <header>
-    <%= breadcrumbs(current_page) %>
+    <!-- %= breadcrumbs(current_page) % -->
+    <%= partial("partials/breadcrumbs") %>
     <h1><%= h(current_page.data.title || yield_content(:title)) %></h1>
   </header>
 

@@ -21,28 +21,26 @@ Feature: breadcrumbs
       """
     And a file named "source/partials/_breadcrumbs.erb" with:
       """
-        <% page ||= current_page %>
+      <% page ||= current_page %>
+      <% nodes = page.breadcrumbs_nodes %>
 
-        <nav class="crumbs">
-          <ol class="breadcrumb">
-            <% if page == top_page %>
-            <li class="active">Home</li>
-            <% elsif page.try(:blog_controlloer) %>
-            <li><a href="/">Home</li>
-            <li><%= link_to_category(page.category) %></li>
-            <li><%= link_to(h(page.data.title), page, :class=>"active") %></li>
+      <nav class="crumbs">
+        <ol class="breadcrumb">
+          <% nodes.each do |node| %>
+          <li>
+            <% if node.page %>
+            <%= link_to(h(node.name), node.page) %>
             <% else %>
-            <% page.parentage_nodes.each do |parent_node| %>
-            <li><%= link_to(parent_node.name, parent_node.page) %></li>
-            <% end%>
-            <li><%= link_to(h(page.data.title), page, :class=>"active") %></li>
+            <%= h(node.name) %>
             <% end %>
-          </ol>
-        </nav>
+          </li>
+          <% end %>
+        </ol>
+      </nav>
       """
     And a file named "source/layouts/page.erb" with:
       """
-      <%= breadcrumbs(current_page) %>
+      <%= partial("partials/breadcrumbs") %>
       <%= yield %>
       """
     And a file named "source/index.html.md" with:
@@ -81,27 +79,13 @@ Feature: breadcrumbs
       <ol class="breadcrumb">
       """
 
-    And I should see:
-      """
-      <li class="active">Home</li>
-      """
+    And I should see "Home"
     When I go to "foo/bar.html"
-    Then I should see:
-      """
-      <li>foo</li>
-      """
-    And I should see:
-      """
-      <li class="active">bar</li>
-      """
+    Then I should see "bar"
 
     When I go to "2015-10-10-baz.html"
     Then I should see:
       """
-      <li><a href="/categories/foo.html">foo</a></li>
-      """
-    And I should see:
-      """
-      <li class="active">baz</li>
+      <a href="/categories/foo.html">foo</a>
       """
      

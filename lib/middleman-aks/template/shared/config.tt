@@ -11,22 +11,7 @@ set :relative_links, true
 ################
 # site information
 #
-# set your site information here of 'data/site_info.yml'
-=begin
-set :site_url, 'http://site.com'
-set :site_author, 'author'
-set :site_email, 'your@email.com'
-set :site_title, 'site title'
-set :site_description, 'site description'
-
-if si = data.site_info
-  set :site_url, si.url
-  set :site_author, si.author
-  set :site_email, si.email
-  set :site_title, si.title
-  set :site_description, si.description
-end
-=end
+# set your site information here or 'data/site_info.yml'
 
 si = data.site_info
 set :site_url, (si) ? si.url : 'http://site.com'
@@ -36,7 +21,6 @@ set :site_title, (si) ? si.title : 'site title'
 set :site_description, (si) ? si.description : 'site description'
 
 
-
 ################
 # middleman-blog
 #
@@ -44,7 +28,6 @@ activate :blog do |blog|
   blog.layout = "article"
   blog.prefix = "articles"
   blog.sources = "{category}/{title}.html"
-  #blog.sources = "{year}/{month}/{day}/{title}.html"
   blog.permalink = "{category}/{title}.html"
   blog.default_extension = ".md"
 
@@ -60,7 +43,7 @@ activate :blog do |blog|
   blog.custom_collections = {
     category: {
       link: "categories/{category}.html",
-      template: '/proxy_templates/category_template.html'
+      template: 'proxy_templates/category_template.html'
     }
   }
 end
@@ -76,20 +59,17 @@ end
 # deploy to github proj-page
 
 activate :deploy do |deploy|
-  # deploy.build_before = true
+  #deploy.build_before = true
   deploy.method = :git
-  deploy.branch = 'master'
-  #deploy.branch = 'gh-pages'
+  deploy.branch = 'master'    # if user-page
+  #deploy.branch = 'gh-pages' # if project-page
 end
 
 configure :build do
-  #activate :dotenv
-
   if asset_host = ENV['ASSET_HOST']
     activate :asset_host, :host => asset_host
   end
 end
-#activate :asset_host, :host => "foo"
 
 ################
 # markdown
@@ -109,6 +89,7 @@ activate :page_toc
 activate :middleman_dotenv
 
 activate :amazon_link do |amazon|
+  # set your key, tag information by environment
   amazon.associate_tag = ENV['ASSOCIATE_TAG']
   amazon.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
   amazon.aws_secret_key = ENV['AWS_SECRET_KEY']
@@ -117,3 +98,5 @@ activate :amazon_link do |amazon|
   amazon.use_cache = true
   amazon.cache_dir = ".cache/amazon"  
 end
+
+################################################################

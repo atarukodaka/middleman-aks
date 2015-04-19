@@ -10,8 +10,8 @@ module Middleman::Aks
     
   end
   module LinktoHelpers
-    def link_to_page(page, caption = nil)
-      link_to(caption || h(page.data.title) || "(untitled)", page)
+    def link_to_page(page)
+      link_to(h(page.data.title) || "(untitled)", page)
     end
     def link_to_category(category, caption=nil)
       link_to(caption || h(category), category_path(category))
@@ -26,6 +26,7 @@ module Middleman::Aks
   end
   ################
   module ArticleContentHelpers
+=begin
     def toggle_collapse(id, caption="Open/Close", &block)
       [content_tag(:button, caption,
                    :type => 'button', :class=>'btn btn-default collapsed btn-sm',
@@ -34,31 +35,14 @@ module Middleman::Aks
          yield
        end].join.html_safe
     end
-
+=end
+=begin
     def breadcrumbs(page)
-      lists = []
-      # caption:, path:, class
-      
-      if page == top_page
-        lists << {name: 'Home', page: nil, :class => 'active'}
-      else
-        if page.try(:blog_controller)
-          lists << {name: 'Home', page: top_page}
-          if page.category
-            lists << {name: page.category, page: page_for(category_path(page.category))}
-          end
-        else
-          page.parentage_nodes.each do |node|
-            lists << {name: node.name, page: node.page}
-          end
-        end
-        title = page.data.title || File.basename(page.path, ".*")
-        lists << {name: title, page: nil, :class => 'active'}
-      end
+      nodes = page.breadcrumbs_nodes
       
       content_tag(:nav, :class=>"crumbs") do
         content_tag(:ol, :class=>"breadcrumb") do
-          lists.map do |hash|
+          nodes.map do |hash|
             content_tag(:li, :class=>hash[:class]) do
               (hash[:page]) ? link_to(h(hash[:name]), hash[:page]) : h(hash[:name])
             end
@@ -66,6 +50,7 @@ module Middleman::Aks
         end
       end
     end
+=end
     def copyright
       years = blog.articles.group_by {|a| a.date.year}.keys
       return "&copy; " + [years.min, years.max].uniq.join("-")

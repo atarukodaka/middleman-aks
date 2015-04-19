@@ -5,7 +5,7 @@
 
 # Middleman::Aks
 
-middleman-aks is a template of Middleman with some extensions to manage Markdown Files efficiently.
+middleman-aks is a template of Middleman with some extensions to manage Markdown Files efficiently usinging middleman-blog extension.
 
 ## Installation
 

@@ -1,0 +1,23 @@
+<% page ||= current_page %>
+<% nodes = page.breadcrumbs_nodes %>
+
+<% size = nodes.size%>
+
+<nav class="crumbs">
+  <ol class="breadcrumb">
+    <% nodes.each_with_index do |node, i| %>
+    <% if i + 1 == size %>
+    <% li_class = "active" %>
+    <% node.page = nil %>
+    <% end %>
+    <li class="<%= li_class %>">
+
+      <% if node.page %>
+      <%= link_to(h(node.name), node.page) %>
+      <% else %>
+      <%= h(node.name) %>
+      <% end %>
+    </li>
+    <% end %>
+  </ol>
+</nav>
