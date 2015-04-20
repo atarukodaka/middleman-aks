@@ -8,12 +8,9 @@ module Middleman::Aks
         rendered = render(layout: false)
         Nokogiri::HTML(rendered).text[0..length-1]
       end
-      def page_title
-        (data.title || metadata[:page]['title'] || "(untitiled)").to_s
-      end
-
       def name
-        return page_title if page_title
+        title = data.title || metadata[:page]['title']
+        return title if title
         return "Home" if is_top_page?
 
         if directory_index?
@@ -28,7 +25,7 @@ module Middleman::Aks
       end
 
       def short_title(num_charactors=30, leading_message="...")
-        s = page_title
+        s = data.title || metadata[:page]['title']
         #binding.pry
         app.logger.debug("size: #{s.size}")
         if s.size > num_charactors        
@@ -37,33 +34,6 @@ module Middleman::Aks
           s
         end
       end
-=begin      
-      def parentage_nodes
-        return [] if path == app.index_file
-
-        require 'ostruct'
-        #nodes = [OpenStruct.new(name: "Home", page: app.top_page)]
-        nodes = [Node.new("Home", app.top_page)]
-        
-        dir = File.dirname(path)
-        return nodes if dir == "."
-
-        parts = dir.split('/')
-        parts.pop if directory_index?
-        
-        parts.inject('') do |res, part|
-          new_res = "#{res}/#{part}"
-          parent_page = app.page_for(File.join(new_res, app.index_file)) ||
-            app.page_for("#{new_res}.html")
-          name = (parent_page) ? parent_page.data.title || part : part
-          #hash = OpenStruct.new(name: name, page: parent_page)
-          #nodes << hash
-          nodes << Node.new(name, parent_page)
-          new_res
-        end
-        return nodes
-      end
-=end
       def is_top_page?
         path == app.index_file
       end
@@ -85,8 +55,7 @@ module Middleman::Aks
               new_res = "#{res}/#{part}"
               parent_page = app.page_for(File.join(new_res, app.index_file)) ||
                 app.page_for("#{new_res}.html")
-              name = (parent_page) ? parent_page.data.title || part : part
-              nodes << Node.new(name, parent_page)
+              nodes << Node.new(parent_page.try(:name) || part, parent_page)
               new_res
             end
 
@@ -97,30 +66,7 @@ module Middleman::Aks
           nodes << Node.new(name, self)
         end
         return nodes
-        ################
-        nodes = []
-        if is_top_page?
-          #nodes << {name: 'Home', page: nil, :class => 'active'}
-          nodes << Node.new('Home', nil)
-        else
-          if try(:blog_controller)
-            #nodes << {name: 'Home', page: app.top_page}
-            nodes << Node.new('Home', app.top_page)
-            if category
-              #nodes << {name: category, page: app.page_for(app.category_path(category))}
-              nodes << Node.new(category, app.page_for(app.category_path(category)))
-            end
-          else
-            #parentage_nodes.each do |node|
-            #nodes << {name: node.name, page: node.page}
-            #end
-            nodes += parentage_nodes
-          end
-          title = data.title || File.basename(path, ".*")
-          #nodes << {name: title, page: nil, :class => 'active'}
-          nodes << Node.new(title, nil)
-        end
-        return nodes
+
       end
       ### pagination
       def prev_page
@@ -156,3 +102,4 @@ module Middleman::Aks
     end
   end
 end
+################################################################

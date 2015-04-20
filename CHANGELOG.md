@@ -1,8 +1,10 @@
 ## TODO
 
-* archives/index.html の位置づけ
 * twitter
-  
+* category template で pagination がうまく動かない
+* pagniation でページ数が多かった場合に途中…でカット
+
+
 ## master
 
 ### 0.1.0-pre1
